@@ -1,0 +1,102 @@
+﻿@model SyllabusAutomation.Models.Department
+@{
+    ViewBag.Title = "DeptVision";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <!-- Breadcrumbs-->
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">Department Detail</a>
+        </li>
+        <li class="breadcrumb-item active">Department Detail</li>
+
+    </ol>
+    @if (Model.Vision == null || Model.MessageofChairman == null || Model.Introduction == null)
+    {
+        <div class="alert alert-danger">
+            Please, Update your Department Details first.
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+        </div>
+    }
+    else if (TempData["message"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["message"]
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+        </div>
+    }
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-user"></i>
+            Department Detail
+
+        </div>
+        <div class="card-body">
+            <div class="col-md-12">
+                <h3>
+                    <strong>Department Detail:</strong>
+                </h3>
+                <hr />
+                <div class="col-md-10">
+                    <h5>
+                        Details:
+                    </h5>
+                    <hr />
+
+                    <h5><strong>Faculty Name:</strong> @Model.Faculty.FacultyName </h5><br />
+                    <h5><strong>Department Name:</strong> @Model.DeptName </h5><br />
+                    <h5><strong>Short Name:</strong> @Model.ShortName </h5><br />
+                    @if (Model.Introduction != null)
+                    {
+                        <h4>
+                            Introduction Of Department:
+                        </h4>
+                        <h6 class="text-justify" style="white-space: pre-line;">
+                            @Model.Introduction
+                        </h6>
+                        <br />
+                    }
+                    @if (Model.MessageofChairman != null)
+                    {
+                        <h4>
+                            Message From Chairman :
+                        </h4>
+                        <h6 class="text-justify" style="white-space: pre-line;">
+                            @Model.MessageofChairman
+                        </h6>
+                        <br />
+                    }
+                    @if (Model.Vision != null)
+                    {
+                        <h4>
+                            Vision Of Department:
+                        </h4>
+                        <h6 class="text-justify" style="white-space: pre-line;">
+                            @Model.Vision
+                        </h6>
+                        <br />
+                    }
+                    <h4>Contact Detail</h4>
+                    <hr />
+                    <h6><strong>Mobile:</strong> @Model.Mobile </h6><br />
+                    <h6><strong>Fax:</strong> @Model.Fax </h6><br />
+                    <h6><strong>Phone:</strong> @Model.Phone </h6><br />
+                    <h6><strong>Email:</strong> @Model.Email </h6><br />
+                    <h6><strong>Website:</strong> @Model.Website </h6><br />
+                   
+                    <a onclick="window.history.back();" class="btn btn-outline-warning">Back</a>
+                    <a href="@Url.Action("UpdateDeptDetail","DepartmentDetail", new { id = Model.DepartmentId })" class="btn btn-outline-info">Update</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+

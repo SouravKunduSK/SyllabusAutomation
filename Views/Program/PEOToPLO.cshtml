@@ -1,0 +1,240 @@
+﻿@model List<SyllabusAutomation.Models.PEOToPLO>
+@{
+    ViewBag.Title = "PEOToPLO";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+
+    .cell {
+        display: grid;
+        width: max-content;
+        justify-content: space-between;
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 1fr;
+        border: 1px solid #000;
+        margin-bottom: 1rem;
+    }
+
+    .cell--topRight {
+        grid-column-start: 2;
+        text-align: right;
+    }
+
+    .cell--bottomLeft {
+        grid-column-start: 1;
+    }
+</style>
+
+
+
+@{
+    var programId = Model.Select(m => m.ProgramId).Distinct().FirstOrDefault();
+}
+<div class="container-fluid">
+    <!-- Breadcrumb navigation -->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="@Url.Action("Index", "Dashboard")">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">PEO To PLO</li>
+    </ol>
+
+
+
+
+
+    <!-- Success message displayed after adding a mission -->
+    @if (TempData["msg"] != null)
+    {
+        <div class="alert alert-success text-danger">
+            @TempData["msg"]
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+        </div>
+    }
+
+
+    <!-- Display all missions of the university in a table -->
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-book-open"></i>
+            PEO To PLO Mapping
+            <a href="#" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addOrEdit">Add / Edit</a>
+
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-condensed table-hover table-bordered table-striped table" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+
+                                <div class="cell--bottomLeft">PEO</div>
+                                <div class="cell--topRight">PLO</div>
+                            </th>
+
+                            @foreach (var plo in Model.Select(m => m.PLOId).Distinct())
+                            {
+                                <th>PLO @(Model.Select(m => m.PLOId).Distinct().ToList().IndexOf(plo)+1)</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var peo in Model.Select(m => m.PEOId).Distinct())
+                        {
+                            <tr>
+                                <td>PEO @(Model.Select(m => m.PEOId).Distinct().ToList().IndexOf(peo)+1)</td>
+                                @foreach (var plo in Model.Select(m => m.PLOId).Distinct())
+                                {
+
+                                    var peoToPlo = Model.FirstOrDefault(m => m.PEOId == peo && m.PLOId == plo);
+                                    <td>
+                                        @if (peoToPlo != null)
+                                        {
+                                            @Html.HiddenFor(m => peoToPlo.PEOId)
+                                            @Html.HiddenFor(m => peoToPlo.PLOId)
+                                            @*@Html.TextBoxFor(m => peoMission.Value, new { @readOnly = "readOnly", @class = "form-control" })*@
+                                            <input type="text" class="form-control" value="@peoToPlo.Value" readonly="readonly" />
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                        }
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal PopUp -->
+<div class="modal fade" id="addOrEdit">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add / Edit PEO To PLO Mapping Value</h5>
+                <br />
+                @*<h6 class="text-danger">Value should be in (0-3): 3 indicates high priority and 0 indicates low priority</h6>*@
+                <button type="button" class="close" data-dismiss="modal">
+                    <span class="text-danger">x</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span class="text-danger">Value should be in (0-3):<br /> 3 indicates high priority and 0 indicates low priority</span><br />
+                <form id="dataForm">
+                    <div class="card-body">
+                        <table class="table table-condensed table-hover table-bordered table-striped table" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>PEO</th>
+                                    <th>
+                                        PLO and <br />
+                                        Mapping Value
+                                    </th>
+
+                                    @{
+                                        var distinctPloes = Model.Select(m => m.PLOId).Distinct().ToList();
+                                    }
+                                    @*@foreach (var mission in distinctMissions)
+                            {
+                                <th>M @(distinctMissions.IndexOf(mission)+1)</th>
+                            }*@
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var distinctPeo = Model.Select(m => m.PEOId).Distinct().ToList();
+                                }
+                                @foreach (var peos in distinctPeo)
+                                {
+
+                                    <tr>
+                                        <td>PEO @(distinctPeo.IndexOf(peos) + 1)</td>
+                                        @foreach (var plo in distinctPloes)
+                                        {
+
+                                            var peoToPloes = Model.FirstOrDefault(m => m.PEOId == peos && m.PLOId == plo);
+
+                                            <td class="form-row">
+                                                @if (peoToPloes != null)
+                                                {
+                                                    @Html.HiddenFor(m => peoToPloes.PEOId, new { @class = "peoId" })
+                                                    @Html.HiddenFor(m => peoToPloes.PLOId, new { @class = "ploId" })
+                                                    <div>PLO @(distinctPloes.IndexOf(plo) + 1)</div> <div>&emsp;</div>
+                                                    @Html.TextBoxFor(m => peoToPloes.Value, new { @class = "value", type = "number", min = "0", max = "3" })
+                                                    @Html.ValidationMessageFor(m => peoToPloes.Value)
+                                                }
+                                            </td>
+                                        }
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <a href="" id="btnCancel" class="btn btn-outline-warning mr-2">Cancel</a>
+                    <a href="#" id="btnSave" class="btn btn-success" data-dismiss="modal">Save</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnSave").click(function () {
+            var programId = @Html.Raw(Json.Encode(programId));
+            
+            var url = '@Url.Action("AddPEOToPLO", "Program")';
+
+            var data = [];
+            $(".form-row").each(function () {
+                var peoId = $(this).find(".peoId").val();
+                var ploId = $(this).find(".ploId").val();
+                var value = $(this).find(".value").val();
+
+                data.push({
+                    PEOId: peoId,
+                    PLOId: ploId,
+                    Value: value
+                });
+            });
+
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response.success) {
+                        // Reload the view page
+                        location.reload();
+                    } else {
+                        // Show an error message to the user
+                        alert("Error: " + response.message);
+                    }
+                    window.location.href = "/Program/PEOToPLO" + "/" + programId;
+                },
+            });
+        });
+        $("#btnCancel").click(function () {
+            /*window.history.back();*/
+            window.location.href = "/Program/PEOToPLO" +"/" + programId;
+        });
+    });
+</script>
+

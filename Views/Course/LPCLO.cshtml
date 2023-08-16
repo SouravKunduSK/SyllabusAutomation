@@ -1,0 +1,97 @@
+﻿﻿@using SyllabusAutomation.Models;
+@model Tuple<LPCLO, List<LPCLO>>
+@{
+    ViewBag.Title = "LPCLO";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <!-- Breadcrumbs-->
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="@( Url.Action("Index", "Dashboard") )">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Learning Outcomes</li>
+
+    </ol>
+
+    
+    <div class="card-body">
+
+        @using (Html.BeginForm("CreateLPCLO", "Course", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    @if (ViewBag.CloList != null)
+                    {
+                        <div class="col-md-10">
+                            <h6>Select Mapped CLO</h6>
+                            @Html.DropDownList("CloId", ViewBag.CloList as SelectList, "-- Select Mapped CLOs ---", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Item1.CLOId, "", new { @class = "text-danger" })
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="col-md-10">
+                    <a href="@Url.Action("LPA", "Course", new { id =(int) Session["planId"]})" class="pull-right btn btn-info">Next</a>
+                    <input type="submit" class="btn btn-success" value="Save" />
+
+                </div>
+            </div>
+        }
+
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-book-open"></i>
+            All CLOS
+
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-condensed table-hover table-bordered table-striped table" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+
+
+                        <tr>
+
+                            <th>Serial No.</th>
+
+
+                            <th>CLO</th>
+
+
+
+
+                        </tr>
+
+
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.Item2)
+                        {
+                            <tr>
+                                <td>@(Model.Item2.IndexOf(item)+1)</td>
+                                <td>@item.Outcomes</td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+

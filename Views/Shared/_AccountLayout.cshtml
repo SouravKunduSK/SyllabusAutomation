@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <!-- Bootstrap core CSS-->
+    <link href="~/Style/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <!-- Custom fonts for this template-->
+    <link href="~/Style/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <!-- Page level plugin CSS-->
+    <link href="~/Style/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="~/Style/css/sb-admin.css" rel="stylesheet">
+    <link href="~/Style/css/sb-admin.min.css" rel="stylesheet" />
+
+    <meta name="viewport" content="width=device-width" />
+    <title>Syllabus Automation System</title>
+</head>
+<body>
+
+    <div id="wrapper">
+
+        <div id="content-wrapper">
+            @RenderBody()
+
+           
+
+        </div>
+    </div>
+
+    
+    <!-- Bootstrap core JavaScript-->
+    <script src="~/Style/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Style/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="~/Style/vendor/jquery-easing/jquery.easing.min.js"></script>
+   
+    <!-- Custom scripts for all pages-->
+    <script src="~/Style/js/sb-admin.min.js"></script>
+    
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>

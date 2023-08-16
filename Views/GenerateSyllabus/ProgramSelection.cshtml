@@ -1,0 +1,72 @@
+﻿@model SyllabusAutomation.Models.Program
+@{
+    Layout = "~/Views/Shared/_GenerateLayoutPage.cshtml";
+}
+
+<div class="container-fluid">
+    <!-- Breadcrumb navigation -->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="@Url.Action("Index", "Dashboard")">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Select Program </li>
+    </ol>
+
+    <!-- Success message displayed after adding a mission -->
+    @if (TempData["msg"] != null)
+    {
+        <div class="alert alert-success text-danger">
+            @TempData["msg"]
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+        </div>
+    }
+
+    <div class="panel-group" id="accordion">
+        <div id="collapseThree" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <i class="fas fa-table"></i>
+                        
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm("ProgramSelection", "GenerateSyllabus", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Select Program</h5>
+                                        @Html.DropDownListFor(x => x.ProgramId, ViewBag.ProgramList as SelectList, "--- Select Program ---", new { @class = "form-control", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.ProgramId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                        <br /><br /><br />
+                            <div class="col-md-6">
+                                <div class="col-md-10">
+                                    <a onclick="window.history.back();" class="btn btn-danger">Cancel</a>
+                                    <input type="submit" class="btn btn-success" value="Select" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Display all missions of the university in a table -->
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-book-open"></i>
+            
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="btn btn-info fa fa-plus">Select Program</a>
+        </div>
+
+    </div>
+</div>

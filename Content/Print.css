@@ -1,0 +1,9 @@
+﻿
+.text-underlined {
+    text-decoration: underline;
+}
+@media print {
+    .download-button-container {
+        display: none !important;
+    }
+}

@@ -1,0 +1,137 @@
+﻿@using SyllabusAutomation.Models;
+@model Tuple<MissionOfDepartment, List<MissionOfDepartment>>
+@{
+    ViewBag.Title = "DeptMissions";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <!-- Breadcrumb navigation -->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="@Url.Action("Index", "Dashboard")">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Missions of Department</li>
+    </ol>
+
+    <!-- Success message displayed after adding a mission -->
+    @if (TempData["msg"] != null)
+    {
+        <div class="alert alert-success text-danger">
+            @TempData["msg"]
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+        </div>
+    }
+
+    <div class="panel-group" id="accordion">
+        <div id="collapseThree" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <i class="fas fa-table"></i>
+                        Add New Mission
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm("AddDeptMissions", "DepartmentDetail", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Mission Of Department</h5>
+                                        @Html.TextAreaFor(x => x.Item1.Mission, new { @class = "form-control", rows = "5", cols = "60", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.Mission, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-10">
+                                    <a href="@Url.Action("DeptMissions","DepartmentDetail")" class="btn btn-danger">Cancel</a>
+                                    <input type="submit" class="btn btn-success" value="Save" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (ViewBag.data == true)
+    {
+        <div class="panel-group" id="accordion1">
+            <div class="panel-body">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <i class="fas fa-table"></i>
+                        Edit Mission
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm("UpdateDeptMissions", "DepartmentDetail", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(x => x.Item1.MissionId)
+                            
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Mission Of University</h5>
+                                        @Html.TextAreaFor(x => x.Item1.Mission, htmlAttributes: new { @class = "form-control", id = "mission", name = "mission", rows = "5", cols = "60", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.Mission, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-10">
+                                    <a href="@Url.Action("DeptMissions","DepartmentDetail")" class="btn btn-danger">Cancel</a>
+                                    <input type="submit" class="btn btn-success" value="Update" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Display all missions of the university in a table -->
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-book-open"></i>
+            All Missions of the Department
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="btn btn-info pull-right fa fa-plus">Add New</a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-condensed table-hover table-bordered table-striped table" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Serial No.</th>
+                            <th>Missions</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Item2)
+                        {
+                            <tr>
+                                <td>@(Model.Item2.IndexOf(item) + 1)</td>
+                                <td class="text-justify">@item.Mission</td>
+                                <td>
+                                    <a href="@Url.Action("UpdateDeptMissions", "DepartmentDetail", new { id = item.MissionId, mi = item.Mission })" class="btn btn-info">Edit</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,244 @@
+﻿
+@model List<SyllabusAutomation.Models.CLOToPLO>
+@{
+    ViewBag.Title = "CLOToPLO";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+
+    .cell {
+        display: grid;
+        width: max-content;
+        justify-content: space-between;
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 1fr;
+        border: 1px solid #000;
+        margin-bottom: 1rem;
+    }
+
+    .cell--topRight {
+        grid-column-start: 2;
+        text-align: right;
+    }
+
+    .cell--bottomLeft {
+        grid-column-start: 1;
+    }
+</style>
+
+
+
+@{
+    var courseId = Model.Select(m => m.CourseId).Distinct().FirstOrDefault();
+}
+<div class="container-fluid">
+    <!-- Breadcrumb navigation -->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="@Url.Action("Index", "Dashboard")">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">CLO to PLO Mapping</li>
+    </ol>
+
+
+
+
+
+    <!-- Success message displayed after adding a mission -->
+    @if (TempData["msg"] != null)
+    {
+        <div class="alert alert-success text-danger">
+            @TempData["msg"]
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+        </div>
+    }
+
+
+    <!-- Display all missions of the university in a table -->
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-book-open"></i>
+            CLO to PLO Mapping
+            <a href="#" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addOrEdit">Add / Edit</a>
+
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-condensed table-hover table-bordered table-striped table" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+
+                                <div class="cell--bottomLeft">CLO</div>
+                                <div class="cell--topRight">PLO</div>
+                            </th>
+
+                            @foreach (var plo in Model.Select(m => m.PLOId).Distinct())
+                            {
+                                <th>PLO @(Model.Select(m => m.PLOId).Distinct().ToList().IndexOf(plo)+1)</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var clo in Model.Select(m => m.CLOId).Distinct())
+                        {
+                            <tr>
+                                <td>CLO @(Model.Select(m => m.CLOId).Distinct().ToList().IndexOf(clo)+1)</td>
+                                @foreach (var plo in Model.Select(m => m.PLOId).Distinct())
+                                {
+
+                                    var cloToPlo = Model.FirstOrDefault(m => m.CLOId == clo && m.PLOId == plo);
+                                    <td>
+                                        @if (cloToPlo != null)
+                                        {
+                                            @Html.HiddenFor(m => cloToPlo.CLOId)
+                                            @Html.HiddenFor(m => cloToPlo.PLOId)
+                                            @*@Html.TextBoxFor(m => peoMission.Value, new { @readOnly = "readOnly", @class = "form-control" })*@
+                                            <input type="text" class="form-control" value="@cloToPlo.Value" readonly="readonly" />
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                        }
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@TempData["msg"]
+
+<!-- Modal PopUp -->
+<div class="modal fade" id="addOrEdit">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add / Edit CLO To PLO Mapping Value</h4>
+                <br />
+
+                <button type="button" class="close" data-dismiss="modal">
+                    <span class="text-danger">x</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span class="text-danger">Value should be in (0-3):<br /> 3 indicates high priority and 0 indicates low priority</span><br />
+                <form id="dataForm">
+                    <div class="card-body">
+
+                        <table class="table table-condensed table-hover table-bordered table-striped table" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>CLO</th>
+                                    <th>
+                                        PLO and <br />
+                                        Mapping Value
+                                    </th>
+
+                                    @{
+                                        var distinctPlos = Model.Select(m => m.PLOId).Distinct().ToList();
+                                    }
+                                    @*@foreach (var mission in distinctMissions)
+                                        {
+                                            <th>M @(distinctMissions.IndexOf(mission)+1)</th>
+                                        }*@
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var distinctClo = Model.Select(m => m.CLOId).Distinct().ToList();
+                                }
+                                @foreach (var clo in distinctClo)
+                                {
+
+                                    <tr>
+                                        <td>CLO @(distinctClo.IndexOf(clo) + 1)</td>
+                                        @foreach (var plo in distinctPlos)
+                                        {
+
+                                            var cloToPlos = Model.FirstOrDefault(m => m.CLOId == clo && m.PLOId == plo);
+
+                                            <td class="form-row">
+                                                @if (cloToPlos != null)
+                                                {
+                                                    @Html.HiddenFor(m => cloToPlos.CLOId, new { @class = "cloId" })
+                                                    @Html.HiddenFor(m => cloToPlos.PLOId, new { @class = "ploId" })
+                                                    <div>PLO @(distinctPlos.IndexOf(plo) + 1)</div> <div>&emsp;</div>
+                                                    @Html.TextBoxFor(m => cloToPlos.Value, new { @class = "value", type = "number", min = "0", max = "3" })
+                                                    @Html.ValidationMessageFor(m => cloToPlos.Value)
+                                                }
+                                            </td>
+                                        }
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <a href="" id="btnCancel" class="btn btn-outline-warning mr-2">Cancel</a>
+                    <a href="#" id="btnSave" class="btn btn-success" data-dismiss="modal">Save</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnSave").click(function () {
+            var courseId = @Html.Raw(Json.Encode(courseId));
+            
+            var url = '@Url.Action("AddCLOToPLO", "Course")';
+
+            var data = [];
+            $(".form-row").each(function () {
+                var cloId = $(this).find(".cloId").val();
+                var ploId = $(this).find(".ploId").val();
+                var value = $(this).find(".value").val();
+
+                data.push({
+                    CLOId: cloId,
+                    PLOId: ploId,
+                    Value: value
+                });
+            });
+
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response.success) {
+                        // Reload the view page
+                        location.reload();
+                    } else {
+                        // Show an error message to the user
+                        alert("Error: " + response.message);
+                    }
+                    window.location.href = "/Course/CLOToPLO" + "/" + courseId;
+                },
+            });
+        });
+        $("#btnCancel").click(function () {
+            /*window.history.back();*/
+            window.location.href = "/Course/CLOToPLO" + "/" + courseId;
+        });
+    });
+</script>
+

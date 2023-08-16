@@ -1,0 +1,221 @@
+﻿@using SyllabusAutomation.Models;
+@model Tuple<Mark, List<Mark>>
+@{
+    ViewBag.Title = "Marks";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <!-- Breadcrumb navigation -->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="@Url.Action("Index", "Dashboard")">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Marks</li>
+    </ol>
+
+    <!-- Success message displayed after adding a mission -->
+    @if (TempData["msg"] != null)
+    {
+        <div class="alert alert-success text-danger">
+            @TempData["msg"]
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+        </div>
+    }
+
+    <div class="panel-group" id="accordion">
+        <div id="collapseThree" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <i class="fas fa-table"></i>
+                        Add New Marks
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm("AddMarks", "Course", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Class Test</h5>
+                                        @Html.TextBoxFor(x => x.Item1.CT, new { @class = "form-control", placeholder = "Numbers Only(10,8,etc)", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.CT, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Attendence</h5>
+                                        @Html.TextBoxFor(x => x.Item1.Attendence, new { @class = "form-control", placeholder = "Numbers Only(10,8,etc)", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.Attendence, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>SEE</h5>
+                                        @Html.TextBoxFor(x => x.Item1.SEE, new { @class = "form-control", placeholder = "Numbers Only(10,8,etc)", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.SEE, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>SE</h5>
+                                        @Html.TextBoxFor(x => x.Item1.SE, new { @class = "form-control", placeholder = "Numbers Only(10,8,etc)", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.SE, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Select Course Type</h5>
+                                        @Html.DropDownListFor(x => x.Item1.CourseTypeId, ViewBag.CourseTypeList as SelectList,"--- Select Course Type ---", new { @class = "form-control", placeholder = "Numbers Only(10,8,etc)", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.CourseTypeId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-10">
+                                    <a onclick="window.history.back();" class="btn btn-danger">Cancel</a>
+                                    <input type="submit" class="btn btn-success" value="Save" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (ViewBag.data == true)
+    {
+        <div class="panel-group" id="accordion1">
+            <div class="panel-body">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <i class="fas fa-table"></i>
+                        Edit Marks
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm("UpdateMarks", "Course", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(x => x.Item1.MarksId)
+
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Class Test</h5>
+                                        @Html.TextBoxFor(x => x.Item1.CT, new { @class = "form-control", placeholder = "Numbers Only(10,8,etc)", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.CT, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Attendence</h5>
+                                        @Html.TextBoxFor(x => x.Item1.Attendence, new { @class = "form-control", placeholder = "Numbers Only(10,8,etc)", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.Attendence, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>SEE</h5>
+                                        @Html.TextBoxFor(x => x.Item1.SEE, new { @class = "form-control", placeholder = "Numbers Only(10,8,etc)", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.SEE, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>SE</h5>
+                                        @Html.TextBoxFor(x => x.Item1.SE, new { @class = "form-control", placeholder = "Numbers Only(10,8,etc)", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.SE, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Select Course Type</h5>
+                                        @Html.DropDownListFor(x => x.Item1.CourseTypeId, ViewBag.CourseTypeList as SelectList, "--- Select Course Type ---", new { @class = "form-control", placeholder = "Numbers Only(10,8,etc)", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.CourseTypeId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-10">
+                                    <a onclick="window.history.back();" class="btn btn-danger">Cancel</a>
+                                    <input type="submit" class="btn btn-success" value="Update" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Display all missions of the university in a table -->
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-book-open"></i>
+            All Marks
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="btn btn-info pull-right fa fa-plus">Add New</a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-condensed table-hover table-bordered table-striped table" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Sr.No</th>
+                            <th>Course Types</th>
+                            <th>CT</th>
+                            <th>Attendence</th>
+                            <th>SEE</th>
+                            <th>SE</th>
+                            <th>Total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Item2)
+                        {
+                            <tr>
+                                <td>@(Model.Item2.IndexOf(item) + 1)</td>
+                                <td>@item.CourseType.CourseType1</td>
+                                <td>@item.CT</td>
+                                <td>@item.Attendence</td>
+                                <td>@item.SEE</td>
+                                <td>@item.SE</td>
+                                <td>@item.Total</td>
+                                <td>
+                                    <a href="@Url.Action("UpdateMarks", "Course", new { id = item.MarksId })" class="btn btn-info">Edit</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

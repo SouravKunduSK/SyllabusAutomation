@@ -1,0 +1,88 @@
+﻿
+
+@model List<SyllabusAutomation.Models.User>
+
+@{
+    ViewBag.Title = "EndUser";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container-fluid">
+    <!-- Breadcrumbs-->
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="@( Url.Action("Index", "Dashboard") )">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">All Users</li>
+
+    </ol>
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-book-open"></i>
+            All Users Details
+            <a href="@( Url.Action("CreateUser","Account"))" class="btn btn-info pull-right fa fa-plus">Add New User</a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-condensed table-hover table-bordered table-striped table" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+
+
+                        <tr>
+
+                            <th>Serial No.</th>
+                            <th>User Name</th>
+                            <th>University</th>
+                            <th>User Role</th>
+                            @*<th>Logo</th>
+                                <th>Vision</th>
+
+                                <th>Quality Policy</th>*@
+                            <th>Action</th>
+
+                        </tr>
+
+
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+
+
+                            <tr>
+                                <td>@(Model.IndexOf(item)+1)</td>
+
+                                <td>@item.Username</td>
+                                <td>@item.University.ShortName</td>
+                                <td class="btn btn-success">@item.Role.RoleName</td>
+                                @*<td>@item.Logo</td>
+                                    <td>@item.VisionOfUniversity</td>
+                                    <td>@item.QualityPolicy</td>*@
+
+                                @*<td><a href="@Url.Content(item.ImageURL)" target="_blank"><img src="@Url.Content(item.ImageURL)" style="width:100px; height:67px;" /></a></td>*@
+                                <td>
+                                    @*<a href="@Url.Action("Details", new { id = item.UserID })" class="btn btn-primary">Detail</a>*@
+                                    <a href="@Url.Action("Edit", new { id = item.UserID })" class="btn btn-info">Edit</a>
+                                    <a href="@Url.Action("Delete", new { id = item.UserID })" class="btn btn-danger">Delete</a>
+                                </td>
+
+
+
+
+                            </tr>
+
+
+
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+

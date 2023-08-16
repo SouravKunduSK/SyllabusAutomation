@@ -1,0 +1,71 @@
+﻿
+
+@model SyllabusAutomation.Models.University
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="@( Url.Action("Index", "Dashboard") )">Dashboard</a>
+        </li>
+
+        <li class="breadcrumb-item">
+            <a href="@( Url.Action("Index") )">University</a>
+        </li>
+        <li class="breadcrumb-item active">Add University</li>
+
+    </ol>
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-table"></i>
+            Add New University
+        </div>
+
+        <div class="card-body">
+            @using (Html.BeginForm("Create", "Universities", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <h3 style="color:red;">@TempData["msg"]</h3>
+
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-10">
+                            <h6>University Name</h6>
+                            @Html.EditorFor(model => model.UniName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.UniName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <h6>Short Name</h6>
+                            @Html.EditorFor(model => model.ShortName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ShortName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-6">
+                    <div class="col-md-10">
+                        <a onclick="window.history.back();" class="btn btn-danger">Cancel</a>
+                        <input type="submit" class="btn btn-success" value="Save" />
+
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

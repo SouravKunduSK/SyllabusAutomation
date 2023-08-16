@@ -1,0 +1,113 @@
+﻿@model SyllabusAutomation.Models.University
+@{
+    ViewBag.Title = "UpdateUniversityDetail";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <!-- Breadcrumbs-->
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">University Detail</a>
+        </li>
+        <li class="breadcrumb-item active">Update Details</li>
+
+    </ol>
+
+    @if (TempData["msg"]!=null)
+    {
+        <div class="alert alert-danger">
+            @TempData["msg"]
+            <button type="button" class="close" data-dismiss="alert">
+                <h5>x</h5>
+            </button>
+        </div>
+    }
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-user"></i>
+            Update University Details
+
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("UpdateUniversityDetail", "University", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @*<h3 style="color:red;">@TempData["msg"]</h3>*@
+                @Html.HiddenFor(model => model.UniversityId)
+                @Html.HiddenFor(model => model.UniName)
+                @Html.HiddenFor(model => model.ShortName)
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-12">
+                            <h6>Logo:</h6>
+                            <img src="" id="output" style="height:100px" width="100" altsrc="No Image">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-12">
+
+                            <h6>Choose Logo</h6>
+                            <input type="file" name="file" onchange="document.
+        getElementById('output').src = window.URL.createObjectURL(this.files[0])">
+                            <span class="field-validation-valid text-danger" data-valmsg-for="Photo" data-valmsg-replace="true"></span>
+                            <br>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-6">
+                            <h6>Message From VC</h6>
+
+                            @Html.TextAreaFor(model => model.MessageofVC, new { @class = "form-control", rows = "4", cols = "60", required = "required" })
+
+                            @Html.ValidationMessageFor(model => model.MessageofVC, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-6">
+                            <h6>Vision Of University</h6>
+
+                            @Html.TextAreaFor(model => model.VisionOfUniversity, new { @class = "form-control", rows = "4", cols = "60", required = "required" })
+
+                            @Html.ValidationMessageFor(model => model.VisionOfUniversity, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @*@Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-6">
+                            <h6>Quality Policy</h6>
+                            @Html.TextAreaFor(model => model.QualityPolicy, new { @class = "form-control", rows = "4", cols = "60", required = "required" })
+                            @Html.ValidationMessageFor(model => model.QualityPolicy, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        <a onclick="window.history.back();" class="btn btn-danger">Cancel</a>
+                        <input type="submit" class="btn btn-success" value="Update" />
+
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

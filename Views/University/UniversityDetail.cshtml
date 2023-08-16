@@ -1,0 +1,111 @@
+﻿@model SyllabusAutomation.Models.University
+@{
+    ViewBag.Title = "UniversityDetail";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <!-- Breadcrumbs-->
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">Admin Panel</a>
+        </li>
+        <li class="breadcrumb-item active">University Detail</li>
+
+    </ol>
+    @if (Model.Logo == null || Model.QualityPolicy == null || Model.VisionOfUniversity == null || Model.MessageofVC == null)
+    {
+        <div class="alert alert-danger">
+            Please, Update your university details first.
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+        </div>
+    }
+    else if (@TempData["message"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["message"]
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+        </div>
+    }
+    @if (TempData["msg"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["msg"]
+            <button type="button" class="close" data-dismiss="alert">
+                <h5>x</h5>
+            </button>
+        </div>
+    }
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-user"></i>
+            University Details
+
+        </div>
+        <div class="card-body">
+            <div class="col-md-12">
+                <h3>
+                    <strong>University Details:</strong>
+                </h3>
+                <hr />
+                <div class="col-md-6">
+                    <h5>
+                        Details:
+                    </h5>
+                    <hr />
+                    <h4>
+                        Logo:
+                        @if (Model.Logo != null)
+                        {
+                            <img src="@Url.Content(Model.Logo)" style="width:100px; height:100px;" />
+                        }
+                        else
+                        {
+                            <img src="~/Uploads/NoImage.png" style="width:100px; height:100px;" />
+                        }
+                    </h4>
+
+                    <br />
+                    <h5><strong>Short Name:</strong> @Model.ShortName </h5>
+
+                    <br />
+                    <h5><strong>Full Name:</strong> @Model.UniName</h5>
+
+                    <br />
+                    <h4>
+                        Message From VC:
+                    </h4>
+                    <h6 class="text-justify" style="white-space: pre-line;">
+                        @Model.MessageofVC
+                    </h6>
+                    <br />
+                    <h4>
+                        Vision of University:
+                    </h4>
+                    <h6 class="text-justify">
+
+                        @Model.VisionOfUniversity
+                    </h6>
+                    <br />
+                    <h4>
+                        Quality Policy:
+                    </h4>
+                    <h6 class="text-justify">
+
+                        @Model.QualityPolicy
+                    </h6>
+                    <br />
+                    <a onclick="window.history.back();" class="btn btn-outline-warning">Back</a>
+                    <a href="@Url.Action("UpdateUniversityDetail","University", new { id = Model.UniversityId })" class="btn btn-outline-info">Update</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+

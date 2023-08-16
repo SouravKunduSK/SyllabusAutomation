@@ -1,0 +1,537 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_GenerateLayoutPage.cshtml";
+}
+
+
+<div class="container-fluid">
+
+    @{ foreach (var item in (List<SyllabusAutomation.Models.User>)@ViewBag.userDetail)
+        {
+            <h2 class="text-center">
+                CURRICULUM<br />
+                of
+            </h2>
+            <h3 class="text-center">
+                @ViewBag.ProgramList in<br />
+                @item.Department.DeptName<br /><br />
+                @item.Faculty.FacultyName<br /><br />
+                @ViewBag.ProgramList<br /><br /><br />
+                @if (item.University.Logo != null)
+                {
+                    <img src="@Url.Content(item.University.Logo)" style="width:100px; height:100px;" />
+                }<br /><br />
+                @item.University.UniName
+
+            </h3><br />
+            <h2 class="text-center">
+                Part A: Introduction
+            </h2>
+            <h4 class="text-center">Vision of University</h4>
+            <h5 class="text-justify">
+                @item.University.VisionOfUniversity
+            </h5>
+        }
+    }
+    <h4 class="text-center">
+        Mission of University
+    </h4>
+    @{ foreach (var item in (List<SyllabusAutomation.Models.MissionOfUniversity>)@ViewBag.missionofUniversity)
+        {
+            <h5>@(((List<SyllabusAutomation.Models.MissionOfUniversity>)@ViewBag.missionofUniversity).IndexOf(item) + 1). @item.Mission</h5>
+        }
+    }
+    <h4 class="text-center">
+        Quality Policy
+    </h4>
+    @{ foreach (var item in (List<SyllabusAutomation.Models.User>)@ViewBag.userDetail)
+        {
+            <h5 class="text-justify">
+                @item.University.QualityPolicy
+            </h5>
+        } }
+    @{ foreach (var item in (List<SyllabusAutomation.Models.Department>)@ViewBag.deptDetail)
+        { <h2 class="text-center">Department of</h2>
+            <h3 class="text-center">@item.DeptName</h3><br />
+            <h4 class="text-center">Vision of Department</h4>
+            <h5 class="text-justify">
+                @item.Vision
+            </h5>
+        } }<br />
+
+    <h4 class="text-center">
+        Mission of Department
+    </h4>
+    @{ foreach (var item in (List<SyllabusAutomation.Models.MissionOfDepartment>)@ViewBag.missionofDept)
+        {
+            <h5>@(((List<SyllabusAutomation.Models.MissionOfDepartment>)@ViewBag.missionofDept).IndexOf(item) + 1). @item.Mission</h5>
+        }
+    }<br /><br /><br />
+
+    <h4 class="text-center">
+        Program Education Objectives (PEO)
+    </h4>
+
+    <div class="card mb-3">
+        <div class="card-body">
+
+            <table class="table table-condensed table-hover table-bordered table-striped table" style="page-break-inside: avoid;" cellspacing="0">
+
+
+                <tbody>
+                    @{ foreach (var item in (List<SyllabusAutomation.Models.PEO>)@ViewBag.peoList)
+                        {
+
+                            <tr>
+
+
+                                <td>PEO @(((List<SyllabusAutomation.Models.PEO>)@ViewBag.peoList).IndexOf(item) + 1)</td>
+                                <td> @item.PEO1</td>
+
+
+                            </tr>
+
+
+                        }
+
+                    }
+
+                </tbody>
+            </table>
+
+
+        </div>
+    </div><br /><br />
+
+    <h4 class="text-center">
+
+        Program Learning Outcome (PLO)
+
+    </h4>
+    <div class="card mb-3">
+        <div class="card-body">
+
+            <table class="table table-condensed table-hover table-bordered table-striped table" style="page-break-inside: avoid;" cellspacing="0">
+
+
+                <tbody>
+                    @{ foreach (var item in (List<SyllabusAutomation.Models.PLO>)@ViewBag.ploList)
+                        {
+
+                            <tr>
+
+
+                                <td>PLO @(((List<SyllabusAutomation.Models.PLO>)@ViewBag.ploList).IndexOf(item) + 1)</td>
+                                <td> @item.PLO1</td>
+
+
+                            </tr>
+
+
+                        }
+
+                    }
+
+                </tbody>
+            </table>
+
+
+        </div>
+    </div><br /><br />
+
+
+    <h4 class="text-center">
+
+        Generic Skills
+
+    </h4>
+    <div class="card mb-3">
+        <div class="card-body">
+
+            <table class="table table-condensed table-hover table-bordered table-striped table" style="page-break-inside: avoid;" cellspacing="0">
+
+
+                <tbody>
+                    @{ foreach (var item in (List<SyllabusAutomation.Models.GenericSkill>)@ViewBag.genericSkillList)
+                        {
+
+                            <tr>
+
+
+                                <td>GS @(((List<SyllabusAutomation.Models.GenericSkill>)@ViewBag.genericSkillList).IndexOf(item) + 1)</td>
+                                <td> @item.GS</td>
+
+
+                            </tr>
+
+
+                        }
+
+                    }
+
+                </tbody>
+            </table>
+
+
+        </div>
+    </div><br /><br />
+    <h3 class="text-center"><strong>Course Details</strong></h3><br />
+
+    @{ foreach (var item in (List<SyllabusAutomation.Models.Course>)@ViewBag.courseDetail)
+        {
+
+
+
+            <h4>Course Outline: @item.CourseTitle</h4>
+            <h4>Course Code: @item.CourseCode</h4>
+            <h4>Credit: @item.Credit</h4>
+            <h4><strong>Course Summary:</strong></h4>
+            <h4>@item.CourseSummary</h4>
+        }
+    }
+
+
+    <br />
+    <p>
+        <h3>Course Objectives:</h3>
+    </p>
+    @{ foreach (var item in (List<SyllabusAutomation.Models.CourseObjective>)@ViewBag.objective)
+        {
+            <h5>@(((List<SyllabusAutomation.Models.CourseObjective>)@ViewBag.objective).IndexOf(item) + 1). @item.Objectives</h5>
+        }
+    }
+
+
+
+    <br />
+    <p>
+        <h3>Course Learning Outcomes:</h3>
+    </p>
+    @{ foreach (var item in (List<SyllabusAutomation.Models.CLO>)@ViewBag.cloDetail)
+        {
+            <p>@(((List<SyllabusAutomation.Models.CLO>)@ViewBag.cloDetail).IndexOf(item) + 1). @item.Outcomes</p>
+        }
+    }
+    <br />
+    <p>
+        <h2>Part B- Lesson Plan</h2>
+        <h4> Course Details Learning plan</h4>
+    </p>
+
+
+
+
+    <div class="card mb-3">
+        <div class="card-body">
+
+            <table class="table table-condensed  table-bordered " style="page-break-inside: avoid;"  cellspacing="0">
+                <thead>
+
+
+                    <tr>
+
+                        <th>Timeline</th>
+                        <th>Topics/Contents</th>
+
+                        <th>Learning Outcomes</th>
+                        <th>Mapped CLOs</th>
+
+                        <th>Teaching Strategies</th>
+                        <th>Assessment Strategies</th>
+
+
+                    </tr>
+
+
+                </thead>
+
+                <tbody>
+                    @{ foreach (var item in (List<SyllabusAutomation.Models.LearningPlan>)@ViewBag.ci)
+                        {
+
+
+
+
+                            <tr>
+                                <td>@item.Week.Timeline</td>
+
+
+                                <td>@item.Topics</td>
+                                <td>@item.LearningOutcome </td>
+                                <td>
+                                    @foreach (var e in @item.LPCLOes.Where(x => x.PlanId == item.PlanId).ToList())
+                                    {
+                                        @e.Outcomes<br />
+                                    }
+
+                                </td>
+
+                                <td>
+                                    @foreach (var e in @item.LPAssessmentStrategies.Where(x => x.PlanId == item.PlanId).ToList())
+                                    {
+                                        @e.Strategies<br />
+                                    }
+
+                                </td>
+
+                                <td>
+                                    @foreach (var e in @item.LPTeachingStrategies.Where(x => x.PlanId == item.PlanId).ToList())
+                                    {
+                                        @e.Strategies<br />
+                                    }
+
+
+
+                            </tr>
+
+
+
+
+                        }
+
+                    }
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <br />
+    <p>
+        <h2>Part C- Assessment and Evaluations</h2>
+        <h4>Assessment Procedures</h4>
+    </p>
+
+
+    <div class="card mb-3">
+        <div class="card-body">
+
+            <table class="table table-condensed table-hover table-bordered table-striped table" style="page-break-inside: avoid;" cellspacing="0">
+                <thead>
+
+                    <tr>
+
+                        <th>Serial No.</th>
+                        <th>Assessment Name</th>
+                        <th>Description</th>
+
+                    </tr>
+
+
+                </thead>
+
+                <tbody>
+                    @{ foreach (var item in (List<SyllabusAutomation.Models.AssessmentStrategie>)@ViewBag.assessments)
+                        {
+
+                            <tr>
+                                <td>@(((List<SyllabusAutomation.Models.AssessmentStrategie>)@ViewBag.assessments).IndexOf(item) + 1)</td>
+
+                                <td>@item.Strategies</td>
+                                <td>@item.Description</td>
+
+                            </tr>
+
+
+                        }
+
+                    }
+
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+
+
+
+    <br />
+    <p>
+
+        <h4> SEE-Semester End Examination (72 Marks)</h4>
+    </p>
+
+
+
+    <div class="card mb-3">
+        <div class="card-body">
+
+            <table class="table table-condensed table-hover table-bordered table-striped table" style="page-break-inside: avoid;" cellspacing="0">
+                <thead>
+
+                    <tr>
+
+                        <th>Bloom's Category</th>
+                        <th>Test</th>
+
+
+                    </tr>
+
+
+                </thead>
+
+                <tbody>
+                    @{ foreach (var item in (List<SyllabusAutomation.Models.SEE>)@ViewBag.seeList)
+                        {
+
+                            <tr>
+
+
+                                <td>@item.Category</td>
+                                <td>@item.Test</td>
+
+                            </tr>
+
+
+                        }
+
+                    }
+
+                </tbody>
+            </table>
+
+
+        </div>
+    </div><br /><br /><br />
+    <p>
+
+        <h4> CIE- Continuous Internal Evaluation (28 Marks):</h4>
+    </p>
+
+
+
+
+
+            <table class="table table-condensed  table-bordered "style="page-break-inside: avoid;" cellspacing="0">
+                <thead>
+
+                    <tr>
+
+                        <th>Bloom’s Category Marks (out of 20)</th>
+                        <th>Test (10)</th>
+                        <th>
+                            Assignment
+                            (5)
+                        </th>
+                        <th>
+                            Quizzes
+                            (5)
+                        </th>
+                        <th>External Participation in Curricular/Co-Curricular Activities </th>
+
+
+                    </tr>
+
+
+                </thead>
+
+                <tbody>
+                    @{ foreach (var item in (List<SyllabusAutomation.Models.CIE>)@ViewBag.cieList)
+                        {
+
+                            <tr>
+
+
+                                <td>@item.Category</td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+
+                            </tr>
+
+
+                        }
+
+                    }
+
+                </tbody>
+            </table>
+
+<br /><br /><br />
+
+    <p>
+        <h2>Part D- Resources</h2>
+
+    </p>
+    <h4>TextResources:</h4>
+    @{ foreach (var item in (List<SyllabusAutomation.Models.Resource>)@ViewBag.textBook)
+        {
+            <p>@(((List<SyllabusAutomation.Models.Resource>)@ViewBag.textBook).IndexOf(item) + 1). @item.ResourceName</p>
+        }
+    }
+    <br />
+    <h4>References:</h4>
+    @{ foreach (var item in (List<SyllabusAutomation.Models.Resource>)@ViewBag.refBook)
+        {
+            <p>@(((List<SyllabusAutomation.Models.Resource>)@ViewBag.refBook).IndexOf(item) + 1). @item.ResourceName</p>
+        }
+    }
+
+    <br />
+    <p>
+
+        <h4> Marks Distribution For Course:</h4>
+    </p>
+
+
+
+    <div class="card mb-3">
+        <div class="card-body">
+
+            <table class="table table-condensed table-hover table-bordered table-striped table" style="page-break-inside: avoid;" cellspacing="0">
+                <thead>
+
+                    <tr>
+
+                        <th>Class Test</th>
+                        <th>Attendence</th>
+                        <th>
+                            SEE
+                        </th>
+                        <th>
+                            SE
+                        </th>
+                        <th>Total </th>
+
+
+                    </tr>
+
+
+                </thead>
+
+                <tbody>
+                    @{ foreach (var item in (List<SyllabusAutomation.Models.Mark>)@ViewBag.markList)
+                        {
+
+                            <tr>
+
+
+                                <td>@item.CT</td>
+                                <td>@item.Attendence</td>
+                                <td>@item.SEE</td>
+                                <td>@item.SE</td>
+                                <td>@item.Total</td>
+
+                            </tr>
+
+
+                        }
+
+                    }
+
+                </tbody>
+            </table>
+
+
+        </div>
+    </div><br />
+
+    <div>
+
+        <a href="@Url.Action("GeneratePdf", "GenerateSyllabus")" class="btn btn-info" >Download</a>
+
+    </div>
+</div>

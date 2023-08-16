@@ -1,0 +1,334 @@
+﻿@using SyllabusAutomation.Models;
+@model Tuple<Program, List<Program>>
+@{
+    ViewBag.Title = "ProgramList";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <!-- Breadcrumb navigation -->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="@Url.Action("Index", "Dashboard")">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Program List</li>
+    </ol>
+
+    <!-- Success message displayed after adding a mission -->
+    @if (TempData["msg"] != null)
+        {
+            <div class="alert alert-success text-danger">
+                @TempData["msg"]
+                <button type="button" class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                </button>
+            </div>
+        }
+   
+    <div class="panel-group" id="accordion">
+        <div id="collapseThree" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <i class="fas fa-table"></i>
+                        Add New Program
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm("AddNewProgram", "DepartmentDetail", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Full Program Name</h5>
+                                        @Html.TextBoxFor(x => x.Item1.ProgramName, new { @class = "form-control", placeholder = "Program Name Here...", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.ProgramName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Short Name</h5>
+                                        @Html.TextBoxFor(x => x.Item1.ShortName, new { @class = "form-control", placeholder = "Short Name Here....", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.ShortName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Program Duration</h5>
+                                        @Html.TextBoxFor(x => x.Item1.Duration, new { @class = "form-control", placeholder = "Duration Here....", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.Duration, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Minimum Credit Detail</h5>
+                                        @Html.TextAreaFor(x => x.Item1.MinimumCreditRequirment, new { @class = "form-control", rows = "8", cols = "50", placeholder = "Minimum Credit Detail Here....", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Item1.MinimumCreditRequirment, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Course Distribution Detail</h5>
+                                        @Html.TextAreaFor(x => x.Item1.CourseDistribution, new { @class = "form-control", rows = "8", cols = "50", placeholder = "Course Distribution Detail Here....", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Item1.CourseDistribution, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Grading Policy Detail</h5>
+                                        @Html.TextAreaFor(x => x.Item1.GradingPolicy, new { @class = "form-control", rows = "8", cols = "50", placeholder = "Grading Policy Detail Here....", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Item1.GradingPolicy, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Course Withdrawl Detail</h5>
+                                        @Html.TextAreaFor(x => x.Item1.CourseWithdrawl, new { @class = "form-control", rows = "8", cols = "50", placeholder = "Course Withdrawl Detail Here....", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Item1.CourseWithdrawl, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Withdrawl From Semester Detail</h5>
+                                        @Html.TextAreaFor(x => x.Item1.WithdrawlFromSemester, new { @class = "form-control", rows = "8", cols = "50", placeholder = "Withdrawl From Semester Detail Here....", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Item1.WithdrawlFromSemester, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Retake Detail</h5>
+                                        @Html.TextAreaFor(x => x.Item1.Retake, new { @class = "form-control", rows = "8", cols = "50", placeholder = "Retake Detail Here....", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Item1.Retake, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Special Semester Detail</h5>
+                                        @Html.TextAreaFor(x => x.Item1.SpecialSemester, new { @class = "form-control", rows = "8", cols = "50", placeholder = "Special Semester Detail Here....", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Item1.SpecialSemester, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-10">
+                                    <a href="@Url.Action("ProgramList","DepartmentDetail")" class="btn btn-danger">Cancel</a>
+                                    <input type="submit" class="btn btn-success" value="Save" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (ViewBag.data == true)
+    {
+        <div class="panel-group" id="accordion1">
+
+            <div class="panel-body">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <i class="fas fa-table"></i>
+                        Edit Teacher
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm("UpdateProgram", "DepartmentDetail", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(x => x.Item1.ProgramId)
+                            @Html.HiddenFor(x => x.Item1.UniversityId)
+                            @Html.HiddenFor(x => x.Item1.FacultyId)
+                            @Html.HiddenFor(x => x.Item1.DepartmentId)
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Full Program Name</h5>
+                                        @Html.TextBoxFor(x => x.Item1.ProgramName, new { @class = "form-control", placeholder = "Program Name Here...", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.ProgramName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Short Name</h5>
+                                        @Html.TextBoxFor(x => x.Item1.ShortName, new { @class = "form-control", placeholder = "Short Name Here....", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.ShortName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Program Duration</h5>
+                                        @Html.TextBoxFor(x => x.Item1.Duration, new { @class = "form-control", placeholder = "Duration Here....", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.Duration, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Minimum Credit Detail</h5>
+                                        @Html.TextAreaFor(x => x.Item1.MinimumCreditRequirment, new { @class = "form-control", rows = "8", cols = "50", placeholder = "Minimum Credit Detail Here....", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Item1.MinimumCreditRequirment, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Course Distribution Detail</h5>
+                                        @Html.TextAreaFor(x => x.Item1.CourseDistribution, new { @class = "form-control", rows = "8", cols = "50", placeholder = "Course Distribution Detail Here....", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Item1.CourseDistribution, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Grading Policy Detail</h5>
+                                        @Html.TextAreaFor(x => x.Item1.GradingPolicy, new { @class = "form-control", rows = "8", cols = "50", placeholder = "Grading Policy Detail Here....", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Item1.GradingPolicy, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Course Withdrawl Detail</h5>
+                                        @Html.TextAreaFor(x => x.Item1.CourseWithdrawl, new { @class = "form-control", rows = "8", cols = "50", placeholder = "Course Withdrawl Detail Here....", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Item1.CourseWithdrawl, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Withdrawl From Semester Detail</h5>
+                                        @Html.TextAreaFor(x => x.Item1.WithdrawlFromSemester, new { @class = "form-control", rows = "8", cols = "50", placeholder = "Withdrawl From Semester Detail Here....", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Item1.WithdrawlFromSemester, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Retake Detail</h5>
+                                        @Html.TextAreaFor(x => x.Item1.Retake, new { @class = "form-control", rows = "8", cols = "50", placeholder = "Retake Detail Here....", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Item1.Retake, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Special Semester Detail</h5>
+                                        @Html.TextAreaFor(x => x.Item1.SpecialSemester, new { @class = "form-control", rows = "8", cols = "50", placeholder = "Special Semester Detail Here....", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Item1.SpecialSemester, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="col-md-10">
+                                    <a href="@Url.Action("ProgramList","DepartmentDetail")" class="btn btn-danger">Cancel</a>
+                                    <input type="submit" class="btn btn-success" value="Update" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+
+
+    <!-- Display all missions of the university in a table -->
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-book-open"></i>
+            All Assigned Teachers List
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="btn btn-info pull-right fa fa-plus">Add New</a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-condensed table-hover table-bordered table-striped table" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Serial No.</th>
+                            <th>Full Name of Program </th>
+                            <th>PEOs</th>
+                            <th>PLOs</th>
+                            <th>GS</th>
+                            <th>PEO To Mission</th>
+                            <th>PEO To PLO</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Item2)
+                        {
+                            <tr>
+                                <td>@(Model.Item2.IndexOf(item) + 1)</td>
+                                <td>@item.ProgramName</td>
+
+                                <td>
+                                    <a href="@Url.Action("PEOList", "Program", new { id = item.ProgramId })" class="btn btn-info">Show</a>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("PLOList", "Program", new { id = item.ProgramId })" class="btn btn-info">Show</a>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("GSList", "Program", new { id = item.ProgramId })" class="btn btn-info">Show</a>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("PEOToMission", "Program", new { id = item.ProgramId })" class="btn btn-info">Show</a>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("PEOToPLO", "Program", new { id = item.ProgramId })" class="btn btn-info">Show</a>
+                                </td>
+
+                                <td>
+                                    <a href="@Url.Action("UpdateProgram", "DepartmentDetail", new { id = item.ProgramId })" class="btn btn-info">Edit</a>
+                                    <a href="@Url.Action("Detail", "DepartmentDetail", new { id = item.ProgramId })" class="btn btn-secondary">Detail</a>
+                                    @*<a data-toggle="collapse" data-parent="#accordion1" class="btn btn-info" onclick="@Url.Action("UpdateTeacher", "Teacher", new { id = item.UserID })">Edit</a>*@
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,121 @@
+﻿@model List<SyllabusAutomation.Models.PEOToMissionViewModel>
+@{
+    ViewBag.Title = "MapPEOToMission";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+
+    .cell {
+        display: grid;
+        width: max-content;
+        justify-content: space-between;
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 1fr;
+        border: 1px solid #000;
+        margin-bottom: 1rem;
+    }
+
+    .cell--topRight {
+        grid-column-start: 2;
+        text-align: right;
+    }
+
+    .cell--bottomLeft {
+        grid-column-start: 1;
+    }
+</style>
+
+@using (Html.BeginForm("MapPEOToMission", "DepartmentDetail", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="container-fluid">
+        <!-- Breadcrumb navigation -->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "Dashboard")">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">PEO To Mission</li>
+        </ol>
+
+        <!-- Success message displayed after adding a mission -->
+        @if (TempData["msg"] != null)
+        {
+            <div class="alert alert-success text-danger">
+                @TempData["msg"]
+                <button type="button" class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                </button>
+            </div>
+        }
+
+        <!-- Display all missions of the university in a table -->
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-book-open"></i>
+                PEO To Mission
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-condensed table-hover table-bordered table-striped table" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>
+
+                                    <div class="cell--bottomLeft">PEO</div>
+                                    <div class="cell--topRight">Mission</div>
+                                </th>
+                                @{
+                                    var distinctMissions = Model.Select(m => m.MissionId).Distinct().ToList();
+                                }
+                                @foreach (var mission in distinctMissions)
+                                {
+                                    <th>M @(distinctMissions.IndexOf(mission)+1)</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                var distinctPeo = Model.Select(m => m.PEOId).Distinct().ToList();
+                            }
+                            @for (int j = 0; j < Model.Count(); ++j)
+                            {var PEOMISSION = Model[j];
+                                foreach (var peo in distinctPeo)
+                                {
+                                    <tr>
+                                        <td>PEO @(distinctPeo.IndexOf(peo)+1)</td>
+                                        @for (int i = 0; i < distinctMissions.Count; i++)
+                                        {
+                                            var mission = distinctMissions[i];
+                                            var peoMission = Model.FirstOrDefault(m => m.PEOId == peo && m.MissionId == mission);
+                                            <td>
+                                                @if (PEOMISSION.MissionId == mission)
+                                                {
+                                                    @Html.HiddenFor(m => m[i].PEOId)
+                                                    @Html.HiddenFor(m => m[i].MissionId)
+                                                    @Html.TextBoxFor(m => m[i].Value, new { @class = "form-control", type = "number", min = 0, max = 3 })
+                                                    @Html.ValidationMessageFor(m => m[i].Value)
+                                                }
+                                            </td>
+                                        }
+                                    </tr>
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save Mappings</button>
+    </div>
+}
+
+
+
+
+

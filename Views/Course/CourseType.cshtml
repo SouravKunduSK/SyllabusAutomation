@@ -1,0 +1,143 @@
+﻿@using SyllabusAutomation.Models;
+@model Tuple<CourseType, List<CourseType>>
+@{
+    ViewBag.Title = "CourseType";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+<div class="container-fluid">
+    <!-- Breadcrumb navigation -->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="@Url.Action("Index", "Dashboard")">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Course Type </li>
+    </ol>
+
+    <!-- Success message displayed after adding a mission -->
+    @if (TempData["msg"] != null)
+    {
+        <div class="alert alert-success text-danger">
+            @TempData["msg"]
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+        </div>
+    }
+
+    <div class="panel-group" id="accordion">
+        <div id="collapseThree" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <i class="fas fa-table"></i>
+                        Add New Course Type
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm("AddCourseType", "Course", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Course Type</h5>
+                                        @Html.TextBoxFor(x => x.Item1.CourseType1, new { @class = "form-control", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.CourseType1, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="col-md-10">
+                                    <a onclick="window.history.back();" class="btn btn-danger">Cancel</a>
+                                    <input type="submit" class="btn btn-success" value="Save" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (ViewBag.data == true)
+    {
+        <div class="panel-group" id="accordion1">
+            <div class="panel-body">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <i class="fas fa-table"></i>
+                        Edit Course Type
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm("UpdateCourseType", "Course", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(x => x.Item1.CourseType1)
+
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Course Type</h5>
+                                        @Html.TextBoxFor(x => x.Item1.CourseType1, htmlAttributes: new { @class = "form-control", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.CourseType1, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="col-md-10">
+                                    <a onclick="window.history.back();" class="btn btn-danger">Cancel</a>
+                                    <input type="submit" class="btn btn-success" value="Update" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Display all missions of the university in a table -->
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-book-open"></i>
+            All Course Types
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="btn btn-info pull-right fa fa-plus">Add New</a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-condensed table-hover table-bordered table-striped table" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Sr.No</th>
+                            <th>Course Types</th>
+                            
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Item2)
+                        {
+                            <tr>
+                                <td>@(Model.Item2.IndexOf(item) + 1)</td>
+                                <td class="text-justify">@item.CourseType1</td>
+                                
+                                <td>
+                                    <a href="@Url.Action("UpdateCourseType", "Course", new { id = item.CourseTypeId })" class="btn btn-info">Edit</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,108 @@
+﻿@model SyllabusAutomation.Models.Program
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container-fluid">
+    <!-- Breadcrumbs-->
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">Program List</a>
+        </li>
+        <li class="breadcrumb-item active">Program Detail</li>
+
+    </ol>
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-user"></i>
+            Program Details
+
+        </div>
+        <div class="card-body">
+            <div class="col-md-12">
+                <h3>
+                    <strong>Program Details:</strong>
+                </h3>
+                <hr />
+                <div class="col-md-10">
+                    <h5>
+                        Details:
+                    </h5>
+                    <hr />
+                    <h5><strong>University Name:</strong> @Model.University.UniName </h5><br />
+                    <h5><strong>Faculty Name:</strong> @Model.Faculty.FacultyName </h5><br />
+                    <h5><strong>Department Name:</strong> @Model.Department.DeptName </h5><br />
+                    <h5><strong>Program Name:</strong> @Model.ProgramName </h5><br />
+                    <h5><strong>Short Name:</strong> @Model.ShortName </h5>
+
+                    <br />
+                    <h5><strong>Program Duration:</strong> @Model.Duration</h5>
+
+                    <br />
+                    <h4>
+                        Minimum Credit Requirment:
+                    </h4>
+                    <h6 class="text-justify">
+
+                        @Model.MinimumCreditRequirment
+                    </h6>
+                    <br />
+                    <h4>
+                        Course Distribution:
+                    </h4>
+                    <h6 class="text-justify">
+
+                        @Model.CourseDistribution
+                    </h6>
+                    <br />
+                    <h4>
+                        Grading Policy:
+                    </h4>
+                    <h6 class="text-justify">
+
+                        @Model.GradingPolicy
+                    </h6>
+                    <br />
+                    <h4>
+                        Course Withdrawl:
+                    </h4>
+                    <h6 class="text-justify">
+
+                        @Model.CourseWithdrawl
+                    </h6>
+                    <br />
+                    <h4>
+                        Withdrawl From Semester:
+                    </h4>
+                    <h6 class="text-justify">
+
+                        @Model.WithdrawlFromSemester
+                    </h6>
+                    <br />
+                    <h4>
+                        Retake Dtail:
+                    </h4>
+                    <h6 class="text-justify">
+
+                        @Model.Retake
+                    </h6>
+                    <br />
+                    <h4>
+                        Special Semester:
+                    </h4>
+                    <h6 class="text-justify">
+
+                        @Model.SpecialSemester
+                    </h6>
+                    <br />
+
+                    <a onclick="window.history.back();" class="btn btn-outline-warning">Back</a>
+                    
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

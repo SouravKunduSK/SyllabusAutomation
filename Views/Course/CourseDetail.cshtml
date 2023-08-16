@@ -1,0 +1,114 @@
+﻿@model SyllabusAutomation.Models.Course
+@{
+    ViewBag.Title = "CourseDetail";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <!-- Breadcrumbs-->
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">Course List</a>
+        </li>
+        <li class="breadcrumb-item active">Course Detail</li>
+
+    </ol>
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-user"></i>
+            Course Details
+
+        </div>
+        <div class="card-body">
+            <div class="col-md-12">
+                <h3>
+                    <strong>Course Details:</strong>
+                </h3>
+                <hr />
+                <div class="col-md-10">
+                    <h5>
+                        Details:
+                    </h5>
+                    <hr />
+                    <h5><strong>Course Code:</strong> @Model.CourseCode </h5><br />
+                    <h5><strong>Course Name:</strong> @Model.CourseTitle </h5>
+
+                    <br />
+                    <h5><strong>Total Credit:</strong> @Model.TotalCredit</h5>
+
+                    <br />
+                    <h4>
+                        Marks DIstribution:
+                    </h4>
+                    
+                        <table class="table table-condensed table-hover table-bordered table-striped table" width="100%" cellspacing="0">
+                            <thead>
+
+
+                                <tr>
+
+                                    <th>CT</th>
+                                    <th>Attendence</th>
+
+                                    <th>SEE</th>
+                                    <th>SE</th>
+
+                                    <th>Total</th>
+                                    
+
+
+                                </tr>
+
+
+                            </thead>
+
+                            <tbody>
+                                @{ foreach (var item in (List<SyllabusAutomation.Models.Mark>)@ViewBag.Marks)
+                                    {
+
+
+
+
+                                                                <tr>
+                                                                    <td>@item.CT</td>
+
+
+                                                                    <td>@item.Attendence</td>
+                                                                    <td>@item.SEE </td>
+                                                                    <td>@item.SE</td>
+                                                                   <td>@item.Total</td>
+
+
+                                                                </tr>
+
+
+
+
+                                    }
+
+                                }
+
+                            </tbody>
+                        </table>
+
+                    
+                    <br />
+                    <h4>
+                        Course Summary:
+                    </h4>
+                    <h6 class="text-justify">
+
+                        @Model.CourseSummary
+                    </h6>
+                    <br />
+                   
+                    <a onclick="window.history.back();" class="btn btn-outline-warning">Back</a>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+

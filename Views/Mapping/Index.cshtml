@@ -1,0 +1,49 @@
+﻿@model SyllabusAutomation.Models.SubjectViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<h2>Select a Subject</h2>
+
+@using (Html.BeginForm("Index", "Mapping", FormMethod.Post))
+{
+    <div>
+        @Html.DropDownListFor(m => m.SelectedSubjectId, new SelectList(Model.Subjects, "CourseId", "CourseTitle"), "-- Select Subject --")
+        <input type="submit" value="Show Mapping" />
+    </div>
+}
+
+
+    <h3>CLo to PLO Mapping</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>CLo</th>
+                <th>PLO</th>
+            </tr>
+        </thead>
+        @if (Model.ClotoploMappings.Any())
+        {
+            <tbody>
+                @foreach (var mapping in Model.ClotoploMappings)
+                {
+                    
+                    <tr>
+                        <td>@(Model.IsEditMode ? Html.HiddenFor(m => mapping.CLOId) : mapping.CLOId)</td>
+                        <td>@(Model.IsEditMode ? Html.HiddenFor(m => mapping.PLOId) : mapping.PLOId)</td>
+                    </tr>
+                    
+                }
+            </tbody>
+        }
+        </table>
+
+
+@using (Html.BeginForm("ToggleEditMode", "Mapping", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.SelectedSubjectId)
+    <button type="submit">@((Model.IsEditMode ? "Save" : "Edit") + " Mode")</button>
+}
+

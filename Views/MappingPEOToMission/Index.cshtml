@@ -1,0 +1,49 @@
+﻿@model List<SyllabusAutomation.Models.PEOToMissionViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<h2>PEO To Mission Mapping</h2>
+
+@using (Html.BeginForm("MapPEOToMissions", "MappingPEOToMission", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>PEO</th>
+                @foreach (var mission in Model)
+                {
+                    <th>@mission.MissionId</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.PEOId</td>
+                    @foreach (var mission in Model)
+                    {
+                        <td>
+                            @Html.HiddenFor(model => item.PEOId)
+                            @Html.HiddenFor(model => item.MissionId)
+                            @Html.TextBoxFor(model => item.Value, new { @class = "form-control", type = "number", min = 0, max = 3 })
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary">Save Mappings</button>
+}
+
+@if (TempData["msg"] != null)
+{
+    <div class="alert alert-success">@TempData["msg"]</div>
+}
+

@@ -1,0 +1,64 @@
+﻿@model SyllabusAutomation.Models.University
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+@if (TempData["message"] != null)
+{
+    <h6 class="text-danger">
+        @TempData["message"]@Html.ActionLink("Edit Here", "EditDetail", new { id = Model.UniversityId })
+</h6>
+}
+<div>
+    <h4>University</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UniName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UniName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShortName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShortName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Logo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Logo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VisionOfUniversity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VisionOfUniversity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QualityPolicy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QualityPolicy)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.UniversityId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

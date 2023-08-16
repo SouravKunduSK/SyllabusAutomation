@@ -1,0 +1,236 @@
+﻿@using SyllabusAutomation.Models;
+@model Tuple<User, List<User>>
+@{
+    ViewBag.Title = "AssignedStudents";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="container-fluid">
+    <!-- Breadcrumb navigation -->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="@Url.Action("Index", "Dashboard")">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Assigned Student List</li>
+    </ol>
+
+    <!-- Success message displayed after adding a mission -->
+    @if (TempData["msg"] != null)
+    {
+        <div class="alert alert-success text-danger">
+            @TempData["msg"]
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+        </div>
+    }
+    <div class="panel-group" id="accordion">
+        <div id="collapseThree" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <i class="fas fa-table"></i>
+                        Add New Teacher
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm("AddNewStudent", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Username</h5>
+                                        @Html.TextBoxFor(x => x.Item1.Username, new { @class = "form-control", placeholder = "Username Here...", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.Username, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Password</h5>
+                                        @Html.TextBoxFor(x => x.Item1.Password, new { @class = "form-control", placeholder = "Password Here....", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.Password, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Select Program</h5>
+                                        @Html.DropDownListFor(x => x.Item1.ProgramId, ViewBag.ProgramList as SelectList, "--- Select Program ---", new { @class = "form-control", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.ProgramId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Select Year</h5>
+                                        @Html.DropDownListFor(x => x.Item1.YearId, ViewBag.YearList as SelectList, "--- Select Year ---", new { @class = "form-control", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.YearId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Select Session</h5>
+                                        @Html.DropDownListFor(x => x.Item1.SessionId, ViewBag.SessionList as SelectList, "--- Select Session ---", new { @class = "form-control", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.SessionId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="col-md-10">
+                                    <a href="@Url.Action("AssignedStudents","Account")" class="btn btn-danger">Cancel</a>
+                                    <input type="submit" class="btn btn-success" value="Save" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (ViewBag.data == true)
+    {
+        <div class="panel-group" id="accordion1">
+
+            <div class="panel-body">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <i class="fas fa-table"></i>
+                        Edit Teacher
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm("UpdateStudent", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(x => x.Item1.UserID)
+                            
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Username</h5>
+                                        @Html.TextBoxFor(x => x.Item1.Username, new { @class = "form-control", placeholder = "Username Here...", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.Username, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Password</h5>
+                                        @Html.TextBoxFor(x => x.Item1.Password, new { @class = "form-control", placeholder = "Password Here....", required = "required",type="password" })
+                                        @Html.ValidationMessageFor(x => x.Item1.Password, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Select Program</h5>
+                                        @Html.DropDownListFor(x => x.Item1.ProgramId, ViewBag.ProgramList as SelectList, "--- Select Program ---", new { @class = "form-control", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.ProgramId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Select Year</h5>
+                                        @Html.DropDownListFor(x => x.Item1.YearId, ViewBag.YearList as SelectList, "--- Select Year ---", new { @class = "form-control", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.YearId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Select Session</h5>
+                                        @Html.DropDownListFor(x => x.Item1.SessionId, ViewBag.SessionList as SelectList, "--- Select Session ---", new { @class = "form-control", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.SessionId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="col-md-10">
+                                    <a href="@Url.Action("AssignedStudents","Account")" class="btn btn-danger">Cancel</a>
+                                    <input type="submit" class="btn btn-success" value="Update" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+
+
+    <!-- Display all missions of the university in a table -->
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-book-open"></i>
+            All Assigned Students List
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="btn btn-info pull-right fa fa-plus">Add New</a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-condensed table-hover table-bordered table-striped table" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Serial No.</th>
+                            <th>Full Name</th>
+                            <th>Username </th>
+                            <th>Program</th>
+                            <th>Year</th>
+                            <th>Session</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Item2)
+                        {
+                            <tr>
+                                <td>@(Model.Item2.IndexOf(item) + 1)</td>
+                                @if (item.FirstName != null && item.LastName != null)
+                                {
+                                    <td>@item.FirstName @item.LastName</td>
+
+                                }
+                                else
+                                {
+                                    <td>Name not Updated</td>
+                                }
+                                <td>@item.Username</td>
+
+                                <td>@item.Program.ShortName</td>
+                                <td>@item.EduYear.YearName</td>
+                                <td>@item.Session.SessionName</td>
+                                <td>
+                                    <a href="@Url.Action("UpdateStudent", "Account", new { id = item.UserID })" class="btn btn-info">Edit</a>
+                                    @*<a data-toggle="collapse" data-parent="#accordion1" class="btn btn-info" onclick="@Url.Action("UpdateTeacher", "Teacher", new { id = item.UserID })">Edit</a>*@
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

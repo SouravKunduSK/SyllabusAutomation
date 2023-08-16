@@ -1,0 +1,715 @@
+﻿
+@{
+    ViewBag.Title = "FullSyllabus";
+    Layout = "~/Views/Shared/_GenerateLayoutPage.cshtml";
+}
+
+
+
+
+<div class="container-fluid">
+    <div>
+        @{
+            var userDetail = ViewBag.userDetail as List<SyllabusAutomation.Models.User>;
+        }
+        @{
+            if (userDetail != null)
+            {
+                foreach (var item in userDetail)
+                {
+                    <h2 class="text-center text-dark">
+                        CURRICULUM<br />
+                        of
+                    </h2>
+                    <h3 class="text-center">
+                        @ViewBag.ProgramFullName<br />
+                        @ViewBag.ProgramShortName<br />
+                        <span>
+                            For Session @ViewBag.SessionName and onwards
+                        </span><br /><br />
+                        @item.Department.DeptName<br />
+                        @item.Faculty.FacultyName<br /><br /><br />
+
+                        @if (item.University.Logo != null)
+                        {
+                            <img src="@Url.Content(item.University.Logo)" style="width:180px; height:180px;" />
+                        }<br /><br />
+                        @item.University.UniName
+
+                    </h3><br /><br /><br />
+                    <h4 class="text-dark">Contact</h4>
+                    <h5>
+                        @item.Department.DeptName<br />
+                        @item.University.UniName<br /><br />
+                    </h5>
+                    <h5>
+                        Mobile: @item.Department.Mobile<br />
+                        Fax: @item.Department.Fax<br />
+                        Phone(Office): @item.Department.Phone<br />
+                        Email: @item.Department.Email<br />
+                        Web: @item.Department.Website<br /><br />
+                    </h5>
+                    <h4 class="text-center text-dark">
+                        @item.Department.DeptName<br />
+                        @item.University.UniName<br /><br />
+                    </h4>
+                    <h3 class="text-dark">Faculty List</h3><br />
+                    <h3 class="text-dark">1.1 Introduction</h3>
+                    <p class="text-justify" style="white-space: pre-line;">@item.Department.Introduction</p><br /><br />
+                    <h3 class="text-dark">1.2 Message from Vice-Chancellor</h3>
+                    <p class="text-justify" style="white-space: pre-line;">@item.University.MessageofVC</p><br /><br />
+                    <h3 class="text-dark">1.3 Message from Chairman</h3>
+                    <p class="text-justify" style="white-space: pre-line;">@item.Department.MessageofChairman</p><br /><br />
+                    <h2 class="text-center text-dark" style="text-decoration: underline;">
+                        Part A: Introduction
+                    </h2>
+                    <h4 class="text-center">Vision of University</h4>
+                    <h5 class="text-justify">
+                        @item.University.VisionOfUniversity
+                    </h5>
+                }
+
+                <h4 class="text-center">
+                    Mission of University
+                </h4>
+                foreach (var item in (List<SyllabusAutomation.Models.MissionOfUniversity>)@ViewBag.missionofUniversity)
+                {
+                    <h5>@(((List<SyllabusAutomation.Models.MissionOfUniversity>)@ViewBag.missionofUniversity).IndexOf(item) + 1). @item.Mission</h5>
+                }
+
+                <h4 class="text-center">
+                    Quality Policy
+                </h4>
+                foreach (var item in (List<SyllabusAutomation.Models.User>)@ViewBag.userDetail)
+                {
+                    <h5 class="text-justify">
+                        @item.University.QualityPolicy
+                    </h5>
+                }
+                foreach (var item in (List<SyllabusAutomation.Models.Department>)@ViewBag.deptDetail)
+                { <h2 class="text-center">Department of</h2>
+                    <h3 class="text-center">@item.DeptName</h3><br />
+                    <h4 class="text-center">Vision of Department</h4>
+                    <h5 class="text-justify">
+                        @item.Vision
+                    </h5>
+                } <br />
+
+                <h4 class="text-center">
+                    Mission of Department
+                </h4>
+                foreach (var item in (List<SyllabusAutomation.Models.MissionOfDepartment>)@ViewBag.missionofDept)
+                {
+                    <h5>@(((List<SyllabusAutomation.Models.MissionOfDepartment>)@ViewBag.missionofDept).IndexOf(item) + 1). @item.Mission</h5>
+                }
+                <br /><br /><br />
+
+                <h4 class="text-center">
+                    Program Education Objectives (PEO)
+                </h4>
+
+                <div class="card mb-3">
+                    <div class="card-body">
+
+                        <table class="table table-condensed table-bordered" cellspacing="0">
+
+
+                            <tbody>
+                                @{ foreach (var item in (List<SyllabusAutomation.Models.PEO>)@ViewBag.peoList)
+                                    {
+
+                                        <tr>
+
+
+                                            <td>PEO @(((List<SyllabusAutomation.Models.PEO>)@ViewBag.peoList).IndexOf(item) + 1)</td>
+                                            <td> @item.PEO1</td>
+
+
+                                        </tr>
+
+
+                                    }
+
+                                }
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div><br /><br />
+
+                <h4 class="text-center">
+
+                    Program Learning Outcome (PLO)
+
+                </h4>
+                <div class="card mb-3">
+                    <div class="card-body">
+
+                        <table class="table table-condensed table-bordered" cellspacing="0">
+
+
+                            <tbody>
+                                @{ foreach (var item in (List<SyllabusAutomation.Models.PLO>)@ViewBag.ploList)
+                                    {
+
+                                        <tr>
+
+
+                                            <td>PLO @(((List<SyllabusAutomation.Models.PLO>)@ViewBag.ploList).IndexOf(item) + 1)</td>
+                                            <td> @item.PLO1</td>
+
+
+                                        </tr>
+
+
+                                    }
+
+                                }
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div><br /><br />
+
+
+                <h4 class="text-center">
+
+                    Generic Skills
+
+                </h4>
+                <div class="card mb-3">
+                    <div class="card-body">
+
+                        <table class="table table-condensed table-bordered" cellspacing="0">
+
+
+                            <tbody>
+                                @{ foreach (var item in (List<SyllabusAutomation.Models.GenericSkill>)@ViewBag.genericSkillList)
+                                    {
+
+                                        <tr>
+
+
+                                            <td>GS @(((List<SyllabusAutomation.Models.GenericSkill>)@ViewBag.genericSkillList).IndexOf(item) + 1)</td>
+                                            <td> @item.GS</td>
+
+
+                                        </tr>
+
+
+                                    }
+
+                                }
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div><br /><br />
+
+                <h4 class="text-center">
+
+                    Mapping PEO to Mission (todo)
+                </h4>
+                <table>
+                </table>
+                <br />
+                <br />
+                <h4 class="text-center">
+
+                    Mapping PEO to PLO (todo)
+                </h4>
+                <table>
+                </table><br />
+                <br />
+
+
+
+
+                <h2 class="text-center text-dark" style="text-decoration: underline;">Part B - Structure</h2><br />
+                <h4 class="text-center text-dark">Structure of the curriculum</h4><br />
+
+                foreach (var item in (List<SyllabusAutomation.Models.Program>)@ViewBag.Program)
+                {
+                    <h3>A. Duration of the Program: @item.Duration</h3><br />
+                    <h3>B. Minimum credit requirements:  </h3><br />
+                    <p style="white-space: pre-line;">@item.MinimumCreditRequirment</p><br />
+                    <h3>C. Course Distribution: </h3><br />
+                    <p style="white-space: pre-line;">@item.CourseDistribution</p>
+                    <br />
+                    <h3>D. Curriculum Structure </h3><br />
+                    <div class="card mb-3">
+                        <div class="card-body">
+
+                            <table class="table table-condensed table-bordered" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Fields</th>
+                                        <th>Credit Hours</th>
+
+                                        <th>Percentage</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{ foreach (var cs in (List<SyllabusAutomation.Models.CurriculmnStructure>)@ViewBag.CurriculumStructureList)
+                                        {
+                                            <tr>
+                                                <td>@cs.Fields</td>
+                                                <td> @cs.CreditHours</td>
+                                                <td>@cs.Percentage</td>
+                                            </tr>
+                                        }
+
+                                    }
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Total</th>
+                                        @{ foreach (var cs in (List<SyllabusAutomation.Models.CurriculmnStructure>)@ViewBag.CurriculumStructureList)
+                                            {
+                                                <th>@cs.TotalHours</th>
+                                                <th>@cs.TottalPercentage</th>
+                                            }
+
+                                        }
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+
+                        </div>
+                    </div><br /><br />
+
+
+
+                }
+
+                <h3 class="text-center text-dark" style="text-decoration: underline;">Semester/Term/Year/Level wise Courses</h3>
+                foreach (var yearCourses in ViewBag.SyllabusData as List<List<SyllabusAutomation.Models.Syllabu>>)
+                {
+                    foreach (var semesterCourses in yearCourses.GroupBy(c => c.SemesterId))
+                    {
+                        <div class="card mb-3">
+                            <div class="card-body">
+
+                                <table class="table table-condensed  table-bordered " cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" colspan="9">@yearCourses.First().EduYear.YearName Year   @semesterCourses.First().Semester.SemesterName Semester</th>
+                                        </tr>
+                                        <tr>
+                                            <th rowspan="2">Course Code</th>
+                                            <th rowspan="2">Course Title</th>
+                                            <th rowspan="2">Course Type</th>
+                                            <th rowspan="2">Total Credits</th>
+
+                                            <th colspan="4" class="text-center">Marks</th>
+                                            <th rowspan="2">Total Marks</th>
+                                        </tr>
+                                        <tr>
+                                            <th>CT</th>
+                                            <th>A</th>
+                                            <th>SEE</th>
+                                            <th>SE</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var course in semesterCourses)
+                                        {
+                                            <tr>
+                                                <td>@course.CourseCode</td>
+
+
+                                                <td>@course.Course.CourseTitle</td>
+                                                <td>@course.Course.CourseType.CourseType1</td>
+                                                <td>@course.Course.Credit </td>
+
+
+                                                @foreach (var e in course.Course.CourseType.Marks.Where(x => x.MarksId == course.Course.MarksId).ToList())
+                                                {
+                                                    <td>@e.CT</td>
+                                                    <td>@e.Attendence</td>
+                                                    <td>@e.SEE</td>
+                                                    <td>@e.SE</td>
+                                                    <td>@e.Total</td>
+                                                }
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+                    <br /><br />
+                }
+
+
+                <h3 class="text-center" style="text-decoration: underline;"><strong>Part C -Course Details</strong></h3><br />
+                                                                                                                        <div>
+                                                                                                                            @foreach (var yearCourses in ViewBag.SyllabusData as List<List<SyllabusAutomation.Models.Syllabu>>)
+                                                                                                                            {
+                                                                                                                                foreach (var semesterCourses in yearCourses.GroupBy(c => c.SemesterId))
+                                                                                                                                {
+                                                                                                                                    foreach (var course in semesterCourses)
+                                                                                                                                    {
+                                                                                                                                        <h4 class="text-center text-black-50">
+                                                                                                                                            @course.Course.University.UniName<br />
+                                                                                                                                            @course.Course.Faculty.FacultyName<br />
+                                                                                                                                            @course.Course.Department.DeptName
+                                                                                                                                        </h4>
+                                                                                                                                        <h4 class="text-center" style="text-decoration: underline;">Course Outline: @course.Course.CourseTitle</h4>
+                                                                                                                                        <h3 class="text-dark" style="text-decoration: underline;">Part A: Introduction</h3>
+                                                                                                                                        <h4 class="text-dark">I. Course Code: @course.Course.CourseCode</h4>
+                                                                                                                                        <h4 class="text-dark">II. Credit: @course.Course.Credit</h4>
+                                                                                                                                        <h4><strong>1. Course Summary:</strong></h4>
+                                                                                                                                        <h4>@course.Course.CourseSummary</h4>
+                                                                                                                                        <br />
+                                                                                                                                        <h4><strong>2. Course Objectives:</strong></h4>
+                                                                                                                                        var courseObjectives = course.Course.CourseObjectives.Where(x => x.CourseId == course.CourseId).ToList();
+                                                                                                                                        foreach (var item in courseObjectives)
+                                                                                                                                        {
+                                                                                                                                            <h4>@(courseObjectives.IndexOf(item) + 1). @item.Objectives</h4>
+                                                                                                                                        }
+                                                                                                                                        <br />
+                                                                                                                                        <h4><strong>3. Course Learning Outcomes:</strong></h4>
+                                                                                                                                        var learningOutcomes = course.Course.CLOes.Where(x => x.CourseId == course.CourseId).ToList();
+                                                                                                                                        foreach (var item in learningOutcomes)
+                                                                                                                                        {
+                                                                                                                                            <h4>@(learningOutcomes.IndexOf(item) + 1). @item.Outcomes</h4>
+                                                                                                                                        }
+                                                                                                                                        <br />
+                                                                                                                                        <br />
+                                                                                                                                        <h3 class="text-dark" style="text-decoration: underline;">Part B: Lession Plan</h3>
+                                                                                                                                        <h4><strong>Course Details Learning plan</strong> </h4>
+                                                                                                                                        var learningPlans = course.Course.LearningPlans.Where(x => x.CourseId == course.CourseId).ToList();
+                                                                                                                                        <div class="card mb-3">
+                                                                                                                                            <div class="card-body">
+
+                                                                                                                                                <table class="table table-condensed  table-bordered " cellspacing="0">
+                                                                                                                                                    <thead>
+
+
+                                                                                                                                                        <tr>
+
+                                                                                                                                                            <th>Timeline</th>
+                                                                                                                                                            <th>Topics/Contents</th>
+
+                                                                                                                                                            <th>Learning Outcomes</th>
+                                                                                                                                                            <th>Mapped CLOs</th>
+
+                                                                                                                                                            <th>Teaching Strategies</th>
+                                                                                                                                                            <th>Assessment Strategies</th>
+
+
+                                                                                                                                                        </tr>
+
+
+                                                                                                                                                    </thead>
+
+                                                                                                                                                    <tbody>
+                                                                                                                                                        @{ foreach (var item in learningPlans)
+                                                                                                                                                            {
+
+
+
+
+                                                                                                                                                                <tr>
+                                                                                                                                                                    <td>@item.Week.Timeline</td>
+
+
+                                                                                                                                                                    <td>@item.Topics</td>
+                                                                                                                                                                    <td>@item.LearningOutcome </td>
+                                                                                                                                                                    <td>
+                                                                                                                                                                        @foreach (var e in @item.LPCLOes.Where(x => x.PlanId == item.PlanId).ToList())
+                                                                                                                                                                        {
+
+                                                                                                                                                                            var clos = e.Course.CLOes.TakeWhile(x => x.CourseId == e.CourseId).ToList();
+                                                                                                                                                                            foreach (var clo in clos.Where(x => x.CLOId == e.CLOId))
+                                                                                                                                                                            {
+                                                                                                                                                                                <p>
+                                                                                                                                                                                    CLO @(clos.IndexOf(clo)+1)
+                                                                                                                                                                                </p>
+                                                                                                                                                                            }
+
+                                                                                                                                                                        }
+
+                                                                                                                                                                    </td>
+
+                                                                                                                                                                    <td>
+                                                                                                                                                                        @foreach (var e in @item.LPAssessmentStrategies.Where(x => x.PlanId == item.PlanId).ToList())
+                                                                                                                                                                        {
+                                                                                                                                                                            @e.Strategies<br />
+                                                                                                                                                                        }
+
+                                                                                                                                                                    </td>
+
+                                                                                                                                                                    <td>
+                                                                                                                                                                        @foreach (var e in @item.LPTeachingStrategies.Where(x => x.PlanId == item.PlanId).ToList())
+                                                                                                                                                                        {
+                                                                                                                                                                            @e.Strategies<br />
+                                                                                                                                                                        }
+
+
+
+                                                                                                                                                                </tr>
+
+
+
+
+                                                                                                                                                            }
+
+                                                                                                                                                        }
+
+                                                                                                                                                    </tbody>
+                                                                                                                                                </table>
+
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                        <br />
+
+                                                                                                                                        <h3 class="text-dark" style="text-decoration: underline;">Part C- Assessment and Evaluations</h3>
+                                                                                                                                        <h4><strong>Assessment Procedures</strong></h4>
+                                                                                                                                        var assesments = course.Course.AssessmentStrategies.Where(x => x.CourseId == course.CourseId).ToList();
+                                                                                                                                        <div class="card mb-3">
+                                                                                                                                            <div class="card-body">
+
+                                                                                                                                                <table class="table table-condensed  table-bordered " cellspacing="0">
+                                                                                                                                                    <thead>
+
+                                                                                                                                                        <tr>
+
+
+                                                                                                                                                            <th>Assessment Name</th>
+                                                                                                                                                            <th>Description</th>
+
+                                                                                                                                                        </tr>
+
+
+                                                                                                                                                    </thead>
+
+                                                                                                                                                    <tbody>
+                                                                                                                                                        @{ foreach (var item in assesments)
+                                                                                                                                                            {
+
+                                                                                                                                                                <tr>
+                                                                                                                                                                    <td>@item.Strategies</td>
+                                                                                                                                                                    <td>@item.Description</td>
+
+                                                                                                                                                                </tr>
+
+
+                                                                                                                                                            }
+
+                                                                                                                                                        }
+
+                                                                                                                                                    </tbody>
+                                                                                                                                                </table>
+
+
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                        <br />
+                                                                                                                                        <h4><strong>CIE- Continuous Internal Evaluation (28 Marks):</strong> </h4>
+                                                                                                                                        var cies = course.Course.CIEs.Where(x => x.CourseId == course.CourseId).ToList();
+                                                                                                                                        <div class="card mb-3">
+                                                                                                                                            <div class="card-body">
+                                                                                                                                                <table class="table table-condensed  table-bordered " cellspacing="0">
+                                                                                                                                                    <thead>
+
+                                                                                                                                                        <tr>
+
+                                                                                                                                                            <th>Bloom’s Category Marks (out of 20)</th>
+                                                                                                                                                            <th>Test (10)</th>
+                                                                                                                                                            <th>
+                                                                                                                                                                Assignment
+                                                                                                                                                                (5)
+                                                                                                                                                            </th>
+                                                                                                                                                            <th>
+                                                                                                                                                                Quizzes
+                                                                                                                                                                (5)
+                                                                                                                                                            </th>
+                                                                                                                                                            <th>External Participation in Curricular/Co-Curricular Activities </th>
+
+
+                                                                                                                                                        </tr>
+
+
+                                                                                                                                                    </thead>
+
+                                                                                                                                                    <tbody>
+                                                                                                                                                        @{ foreach (var item in cies)
+                                                                                                                                                            {
+
+                                                                                                                                                                <tr>
+
+
+                                                                                                                                                                    <td>@item.Category</td>
+                                                                                                                                                                    <td> </td>
+                                                                                                                                                                    <td> </td>
+                                                                                                                                                                    <td> </td>
+                                                                                                                                                                    <td> </td>
+
+                                                                                                                                                                </tr>
+
+
+                                                                                                                                                            }
+
+                                                                                                                                                        }
+
+                                                                                                                                                    </tbody>
+                                                                                                                                                </table>
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                        <br />
+                                                                                                                                        <h4><strong>SEE-Semester End Examination (72 Marks):</strong> </h4>
+                                                                                                                                        var sees = course.Course.SEEs.Where(x => x.CourseId == course.CourseId).ToList();
+                                                                                                                                        <div class="card mb-3">
+                                                                                                                                            <div class="card-body">
+
+                                                                                                                                                <table class="table table-condensed  table-bordered " cellspacing="0">
+                                                                                                                                                    <thead>
+
+                                                                                                                                                        <tr>
+
+                                                                                                                                                            <th>Bloom's Category</th>
+                                                                                                                                                            <th>Test</th>
+
+
+                                                                                                                                                        </tr>
+
+
+                                                                                                                                                    </thead>
+
+                                                                                                                                                    <tbody>
+                                                                                                                                                        @{ foreach (var item in sees)
+                                                                                                                                                            {
+
+                                                                                                                                                                <tr>
+
+
+                                                                                                                                                                    <td>@item.Category</td>
+                                                                                                                                                                    <td>@item.Test</td>
+
+                                                                                                                                                                </tr>
+
+
+                                                                                                                                                            }
+
+                                                                                                                                                        }
+
+                                                                                                                                                    </tbody>
+                                                                                                                                                </table>
+
+
+                                                                                                                                            </div>
+                                                                                                                                        </div><br />
+                                                                                                                                        <h4 class="text-center">
+
+                                                                                                                                            Mapping CLO to PLO (todo)
+                                                                                                                                        </h4>
+                                                                                                                                        <table>
+                                                                                                                                        </table><br />
+                                                                                                                                        <br />
+                                                                                                                                        <h3 class="text-dark" style="text-decoration: underline;">Part D- Resources</h3>
+                                                                                                                                        var textBooks = course.Course.Resources.Where(x => x.ResourceType.ResourceTypeId == 1 && x.CourseId == course.CourseId).ToList();
+                                                                                                                                        var refBooks = course.Course.Resources.Where(x => x.ResourceType.ResourceTypeId == 2 && x.CourseId == course.CourseId).ToList();
+                                                                                                                                        <h4><strong>TextResources:</strong></h4>
+                                                                                                                                        foreach (var item in textBooks)
+                                                                                                                                        {
+                                                                                                                                            <p>@(textBooks.IndexOf(item) + 1). @item.ResourceName</p>
+                                                                                                                                        }
+
+                                                                                                                                        <br />
+                                                                                                                                        <h4><strong>References:</strong></h4>
+                                                                                                                                        foreach (var item in refBooks)
+                                                                                                                                        {
+                                                                                                                                            <p>@(refBooks.IndexOf(item) + 1). @item.ResourceName</p>
+                                                                                                                                        }
+
+
+                                                                                                                                        <br />
+                                                                                                                                    }
+
+                                                                                                                                }
+                                                                                                                                <br /> <br />
+                                                                                                                            }
+                                                                                                                        </div>
+
+                var program = ViewBag.Program as List<SyllabusAutomation.Models.Program>;
+                <h2 class="text-center text-dark" style="text-decoration: underline;">
+                    Part D: Grading Policy
+                </h2>
+                foreach (var item in program)
+                {
+                    <h4><strong>Grading Scale, Grades, Grade Point Average:</strong> </h4>
+                    <p class="text-justify" style="white-space: pre-line;">@item.GradingPolicy</p><br />
+                    var grades = item.University.Grades.Where(x => x.UniversityId == item.UniversityId).ToList();
+                    <div class="card mb-3">
+                        <div class="card-body">
+
+                            <table class="table table-condensed  table-bordered " cellspacing="0">
+                                <thead>
+
+                                    <tr>
+
+                                        <th>Numerical Grade</th>
+                                        <th>Letter Grade</th>
+                                        <th>Grade Point</th>
+
+                                    </tr>
+
+
+                                </thead>
+
+                                <tbody>
+                                    @{ foreach (var grade in grades)
+                                        {
+
+                                            <tr>
+
+
+                                                <td>@grade.Numerical</td>
+                                                <td>@grade.Letter</td>
+                                                <td>@grade.Point</td>
+                                            </tr>
+
+
+                                        }
+
+                                    }
+
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div><br />
+                    <h4 class="text-center">Table 1: Grading System</h4><br /><br /><br />
+                    <h4><strong>Course Withdrawal:</strong> </h4>
+                    <p class="text-justify" style="white-space: pre-line;">@item.CourseWithdrawl</p><br />
+                    <h4><strong>Withdrawal from a Semester:</strong> </h4>
+                    <p class="text-justify" style="white-space: pre-line;">@item.WithdrawlFromSemester</p><br />
+                    <h4><strong>Retake:</strong> </h4>
+                    <p class="text-justify" style="white-space: pre-line;">@item.Retake</p><br />
+
+                    <h4><strong>Special Semester Examination(Incomplete course):</strong> </h4>
+                    <p class="text-justify" style="white-space: pre-line;">@item.SpecialSemester</p><br />
+                    <p class="text-center text-dark">...End...</p>
+                }
+
+            }
+        }
+        <div class="download-button-container">
+
+            <a href="@Url.Action("FullSyllabusPdf", "GenerateSyllabus") " class="btn btn-info" target="_blank">Download</a>
+
+        </div>
+    </div>
+</div>
+
