@@ -286,6 +286,7 @@
                         <tr>
                             <th>Serial No.</th>
                             <th>Full Name of Program </th>
+                            <th>Short Name of Program </th>
                             <th>PEOs</th>
                             <th>PLOs</th>
                             <th>GS</th>
@@ -300,7 +301,7 @@
                             <tr>
                                 <td>@(Model.Item2.IndexOf(item) + 1)</td>
                                 <td>@item.ProgramName</td>
-
+                                <td>@item.ShortName</td>
                                 <td>
                                     <a href="@Url.Action("PEOList", "Program", new { id = item.ProgramId })" class="btn btn-info">Show</a>
                                 </td>
@@ -318,8 +319,8 @@
                                 </td>
 
                                 <td>
-                                    <a href="@Url.Action("UpdateProgram", "DepartmentDetail", new { id = item.ProgramId })" class="btn btn-info">Edit</a>
-                                    <a href="@Url.Action("Detail", "DepartmentDetail", new { id = item.ProgramId })" class="btn btn-secondary">Detail</a>
+                                    <a href="@Url.Action("UpdateProgram", "DepartmentDetail", new { id = item.ProgramId })" class="btn btn-outline-info">Edit</a><hr />
+                                    <a href="@Url.Action("Detail", "DepartmentDetail", new { id = item.ProgramId })" class="btn btn-outline-warning">Detail</a>
                                     @*<a data-toggle="collapse" data-parent="#accordion1" class="btn btn-info" onclick="@Url.Action("UpdateTeacher", "Teacher", new { id = item.UserID })">Edit</a>*@
                                 </td>
                             </tr>

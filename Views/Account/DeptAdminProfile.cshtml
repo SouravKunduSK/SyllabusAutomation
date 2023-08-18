@@ -1,0 +1,78 @@
+﻿@model SyllabusAutomation.Models.User
+@{
+    ViewBag.Title = "DeptAdminProfile";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <!-- Breadcrumbs-->
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">My Profile</a>
+        </li>
+        <li class="breadcrumb-item active">Department Admin Profile</li>
+
+    </ol>
+    @if (Model.FirstName == null || Model.LastName == null || Model.Email == null)
+    {
+        <div class="alert alert-danger">
+            Please, Update your details first.
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+        </div>
+    }
+    else if (@TempData["message"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["message"]
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+        </div>
+    }
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-user"></i>
+            Department Admin Profile
+
+        </div>
+        <div class="card-body">
+            <div class="col-md-12">
+                <h3>
+                    <strong>Department Admin Profile:</strong>
+                </h3>
+                <hr />
+                <div class="col-md-6">
+                    <h5>
+                        Department Admin Details:
+                    </h5>
+                    <hr />
+                    <h6>First Name: @Model.FirstName</h6>
+                    <h6>Last Name: @Model.LastName</h6>
+                    @*<h6>Username: @Model.Username</h6>*@
+                    @if (Model.Email != null)
+                    {
+                        <h6>Email Address: @Model.Email.ToString()</h6>
+                    }
+
+                    <h6>University Name: @Model.University.UniName</h6>
+                    @if (Model.FacultyId != null)
+                    {
+                        <h6>Faculty Name: @Model.Faculty.FacultyName (@Model.Faculty.ShortName)</h6>
+                    }
+                    @if (Model.DepartmentId != null)
+                    {
+                        <h6>Department Name: @Model.Department.DeptName (@Model.Department.ShortName)</h6>
+                    }
+                    <h6>Role Name: @Model.Role.RoleName</h6>
+                    <br />
+                    <a onclick="window.history.back();" class="btn btn-outline-warning">Back</a>
+                    <a href="@Url.Action("UpdateDeptAdminProfile","Account", new { id = Model.UserID })" class="btn btn-outline-info">Update Profile</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -44,14 +44,14 @@
                         <i class="fas fa-user-circle fa-fw "></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="#">User Name: @Session["username"] </a>
+                        <a class="dropdown-item" href="#">User Name: @User.Identity.Name </a>
                         @if (User.IsInRole("2"))
                         {
                             <a class="dropdown-item" href="@Url.Action("AdminProfile", "Account", new { id = (int)Session["uid"]})" type="button">My Profile</a>
                         }
                         else if (User.IsInRole("3"))
                         {
-                            <a class="dropdown-item" href="@Url.Action("TeacherProfile", "Account", new { id = (int)Session["uid"]})" type="button">My Profile</a>
+                            <a class="dropdown-item" href="@Url.Action("DeptAdminProfile", "Account", new { id = (int)Session["uid"]})" type="button">My Profile</a>
                         }
 
                         <div class="dropdown-divider"></div>
@@ -73,38 +73,17 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
-                <!-- Dropdown -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="mydropdown" href="#" type="button">
-                        <i class="fas fa-fw fa-circle-notch "></i>
-                        <span>Basic</span>
+                <li class="nav-item">
+                    <a class="nav-link" href="@(Url.Action("Index", "Universities"))" type="button">
+                        <i class="fas fa-fw fa-school"></i>
+                        <span>Universities</span>
                     </a>
-                    <ul class="submenu dropdown-menu bg-dark" aria-labelledby="mydropdown">
-                        <li class="nav-item">
-                            <a class="nav-link" href="@(Url.Action("Index", "Universities"))" type="button">
-                                <i class="fas fa-fw fa-home "></i>
-                                <span>University</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="@(Url.Action("Index", "Account"))" type="button">
-                                <i class="fas fa-fw fa-user "></i>
-                                <span>Users</span>
-                            </a>
-                        </li>
-                        @*<li class="nav-item">
-                                <a class="nav-link" href="@(Url.Action("Index", "Faculty"))" type="button">
-                                    <i class="fas fa-fw fa-home "></i>
-                                    <span>Faculty</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@(Url.Action("Index", "Department"))" type="button">
-                                    <i class="fas fa-fw fa-home "></i>
-                                    <span>Department</span>
-                                </a>
-                            </li>*@
-                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@(Url.Action("Index", "Account"))" type="button">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>University Admins</span>
+                    </a>
                 </li>
             </ul>
         }
@@ -120,23 +99,23 @@
                         <span>University</span>
                     </a>
                     <ul class="submenu dropdown-menu bg-dark" aria-labelledby="mydropdown">
-                        <li class="nav-item">
+                        <li id="detail" class="nav-item">
                             <a class="nav-link" href="@(Url.Action("UniversityDetail", "University"))" type="button">
                                 <i class="fas fa-fw fa-newspaper"></i>
                                 <span>Details</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li id="mission" class="nav-item">
                             <a class="nav-link" href="@(Url.Action("UniversityMissions", "Uni_Mission"))" type="button">
                                 <i class="fas fa-fw fa-bullseye"></i>
                                 <span>Missions</span>
                             </a>
                         </li>
-                        
+
                     </ul>
                 </li>
                 <!-- Dropdown -->
-                
+
                 <li class="nav-item">
                     <a class="nav-link" href="@(Url.Action("FacultyNamesOfUniversity", "Faculty"))" type="button">
                         <i class="fas fa-fw fa-archive"></i>
@@ -150,185 +129,174 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@(Url.Action("AssignedTeachers", "Account"))" type="button">
+                    <a class="nav-link" href="@(Url.Action("DepartmentAdmins", "Account"))" type="button">
                         <i class="fas fa-fw fa-users"></i>
-                        <span>Assigned Teachers</span>
+                        <span>Department Admins</span>
                     </a>
                 </li>
                 <!-- Dropdown -->
                 @*<li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="mydropdown" href="#" type="button">
-                <i class="fas fa-fw fa-circle-notch "></i>
-                <span>Basic</span>
-            </a>
-            <ul class="submenu dropdown-menu bg-dark" aria-labelledby="mydropdown">
-                <li class="nav-item">
-                    <a class="nav-link" href="#" type="button">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="mydropdown" href="#" type="button">
+                        <i class="fas fa-fw fa-circle-notch "></i>
+                        <span>Basic</span>
+                    </a>
+                    <ul class="submenu dropdown-menu bg-dark" aria-labelledby="mydropdown">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" type="button">
+                                <i class="fas fa-fw fa-home "></i>
+                                <span>University</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" type="button">
+                                <i class="fas fa-fw fa-user "></i>
+                                <span>Users</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                    <a class="nav-link" href="@(Url.Action("Index", "Faculty"))" type="button">
                         <i class="fas fa-fw fa-home "></i>
-                        <span>University</span>
+                        <span>Faculty</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" type="button">
-                        <i class="fas fa-fw fa-user "></i>
-                        <span>Users</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-            <a class="nav-link" href="@(Url.Action("Index", "Faculty"))" type="button">
-                <i class="fas fa-fw fa-home "></i>
-                <span>Faculty</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="@(Url.Action("Index", "Department"))" type="button">
-                <i class="fas fa-fw fa-home "></i>
-                <span>Department</span>
-            </a>
-        </li>
-            </ul>
-        </li>*@
-                <!-- Dropdown -->
-
-            </ul>
-        }
-        @if (User.Identity.IsAuthenticated && User.IsInRole("3"))
-        {
-            <ul class="sidebar navbar-nav">
-                <!-- Dropdown Department -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="mydropdown1" href="#" type="button">
-                        <i class="fas fa-fw fa-school"></i>
+                    <a class="nav-link" href="@(Url.Action("Index", "Department"))" type="button">
+                        <i class="fas fa-fw fa-home "></i>
                         <span>Department</span>
                     </a>
-                    <ul class="submenu dropdown-menu bg-dark" aria-labelledby="mydropdown">
-                        <li class="nav-item">
-                            <a class="nav-link" href="@( Url.Action("DeptVision", "DepartmentDetail"))" type="button">
-                                <i class="fas fa-fw fa-newspaper "></i>
-                                <span>Details</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="@(Url.Action("DeptMissions", "DepartmentDetail"))" type="button">
-                                <i class="fas fa-fw fa-bullseye "></i>
-                                <span>Missions</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="@(Url.Action("TeachingStrategies", "Program"))" type="button">
-                                <i class="fas fa-fw fa-cogs"></i>
-                                <span>Teaching Strategies</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="@(Url.Action("SessionList", "DepartmentDetail"))" type="button">
-                                <i class="fas fa-fw fa-calendar-alt"></i>
-                                <span>Sessions</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="@(Url.Action("AssignedStudents", "Account"))" type="button">
-                                <i class="fas fa-fw fa-users"></i>
-                                <span>Assigned Students</span>
-                            </a>
-                        </li>
+                </li>
                     </ul>
-                </li>
+                </li>*@
                 <!-- Dropdown -->
-                <li class="nav-item">
-                    <a class="nav-link" href="@(Url.Action("ProgramList", "DepartmentDetail"))" type="button">
-                        <i class="fas fa-fw fa-tasks"></i>
-                        <span>Programs</span>
-                    </a>
-                </li>
-                <!-- Dropdown Course -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="mydropdown" href="#" type="button">
-                        <i class="fas fa-fw fa-book "></i>
-                        <span>Course Section</span>
-                    </a>
-                    <ul class="submenu dropdown-menu bg-dark" aria-labelledby="mydropdown">
-                        <li class="nav-item">
-                            <a class="nav-link" href="
-                               @if (Session["programId"] != null)
-                                {
-                                    @Url.Action("CourseList", "Course")
-                                }
-                                else
-                                {
-                                    @Url.Action("SelectProgram", "Program")
-                                }" type="button">
-                                <i class="fas fa-fw fa-book"></i>
-                                <span>Courses</span>
-                            </a>
-                        </li>
-                        @if (Session["programId"] != null)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" href="@( Url.Action("CourseType", "Course"))" type="button">
-                                    <i class="fas fa-fw fa-home "></i>
-                                    <span>CourseType</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@(Url.Action("Marks", "Course"))" type="button">
-                                    <i class="fas fa-fw fa-home "></i>
-                                    <span>Marks</span>
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </li>
-                <!-- Dropdown -->
-                <!-- Dropdown Syllabus -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="mydropdown" href="#" type="button">
-                        <i class="fas fa-fw fa-clipboard-list "></i>
-                        <span>Syllabus Section</span>
-                    </a>
-                    <ul class="submenu dropdown-menu bg-dark" aria-labelledby="mydropdown">
-                        <li class="nav-item">
-                            <a class="nav-link" href="@(Url.Action("Selection", "GenerateSyllabus"))" type="button">
-                                <i class="fas fa-fw fa-plus-circle"></i>
-                                <span>Create</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="@(Url.Action("ProgramSelection", "GenerateSyllabus"))" type="button">
-                                <i class="fas fa-fw fa-pencil-alt"></i>
-                                <span>View Course Wise</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="@(Url.Action("SessionSelection", "GenerateSyllabus"))" type="button">
-                                <i class="fas fa-fw fa-tachometer-alt"></i>
-                                <span>View Full Syllabus</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <!-- Dropdown -->
-               
-                
+
             </ul>
-        }
+    
+            }
+            @if (User.Identity.IsAuthenticated && User.IsInRole("3"))
+            {
+                <ul class="sidebar navbar-nav">
+                    <!-- Dropdown Department -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="mydropdown1" href="#" type="button">
+                            <i class="fas fa-fw fa-school"></i>
+                            <span>Department</span>
+                        </a>
+                        <ul class="submenu dropdown-menu bg-dark" aria-labelledby="mydropdown">
+                            <li class="nav-item">
+                                <a class="nav-link" href="@( Url.Action("DeptVision", "DepartmentDetail"))" type="button">
+                                    <i class="fas fa-fw fa-newspaper "></i>
+                                    <span>Details</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@(Url.Action("DeptMissions", "DepartmentDetail"))" type="button">
+                                    <i class="fas fa-fw fa-bullseye "></i>
+                                    <span>Missions</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@(Url.Action("TeachingStrategies", "Program"))" type="button">
+                                    <i class="fas fa-fw fa-cogs"></i>
+                                    <span>Teaching Strategies</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@(Url.Action("SessionList", "DepartmentDetail"))" type="button">
+                                    <i class="fas fa-fw fa-calendar-alt"></i>
+                                    <span>Sessions</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@(Url.Action("Designations", "DepartmentDetail"))" type="button">
+                                    <i class="fas fa-fw fa-award"></i>
+                                    <span>Designations</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@(Url.Action("AssignedTeachers", "Account"))" type="button">
+                                    <i class="fas fa-fw fa-users"></i>
+                                    <span>Teachers </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Dropdown -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="@(Url.Action("ProgramList", "DepartmentDetail"))" type="button">
+                            <i class="fas fa-fw fa-tasks"></i>
+                            <span>Programs</span>
+                        </a>
+                    </li>
+                    <!-- Dropdown Course -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="mydropdown" href="#" type="button">
+                            <i class="fas fa-fw fa-book "></i>
+                            <span>Course Section</span>
+                        </a>
+                        <ul class="submenu dropdown-menu bg-dark" aria-labelledby="mydropdown">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@( Url.Action("CourseType", "Course"))" type="button">
+                                        <i class="fas fa-fw fa-cog "></i>
+                                        <span>CourseType</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@(Url.Action("Marks", "Course"))" type="button">
+                                        <i class="fas fa-fw fa-list "></i>
+                                        <span>Marks</span>
+                                    </a>
+                                </li>
+                        </ul>
+                    </li>
+                    <!-- Dropdown -->
+                    <!-- Dropdown Syllabus -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="mydropdown" href="#" type="button">
+                            <i class="fas fa-fw fa-clipboard-list "></i>
+                            <span>Syllabus Section</span>
+                        </a>
+                        <ul class="submenu dropdown-menu bg-dark" aria-labelledby="mydropdown">
+                            <li class="nav-item">
+                                <a class="nav-link" href="@(Url.Action("Selection", "GenerateSyllabus"))" type="button">
+                                    <i class="fas fa-fw fa-plus-circle"></i>
+                                    <span>Create</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@(Url.Action("ProgramSelection", "GenerateSyllabus"))" type="button">
+                                    <i class="fas fa-fw fa-pencil-alt"></i>
+                                    <span>View Course Wise</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@(Url.Action("SessionSelection", "GenerateSyllabus"))" type="button">
+                                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                                    <span>View Full Syllabus</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Dropdown -->
 
 
-        <div id="content-wrapper">
-            @RenderBody()
+                </ul>
+            }
 
-            <!-- Sticky Footer -->
-            <footer class="sticky-footer">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        Copyright ©
-                        <script>document.write(new Date().getFullYear());</script> All rights reserved  by Sourav Kundu <i class="icon-heart color-danger" aria-hidden="true"></i>
+            <div id="content-wrapper">
+                @RenderBody()
+
+                <!-- Sticky Footer -->
+                <footer class="sticky-footer">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            Copyright ©
+                            <script>document.write(new Date().getFullYear());</script> All rights reserved  by Sourav Kundu <i class="icon-heart color-danger" aria-hidden="true"></i>
+                        </div>
                     </div>
-                </div>
-            </footer>
+                </footer>
 
+            </div>
         </div>
-    </div>
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
@@ -370,7 +338,15 @@
     <!-- Demo scripts for this page-->
     <script src="~/Style/js/demo/datatables-demo.js"></script>
     <script src="~/Style/js/demo/chart-area-demo.js"></script>
+
+
+
+
     @RenderSection("scripts", required: false)
+
+
+
+
 </body>
 
 </html>

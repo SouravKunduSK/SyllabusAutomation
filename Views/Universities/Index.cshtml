@@ -62,8 +62,8 @@
                                 @*<td><a href="@Url.Content(item.ImageURL)" target="_blank"><img src="@Url.Content(item.ImageURL)" style="width:100px; height:67px;" /></a></td>*@
                             <td>
                                
-                                <a href="@Url.Action("Edit", new { id = item.UniversityId })" class="btn btn-info">Edit</a>
-                                <a href="@Url.Action("Delete", new { id = item.UniversityId })" class="btn btn-danger">Delete</a>
+                                <a href="@Url.Action("Edit","Universities", new { id = item.UniversityId })" class="btn btn-info">Edit</a>
+                                <a href="@Url.Action("DeleteConfirmed","Universities", new { id = item.UniversityId })" class="btn btn-danger" onclick="return confirm('Do you really want to delete this University?')">Delete</a>
                             </td>
                                
 

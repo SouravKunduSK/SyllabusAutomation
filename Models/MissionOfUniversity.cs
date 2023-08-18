@@ -17,6 +17,7 @@ namespace SyllabusAutomation.Models
         public int MissionId { get; set; }
         public string Mission { get; set; }
         public Nullable<int> UniversityId { get; set; }
+        public Nullable<bool> IsActive { get; set; }
     
         public virtual University University { get; set; }
     }

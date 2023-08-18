@@ -38,7 +38,26 @@
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Select Program</h5>
+                                        @Html.DropDownList("ProgramId", null, "--- Select Program ---", new { @class = "form-control", required = "required", onchange = "BindCourseTupes()" })
 
+                                        @Html.ValidationMessageFor(x => x.Item1.ProgramId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Select Course Type</h5>
+                                        @Html.DropDownList("CourseTypeId", Enumerable.Empty<SelectListItem>(), "--- Select Course Type ---", new { @class = "form-control", required = "required" })
+
+                                        @Html.ValidationMessageFor(x => x.Item1.CourseTypeId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="col-md-6">
@@ -76,18 +95,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <div class="col-md-6">
-                                        <h5>Select Course Type</h5>
-                                        @Html.DropDownListFor(x => x.Item1.CourseTypeId, ViewBag.CourseTypeList as SelectList,"--- Select Course Type ---", new { @class = "form-control", placeholder = "Numbers Only(10,8,etc)", required = "required" })
-                                        @Html.ValidationMessageFor(x => x.Item1.CourseTypeId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="col-md-6">
                                 <div class="col-md-10">
-                                    <a onclick="window.history.back();" class="btn btn-danger">Cancel</a>
+                                    <a href="@Url.Action("Marks","Course")" class="btn btn-outline-danger">Cancel</a>
                                     <input type="submit" class="btn btn-success" value="Save" />
                                 </div>
                             </div>
@@ -114,7 +125,26 @@
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             @Html.HiddenFor(x => x.Item1.MarksId)
 
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Select Program</h5>
+                                        @Html.DropDownList("ProgramId", null, "--- Select Program ---", new { @class = "form-control", required = "required", onchange = "BindCourseTupes()" })
 
+                                        @Html.ValidationMessageFor(x => x.Item1.ProgramId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Select Course Type</h5>
+                                        @Html.DropDownList("CourseTypeId", null, "--- Select Course Type ---", new { @class = "form-control", required = "required" })
+
+                                        @Html.ValidationMessageFor(x => x.Item1.CourseTypeId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="col-md-6">
@@ -152,18 +182,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <div class="col-md-6">
-                                        <h5>Select Course Type</h5>
-                                        @Html.DropDownListFor(x => x.Item1.CourseTypeId, ViewBag.CourseTypeList as SelectList, "--- Select Course Type ---", new { @class = "form-control", placeholder = "Numbers Only(10,8,etc)", required = "required" })
-                                        @Html.ValidationMessageFor(x => x.Item1.CourseTypeId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="col-md-6">
                                 <div class="col-md-10">
-                                    <a onclick="window.history.back();" class="btn btn-danger">Cancel</a>
+                                    <a href="@Url.Action("Marks","Course")" class="btn btn-outline-danger">Cancel</a>
                                     <input type="submit" class="btn btn-success" value="Update" />
                                 </div>
                             </div>
@@ -187,6 +209,7 @@
                     <thead>
                         <tr>
                             <th>Sr.No</th>
+                            <th>Program</th>
                             <th>Course Types</th>
                             <th>CT</th>
                             <th>Attendence</th>
@@ -201,6 +224,7 @@
                         {
                             <tr>
                                 <td>@(Model.Item2.IndexOf(item) + 1)</td>
+                                <td>@item.Program.ShortName</td>
                                 <td>@item.CourseType.CourseType1</td>
                                 <td>@item.CT</td>
                                 <td>@item.Attendence</td>
@@ -218,4 +242,27 @@
         </div>
     </div>
 </div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    function BindCourseTupes() {
 
+        var ProgramId = $('#ProgramId').val();
+        $.ajax({
+                    url: '@Url.Action("GetCourseTypessByProgram", "Course")',
+                    type: 'GET',
+            data: { programId: ProgramId },
+                    success: function (data) {
+                        // Clear existing Department options
+                        $('#CourseTypeId').empty();
+
+                        // Append new Department options
+                        $.each(data, function (index, item) {
+                            $('#CourseTypeId').append($('<option>', {
+                                value: item.CourseTypeId,
+                                text: item.CourseType1
+                            }));
+                        });
+                    }
+                });
+    }
+</script>

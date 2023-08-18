@@ -50,7 +50,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="col-md-10">
-                                    <a onclick="window.history.back();" class="btn btn-outline-warning">Cancel</a>
+                                    <a href="@Url.Action("PEOList","Program", new {id = Convert.ToInt32(Session["pid"])})" class="btn btn-outline-danger">Cancel</a>
                                     <input type="submit" class="btn btn-success" value="Save" />
                                 </div>
                             </div>
@@ -89,7 +89,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="col-md-10">
-                                    <a onclick="window.history.back();" class="btn btn-outline-warning">Cancel</a>
+                                    <a href="@Url.Action("PEOList","Program", new {id = Model.Item1.ProgramId})" class="btn btn-outline-danger">Cancel</a>
+                                    @*<a onclick="window.history.back();" class="btn btn-outline-warning">Cancel</a>*@
                                     <input type="submit" class="btn btn-success" value="Update" />
                                 </div>
                             </div>

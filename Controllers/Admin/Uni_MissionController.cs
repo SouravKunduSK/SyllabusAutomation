@@ -18,7 +18,7 @@ namespace SyllabusAutomation.Controllers.Admin
             var user = db.Users.Find(uid);
             var university = db.Universities.Find(user.UniversityId);
             Session["uniId"] = university.UniversityId;
-            var missions = db.MissionOfUniversities.Where(x => x.UniversityId == university.UniversityId).ToList();
+            var missions = db.MissionOfUniversities.Where(x => x.UniversityId == university.UniversityId && x.IsActive == true).ToList();
             var tuple = new Tuple<MissionOfUniversity, List<MissionOfUniversity>>(new MissionOfUniversity(), missions);
             return View(tuple);
         }
@@ -34,6 +34,7 @@ namespace SyllabusAutomation.Controllers.Admin
                     var mission = new MissionOfUniversity();
                     mission.UniversityId = (int)Session["uniId"];
                     mission.Mission = form["Item1.Mission"];
+                    mission.IsActive = true;
                     db.MissionOfUniversities.AddOrUpdate(mission);
                     db.SaveChanges();
                     TempData["msg"] = "Mission Added Successfully!";
@@ -56,7 +57,7 @@ namespace SyllabusAutomation.Controllers.Admin
                 return HttpNotFound();
             }
 
-            var missions = db.MissionOfUniversities.Where(x => x.UniversityId == mission.UniversityId).ToList();
+            var missions = db.MissionOfUniversities.Where(x => x.UniversityId == mission.UniversityId && x.IsActive == true).ToList();
             var tuple = new Tuple<MissionOfUniversity, List<MissionOfUniversity>>(mission, missions);
             ViewBag.data = true;
             return View("UniversityMissions", tuple);

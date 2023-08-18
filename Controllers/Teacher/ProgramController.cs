@@ -16,12 +16,13 @@ namespace SyllabusAutomation.Controllers.Teacher
     {
         SyllabusAutomationEntities db = new SyllabusAutomationEntities();
         // GET: Program
+        #region PEOS
         public ActionResult PEOList(int id)
         {
             int uid = (int)Session["uid"];
             var user = db.Users.Find(uid);
             Session["pid"] = id;
-            var peos = db.PEOs.Where(x => x.ProgramId == id && x.DepartmentId == user.DepartmentId).ToList();
+            var peos = db.PEOs.Where(x => x.ProgramId == id && x.DepartmentId == user.DepartmentId && x.IsActive == true).ToList();
             var tuple = new Tuple<PEO, List<PEO>>(new PEO(), peos);
             return View(tuple);
         }
@@ -42,6 +43,7 @@ namespace SyllabusAutomation.Controllers.Teacher
                     peo.DepartmentId = user.DepartmentId;
                     peo.ProgramId = (int)Session["pid"];
                     peo.PEO1 = form["Item1.PEO1"];
+                    peo.IsActive = true;
                     db.PEOs.AddOrUpdate(peo);
                     db.SaveChanges();
                     TempData["msg"] = "Program Education Objectives (PEOs) Added Successfully!";
@@ -64,7 +66,7 @@ namespace SyllabusAutomation.Controllers.Teacher
                 return HttpNotFound();
             }
 
-            var missions = db.PEOs.Where(x => x.DepartmentId == mission.DepartmentId && x.ProgramId == mission.ProgramId).ToList();
+            var missions = db.PEOs.Where(x => x.DepartmentId == mission.DepartmentId && x.ProgramId == mission.ProgramId && x.IsActive == true).ToList();
             var tuple = new Tuple<PEO, List<PEO>>(mission, missions);
             ViewBag.data = true;
             return View("PEOList", tuple);
@@ -95,13 +97,15 @@ namespace SyllabusAutomation.Controllers.Teacher
 
             return RedirectToAction("PEOList", new RouteValueDictionary(new { Controller = "Program", Action = "PEOList", id = (int)Session["pid"] }));
         }
+        #endregion
 
+        #region PLOs
         public ActionResult PLOList(int id)
         {
             int uid = (int)Session["uid"];
             var user = db.Users.Find(uid);
             Session["pid"] = id;
-            var plos = db.PLOes.Where(x => x.ProgramId == id && x.DepartmentId == user.DepartmentId).ToList();
+            var plos = db.PLOes.Where(x => x.ProgramId == id && x.DepartmentId == user.DepartmentId && x.IsActive == true).ToList();
             var tuple = new Tuple<PLO, List<PLO>>(new PLO(), plos);
             return View(tuple);
         }
@@ -122,6 +126,7 @@ namespace SyllabusAutomation.Controllers.Teacher
                     peo.DepartmentId = user.DepartmentId;
                     peo.ProgramId = (int)Session["pid"];
                     peo.PLO1 = form["Item1.PLO1"];
+                    peo.IsActive = true;
                     db.PLOes.AddOrUpdate(peo);
                     db.SaveChanges();
                     TempData["msg"] = "Program Learning Outcome (PLO) Added Successfully!";
@@ -144,7 +149,7 @@ namespace SyllabusAutomation.Controllers.Teacher
                 return HttpNotFound();
             }
 
-            var missions = db.PLOes.Where(x => x.DepartmentId == mission.DepartmentId && x.ProgramId == mission.ProgramId).ToList();
+            var missions = db.PLOes.Where(x => x.DepartmentId == mission.DepartmentId && x.ProgramId == mission.ProgramId && x.IsActive == true).ToList();
             var tuple = new Tuple<PLO, List<PLO>>(mission, missions);
             ViewBag.data = true;
             return View("PLOList", tuple);
@@ -176,12 +181,16 @@ namespace SyllabusAutomation.Controllers.Teacher
             return RedirectToAction("PLOList", new RouteValueDictionary(new { Controller = "Program", Action = "PLOList", id = (int)Session["pid"] }));
         }
 
+        #endregion
+
+        #region Generic Skill
+
         public ActionResult GSList(int id)
         {
             int uid = (int)Session["uid"];
             var user = db.Users.Find(uid);
             Session["pid"] = id;
-            var plos = db.GenericSkills.Where(x => x.ProgramId == id && x.DepartmentId == user.DepartmentId).ToList();
+            var plos = db.GenericSkills.Where(x => x.ProgramId == id && x.DepartmentId == user.DepartmentId && x.IsActive == true).ToList();
             var tuple = new Tuple<GenericSkill, List<GenericSkill>>(new GenericSkill(), plos);
             return View(tuple);
         }
@@ -202,6 +211,7 @@ namespace SyllabusAutomation.Controllers.Teacher
                     peo.DepartmentId = user.DepartmentId;
                     peo.ProgramId = (int)Session["pid"];
                     peo.GS = form["Item1.GS"];
+                    peo.IsActive = true;
                     db.GenericSkills.AddOrUpdate(peo);
                     db.SaveChanges();
                     TempData["msg"] = "Generic Skill Added Successfully!";
@@ -224,7 +234,7 @@ namespace SyllabusAutomation.Controllers.Teacher
                 return HttpNotFound();
             }
 
-            var missions = db.GenericSkills.Where(x => x.DepartmentId == mission.DepartmentId && x.ProgramId == mission.ProgramId).ToList();
+            var missions = db.GenericSkills.Where(x => x.DepartmentId == mission.DepartmentId && x.ProgramId == mission.ProgramId && x.IsActive == true).ToList();
             var tuple = new Tuple<GenericSkill, List<GenericSkill>>(mission, missions);
             ViewBag.data = true;
             return View("GSList", tuple);
@@ -256,7 +266,9 @@ namespace SyllabusAutomation.Controllers.Teacher
             return RedirectToAction("GSList", new RouteValueDictionary(new { Controller = "Program", Action = "GSList", id = (int)Session["pid"] }));
         }
 
+        #endregion
 
+        #region PEO To Mission mapping
         // PEO To Mission
         public ActionResult PEOToMission(int? id)
         {
@@ -323,8 +335,8 @@ namespace SyllabusAutomation.Controllers.Teacher
             int uid = (int)Session["uid"];
             var user = db.Users.Find(uid);
             var programId = pid;
-            var peos = db.PEOs.Where(x => x.ProgramId == programId).ToList();
-            var missions = db.MissionOfDepartments.Where(x => x.DepartmentId == user.DepartmentId).ToList();
+            var peos = db.PEOs.Where(x => x.ProgramId == programId && x.IsActive == true).ToList();
+            var missions = db.MissionOfDepartments.Where(x => x.DepartmentId == user.DepartmentId && x.IsActive == true).ToList();
 
             foreach (var peo in peos)
             {
@@ -354,12 +366,13 @@ namespace SyllabusAutomation.Controllers.Teacher
            
             return peoMissionViewModels;
         }
+        #endregion
 
 
 
-
+        #region PEO to PLO mapping
         //PEO to PLO
-        
+
         public ActionResult PEOToPLO(int? id)
         {
             Session["pid"] = id;
@@ -425,8 +438,8 @@ namespace SyllabusAutomation.Controllers.Teacher
             int uid = (int)Session["uid"];
             var user = db.Users.Find(uid);
             var programId = pid;
-            var peos = db.PEOs.Where(x => x.ProgramId == programId).ToList();
-            var plos = db.PLOes.Where(x => x.DepartmentId == user.DepartmentId && x.ProgramId == programId).ToList();
+            var peos = db.PEOs.Where(x => x.ProgramId == programId && x.IsActive == true).ToList();
+            var plos = db.PLOes.Where(x => x.DepartmentId == user.DepartmentId && x.ProgramId == programId && x.IsActive == true).ToList();
 
             foreach (var peo in peos)
             {
@@ -458,15 +471,17 @@ namespace SyllabusAutomation.Controllers.Teacher
             return peoPloViewModels;
         }
 
+        #endregion
 
 
 
 
+        #region TeachingStrategies
         public ActionResult TeachingStrategies()
         {
             int uid = (int)Session["uid"];
             var user = db.Users.Find(uid);
-            var plos = db.TeachingStrategies.Where(x => x.DepartmentId == user.DepartmentId).ToList();
+            var plos = db.TeachingStrategies.Where(x => x.DepartmentId == user.DepartmentId && x.IsActive == true).ToList();
             var tuple = new Tuple<TeachingStrategie, List<TeachingStrategie>>(new TeachingStrategie(), plos);
             return View(tuple);
         }
@@ -485,6 +500,7 @@ namespace SyllabusAutomation.Controllers.Teacher
                     peo.UniversityId = user.UniversityId;
                     peo.FacultyId = user.FacultyId;
                     peo.DepartmentId = user.DepartmentId;
+                    peo.IsActive = true;
                     peo.Strategies = form["Item1.Strategies"];
                     db.TeachingStrategies.AddOrUpdate(peo);
                     db.SaveChanges();
@@ -508,7 +524,7 @@ namespace SyllabusAutomation.Controllers.Teacher
                 return HttpNotFound();
             }
 
-            var missions = db.TeachingStrategies.Where(x => x.DepartmentId == mission.DepartmentId).ToList();
+            var missions = db.TeachingStrategies.Where(x => x.DepartmentId == mission.DepartmentId && x.IsActive == true).ToList();
             var tuple = new Tuple<TeachingStrategie, List<TeachingStrategie>>(mission, missions);
             ViewBag.data = true;
             return View("TeachingStrategies", tuple);
@@ -540,7 +556,9 @@ namespace SyllabusAutomation.Controllers.Teacher
             return RedirectToAction("TeachingStrategies", "Program");
         }
 
-        
+        #endregion
+
+
         public ActionResult SelectProgram()
         {
             int uid = (int)Session["uid"];

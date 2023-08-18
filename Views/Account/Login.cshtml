@@ -62,6 +62,12 @@
                                         <div class="text-center">
                                             <a class="danger" style="color:red" href="#">Forgot Password?</a><div>Contact with your superior.</div>
                                         </div>
+                                        if (Convert.ToInt32(ViewBag.user) == 0)
+                                        {
+                                            <div class="text-center">
+                                                <a class="danger" style="color:royalblue" href="@Url.Action("RegisterNewAccount","Account")">Register New Account Here</a>
+                                            </div>
+                                        }
 
 
 

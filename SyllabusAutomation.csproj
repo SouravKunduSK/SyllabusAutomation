@@ -276,9 +276,6 @@
     <Compile Include="Models\TeacherDesignation.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TeacherofDept.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TeachingStrategie.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
@@ -1922,6 +1919,11 @@
     <Content Include="Views\MappingPEOToMission\MapPEOToMission.cshtml" />
     <Content Include="Views\Program\PEOToPLO.cshtml" />
     <Content Include="Views\Course\CLOToPLO.cshtml" />
+    <Content Include="Views\Account\RegisterNewAccount.cshtml" />
+    <Content Include="Views\Account\DepartmentAdmins.cshtml" />
+    <Content Include="Views\Account\DeptAdminProfile.cshtml" />
+    <Content Include="Views\Account\UpdateDeptAdminProfile.cshtml" />
+    <Content Include="Views\DepartmentDetail\Designations.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

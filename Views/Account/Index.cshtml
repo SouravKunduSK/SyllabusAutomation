@@ -32,7 +32,7 @@
                         <tr>
 
                             <th>Serial No.</th>
-                            <th>User Name</th>
+                            <th>User Email</th>
                             <th>University</th>
                             <th>User Role</th>
                             @*<th>Logo</th>
@@ -54,7 +54,7 @@
                             <tr>
                                 <td>@(Model.IndexOf(item)+1)</td>
 
-                                <td>@item.Username</td>
+                                <td>@item.Email.ToString()</td>
                                 <td>@item.University.ShortName</td>
                                 <td>@item.Role.RoleName</td>
                                 @*<td>@item.Logo</td>
@@ -65,7 +65,7 @@
                                 <td>
                                     @*<a href="@Url.Action("Details", new { id = item.UserID })" class="btn btn-primary">Detail</a>*@
                                     <a href="@Url.Action("Edit", new { id = item.UserID })" class="btn btn-info">Edit</a>
-                                    <a href="@Url.Action("Delete", new { id = item.UserID })" class="btn btn-danger">Delete</a>
+                                    <a href="@Url.Action("Delete", new { id = item.UserID })" class="btn btn-danger" onclick="return confirm('Do you really want to delete this User?')">Delete</a>
                                 </td>
 
 

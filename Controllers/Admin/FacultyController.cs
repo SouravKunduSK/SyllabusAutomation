@@ -20,7 +20,7 @@ namespace SyllabusAutomation.Controllers.Admin
             var user = db.Users.Find(uid);
             var university = db.Universities.Find(user.UniversityId);
             Session["uniId"] = university.UniversityId;
-            var faculties = db.Faculties.Where(x => x.UniversityId == university.UniversityId).ToList();
+            var faculties = db.Faculties.Where(x => x.UniversityId == university.UniversityId && x.IsActive == true).ToList();
             var tuple = new Tuple<Faculty, List<Faculty>>(new Faculty(), faculties);
             return View(tuple);
         }
@@ -37,6 +37,7 @@ namespace SyllabusAutomation.Controllers.Admin
                     faculty.UniversityId = (int)Session["uniId"];
                     faculty.FacultyName = form["Item1.FacultyName"];
                     faculty.ShortName = form["Item1.ShortName"];
+                    faculty.IsActive = true;
                     db.Faculties.AddOrUpdate(faculty);
                     db.SaveChanges();
                     TempData["msg"] = "Faculty Name Added Successfully!";
@@ -59,7 +60,7 @@ namespace SyllabusAutomation.Controllers.Admin
                 return HttpNotFound();
             }
 
-            var faculties = db.Faculties.Where(x => x.UniversityId == faculty.UniversityId).ToList();
+            var faculties = db.Faculties.Where(x => x.UniversityId == faculty.UniversityId && x.IsActive == true).ToList();
             var tuple = new Tuple<Faculty, List<Faculty>>(faculty, faculties);
             ViewBag.data = true;
             return View("FacultyNamesOfUniversity", tuple);

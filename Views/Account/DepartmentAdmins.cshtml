@@ -1,7 +1,7 @@
 ﻿@using SyllabusAutomation.Models;
 @model Tuple<User, List<User>>
 @{
-    ViewBag.Title = "AssignedTeachers";
+    ViewBag.Title = "DepartmentAdmins";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -13,7 +13,7 @@
         <li class="breadcrumb-item">
             <a href="@Url.Action("Index", "Dashboard")">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">Department Teacher's List</li>
+        <li class="breadcrumb-item active">Assigned Department Admins List</li>
     </ol>
 
     <!-- Success message displayed after adding a mission -->
@@ -32,38 +32,20 @@
                 <div class="card mb-3">
                     <div class="card-header">
                         <i class="fas fa-table"></i>
-                        Add New Teacher
+                        Add Department Admin
                     </div>
                     <div class="card-body">
-                        @using (Html.BeginForm("AddNewTeacher", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        @using (Html.BeginForm("AddNewDepartmentAdmins", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <div class="col-md-6">
-                                        <h5>First Name</h5>
-                                        @Html.TextBoxFor(x => x.Item1.FirstName, new { @class = "form-control", placeholder = "First Name...", required = "required" })
-                                        @Html.ValidationMessageFor(x => x.Item1.FirstName, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <div class="col-md-6">
-                                        <h5>Last Name</h5>
-                                        @Html.TextBoxFor(x => x.Item1.LastName, new { @class = "form-control", placeholder = "Last Name...", required = "required" })
-                                        @Html.ValidationMessageFor(x => x.Item1.LastName, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
 
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="col-md-6">
                                         <h5>User Email</h5>
-                                        @Html.TextBoxFor(x => x.Item1.Email, new { @class = "form-control", placeholder = "Email Here...", required = "required", type = "email" })
+                                        @Html.TextBoxFor(x => x.Item1.Email, new { @class = "form-control", placeholder = "Email Here...", required = "required", type ="email" })
                                         @Html.ValidationMessageFor(x => x.Item1.Email, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -72,7 +54,7 @@
                                 <div class="form-group">
                                     <div class="col-md-6">
                                         <h5>Password</h5>
-                                        @Html.TextBoxFor(x => x.Item1.Password, new { @class = "form-control", placeholder = "Password Here....", required = "required" })
+                                        @Html.TextBoxFor(x => x.Item1.Password, new { @class = "form-control", placeholder = "Password Here....", required = "required" , minlength = '6'})
                                         @Html.ValidationMessageFor(x => x.Item1.Password, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -81,9 +63,9 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="col-md-6">
-                                        <h5>Select Designation</h5>
-                                        @Html.DropDownListFor(x=>x.Item1.DesignationId, ViewBag.DesignationList as SelectList, "--- Select Designation ---", new { @class = "form-control", required = "required" })
-                                        @Html.ValidationMessageFor(x => x.Item1.DesignationId, "", new { @class = "text-danger" })
+                                        <h5>Select Name of Faculty</h5>
+                                        @Html.DropDownList("FacultyId", null, "--- Select Faculty ---", new { @class = "form-control", required = "required", onchange = "BindDept()" })
+                                        @Html.ValidationMessageFor(x => x.Item1.FacultyId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -91,18 +73,15 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="col-md-6">
-                                        <h5>Is Chairman?</h5>
-                                        @Html.RadioButtonFor(model => model.Item1.IsChairman, true) Yes
-                                        @Html.RadioButtonFor(model => model.Item1.IsChairman, false) No
-                                        @Html.ValidationMessageFor(x => x.Item1.IsChairman, "", new { @class = "text-danger" })
+                                        <h5>Select Name of Department</h5>
+                                        @Html.DropDownList("DepartmentId", Enumerable.Empty<SelectListItem>(), "--- Select Department ---", new { @class = "form-control", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Item1.DepartmentId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
-
-
                             <div class="col-md-6">
                                 <div class="col-md-10">
-                                    <a href="@Url.Action("AssignedTeachers","Account")" class="btn btn-danger">Cancel</a>
+                                    <a href="@Url.Action("DepartmentAdmins","Account")" class="btn btn-danger">Cancel</a>
                                     <input type="submit" class="btn btn-success" value="Save" />
                                 </div>
                             </div>
@@ -121,40 +100,20 @@
                 <div class="card mb-3">
                     <div class="card-header">
                         <i class="fas fa-table"></i>
-                        Edit Teacher
+                        Edit Department Admins
                     </div>
                     <div class="card-body">
-                        @using (Html.BeginForm("UpdateTeacher", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        @using (Html.BeginForm("UpdateDepartmentAdmins", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             @Html.HiddenFor(x => x.Item1.UserID)
-
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <div class="col-md-6">
-                                        <h5>First Name</h5>
-                                        @Html.TextBoxFor(x => x.Item1.FirstName, new { @class = "form-control", placeholder = "First Name...", required = "required" })
-                                        @Html.ValidationMessageFor(x => x.Item1.FirstName, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <div class="col-md-6">
-                                        <h5>Last Name</h5>
-                                        @Html.TextBoxFor(x => x.Item1.LastName, new { @class = "form-control", placeholder = "Last Name...", required = "required" })
-                                        @Html.ValidationMessageFor(x => x.Item1.LastName, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-
+                            @Html.HiddenFor(x => x.Item1.UniversityId)
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="col-md-6">
                                         <h5>User Email</h5>
-                                        @Html.TextBoxFor(x => x.Item1.Email, new { @class = "form-control", placeholder = "Email Here...", required = "required", type = "email" })
+                                        @Html.TextBoxFor(x => x.Item1.Email, new { @class = "form-control", placeholder = "Email Here...", required = "required", type="email" })
                                         @Html.ValidationMessageFor(x => x.Item1.Email, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -163,18 +122,17 @@
                                 <div class="form-group">
                                     <div class="col-md-6">
                                         <h5>Password</h5>
-                                        @Html.TextBoxFor(x => x.Item1.Password, new { @class = "form-control", placeholder = "Password Here....", required = "required", type="password" })
+                                        @Html.TextBoxFor(x => x.Item1.Password, new { @class = "form-control", placeholder = "Password Here....", required = "required", type = "password" })
                                         @Html.ValidationMessageFor(x => x.Item1.Password, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
-
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="col-md-6">
-                                        <h5>Select Designation</h5>
-                                        @Html.DropDownListFor(x => x.Item1.DesignationId, ViewBag.DesignationList as SelectList, "--- Select Designation ---", new { @class = "form-control", required = "required" })
-                                        @Html.ValidationMessageFor(x => x.Item1.DesignationId, "", new { @class = "text-danger" })
+                                        <h5>Select Name of Faculty</h5>
+                                        @Html.DropDownListFor(x => x.Item1.FacultyId, ViewBag.FacultyList as SelectList, "--- Select Faculty ---", new { @class = "form-control", required = "required", id = "facultyId" })
+                                        @Html.ValidationMessageFor(x => x.Item1.FacultyId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -182,10 +140,9 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="col-md-6">
-                                        <h5>Is Chairman?</h5>
-                                        @Html.RadioButtonFor(model => model.Item1.IsChairman, true) Yes
-                                        @Html.RadioButtonFor(model => model.Item1.IsChairman, false) No
-                                        @Html.ValidationMessageFor(x => x.Item1.IsChairman, "", new { @class = "text-danger" })
+                                        <h5>Select Name of Department</h5>
+                                        @Html.DropDownListFor(x => x.Item1.DepartmentId, Enumerable.Empty<SelectListItem>(), "--- Select Department ---", new { @class = "form-control", id = "departmentId", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Item1.DepartmentId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -193,7 +150,7 @@
 
                             <div class="col-md-6">
                                 <div class="col-md-10">
-                                    <a href="@Url.Action("AssignedTeachers","Account")" class="btn btn-danger">Cancel</a>
+                                    <a href="@Url.Action("DepartmentAdmins","Account")" class="btn btn-danger">Cancel</a>
                                     <input type="submit" class="btn btn-success" value="Update" />
                                 </div>
                             </div>
@@ -210,7 +167,7 @@
     <div class="card mb-3">
         <div class="card-header">
             <i class="fas fa-book-open"></i>
-            All Teachers List
+            All Department Admins List
             <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="btn btn-info pull-right fa fa-plus">Add New</a>
         </div>
         <div class="card-body">
@@ -219,9 +176,9 @@
                     <thead>
                         <tr>
                             <th>Serial No.</th>
-                            <th>Full Name </th>
-                            <th>Designation</th>
-                            <th>Email</th>
+                            <th>User Email </th>
+                            <th>Department</th>
+                            <th>Faculty</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -230,15 +187,15 @@
                         {
                             <tr>
                                 <td>@(Model.Item2.IndexOf(item) + 1)</td>
-                                <td>@item.FirstName @item.LastName</td>
-                               <td>@item.TeacherDesignation.Designation<br />
-                                @if (item.IsChairman == true) { <span>Chairman</span> }
-                                    
-                                </td>
                                 <td>@item.Email.ToString()</td>
+                                @if (item.FacultyId != null && item.DepartmentId != null)
+                                {
+                                    <td>@item.Department.ShortName</td>
+                                    <td>@item.Faculty.ShortName</td>
+                                }
 
                                 <td>
-                                    <a href="@Url.Action("UpdateTeacher", "Account", new { id = item.UserID })" class="btn btn-info">Edit</a>
+                                    <a href="@Url.Action("UpdateDepartmentAdmins", "Account", new { id = item.UserID })" class="btn btn-info">Edit</a>
                                     @*<a data-toggle="collapse" data-parent="#accordion1" class="btn btn-info" onclick="@Url.Action("UpdateTeacher", "Teacher", new { id = item.UserID })">Edit</a>*@
                                 </td>
                             </tr>
@@ -249,4 +206,72 @@
         </div>
     </div>
 </div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    function BindDept() {
 
+        var FacultyId = $('#FacultyId').val();
+        $.ajax({
+                    url: '@Url.Action("GetDepartmentsByFaculty", "Account")',
+                    type: 'GET',
+                    data: { facultyId: FacultyId },
+                    success: function (data) {
+                        // Clear existing Department options
+                        $('#DepartmentId').empty();
+
+                        // Append new Department options
+                        $.each(data, function (index, item) {
+                            $('#DepartmentId').append($('<option>', {
+                                value: item.DepartmentId,
+                                text: item.DepartmentName
+                            }));
+                        });
+                    }
+                });
+    }
+</script>
+
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+
+            // On page load, get the initial selected Faculty value
+            var selectedFaculty = $('#facultyId').val();
+
+            // Fetch the Department options based on the selected Faculty
+            fetchDepartments(selectedFaculty);
+
+            // Handle onchange event of the Faculty dropdown
+            $('#facultyId').change(function () {
+                var facultyId = $(this).val();
+
+                // Fetch the Department options based on the selected Faculty
+                fetchDepartments(facultyId);
+            });
+
+            // Function to fetch the Department options based on the selected Faculty
+            function fetchDepartments(facultyId){
+                $.ajax({
+                    url: '@Url.Action("FillDept", "Account")',
+                    type: 'GET',
+                    data: { facultyId: facultyId },
+                    success: function (data) {
+                        // Clear existing Department options
+                        $('#departmentId').empty();
+
+                        // Append new Department options
+                        $.each(data, function (index, item) {
+                            $('#departmentId').append($('<option>', {
+                                value: item.DepartmentId,
+                                text: item.DepartmentName
+                            }));
+                        });
+                    }
+                });
+            }
+
+        });
+
+    </script>
+}

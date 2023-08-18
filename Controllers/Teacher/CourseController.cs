@@ -27,9 +27,10 @@ namespace SyllabusAutomation.Controllers.Teacher
         {
             int uid = (int)Session["uid"];
             var user = db.Users.Find(uid);
-            var pid = Convert.ToInt32(Session["programId"]);
-            var plos = db.CourseTypes.Where(x =>x.ProgramId==pid && x.DepartmentId == user.DepartmentId).ToList();
-            var tuple = new Tuple<CourseType, List<CourseType>>(new CourseType(), plos);
+            var pid = db.Programs.Where(x => x.DepartmentId == user.DepartmentId).ToList();
+            ViewBag.ProgramList = new SelectList(pid, "ProgramId", "ShortName");
+            var types = db.CourseTypes.Where(x =>x.DepartmentId == user.DepartmentId).ToList();
+            var tuple = new Tuple<CourseType, List<CourseType>>(new CourseType(), types);
             return View(tuple);
         }
 
@@ -41,7 +42,7 @@ namespace SyllabusAutomation.Controllers.Teacher
             {
                 int uid = (int)Session["uid"];
                 var user = db.Users.Find(uid);
-                var pid = Convert.ToInt32(Session["programId"]);
+                var pid = Convert.ToInt32(form["Item1.ProgramId"]);
                 if (ModelState.IsValid)
                 {
                     var peo = new CourseType();
@@ -66,15 +67,16 @@ namespace SyllabusAutomation.Controllers.Teacher
         [HttpGet]
         public ActionResult UpdateCourseType(int id)
         {
-            var pid = Convert.ToInt32(Session["programId"]);
+            
             var mission = db.CourseTypes.Find(id);
 
             if (mission == null)
             {
                 return HttpNotFound();
             }
-
-            var missions = db.CourseTypes.Where(x =>x.ProgramId== pid && x.DepartmentId == mission.DepartmentId).ToList();
+            var pid = db.Programs.Where(x => x.DepartmentId == mission.DepartmentId).ToList();
+            ViewBag.ProgramList = new SelectList(pid, "ProgramId", "ShortName", mission.ProgramId);
+            var missions = db.CourseTypes.Where(x =>x.DepartmentId == mission.DepartmentId).ToList();
             var tuple = new Tuple<CourseType, List<CourseType>>(mission, missions);
             ViewBag.data = true;
             return View("CourseType", tuple);
@@ -94,6 +96,7 @@ namespace SyllabusAutomation.Controllers.Teacher
                         return HttpNotFound();
                     }
                     existingMission.CourseType1 = form["Item1.CourseType1"];
+                    existingMission.ProgramId = Convert.ToInt32(form["Item1.ProgramId"]);
                     db.SaveChanges();
                     TempData["msg"] = "Course Type Updated Successfully!";
                 }
@@ -106,18 +109,43 @@ namespace SyllabusAutomation.Controllers.Teacher
             return RedirectToAction("CourseType", "Course");
         }
         #endregion
+
+
         #region Marks
         public ActionResult Marks()
         {
             int uid = (int)Session["uid"];
             var user = db.Users.Find(uid);
-            var pid = Convert.ToInt32(Session["programId"]);
-            ViewBag.CourseTypeList = new SelectList(db.CourseTypes.Where(x=> x.ProgramId == pid && x.DepartmentId == user.DepartmentId).ToList(),"CourseTypeId", "CourseType1");
-            var plos = db.Marks.Where(x => x.ProgramId == pid && x.DepartmentId == user.DepartmentId).ToList();
+            var pid = db.Programs.Where(x => x.DepartmentId == user.DepartmentId).ToList();
+            ViewBag.ProgramId = new SelectList(pid, "ProgramId", "ShortName");
+            var plos = db.Marks.Where(x => x.DepartmentId == user.DepartmentId).ToList();
             var tuple = new Tuple<Mark, List<Mark>>(new Mark(), plos);
             return View(tuple);
         }
+        public ActionResult GetCourseTypessByProgram(int programId)
+        {
+            int uid = (int)Session["uid"];
+            var user = db.Users.Find(uid);
+            var courseTypes = new[] { new {
+                CourseTypeId = 0,
+                CourseType1 = ""
+            } }.ToList();
+            courseTypes = db.CourseTypes.Where(d => d.ProgramId == programId && d.DepartmentId == user.DepartmentId).Select(d => new {
+                CourseTypeId = d.CourseTypeId,
+                CourseType1 = d.CourseType1
+            }).OrderBy(x => x.CourseType1).ToList();
+            var defItem = new[]{
+                    new
+                {
+                    CourseTypeId = 0,
+                    CourseType1 = "--- Select Course Type ---"
+                }
+                };
 
+            courseTypes.InsertRange(0, defItem);
+            return Json(courseTypes, JsonRequestBehavior.AllowGet);
+        }
+      
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AddMarks(FormCollection form)
@@ -126,15 +154,15 @@ namespace SyllabusAutomation.Controllers.Teacher
             {
                 int uid = (int)Session["uid"];
                 var user = db.Users.Find(uid);
-                var pid = Convert.ToInt32(Session["programId"]);
+                
                 if (ModelState.IsValid)
                 {
                     var peo = new Mark();
                     peo.UniversityId = user.UniversityId;
                     peo.FacultyId = user.FacultyId;
                     peo.DepartmentId = user.DepartmentId;
-                    peo.ProgramId = pid;
-                    peo.CourseTypeId =Convert.ToInt32( form["Item1.CourseTypeId"]) ;
+                    peo.ProgramId = Convert.ToInt32(form["ProgramId"]);
+                    peo.CourseTypeId =Convert.ToInt32( form["CourseTypeId"]) ;
                     peo.CT = form["Item1.CT"].AsFloat();
                     peo.Attendence = form["Item1.Attendence"].AsFloat();
                     peo.SE = form["Item1.SE"].AsFloat();
@@ -156,15 +184,22 @@ namespace SyllabusAutomation.Controllers.Teacher
         [HttpGet]
         public ActionResult UpdateMarks(int id)
         {
-            var pid = Convert.ToInt32(Session["programId"]);
+            int uid = (int)Session["uid"];
+            var user = db.Users.Find(uid);
             var mission = db.Marks.Find(id);
 
             if (mission == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CourseTypeList = new SelectList(db.CourseTypes.Where(x => x.ProgramId == pid && x.DepartmentId == mission.DepartmentId).ToList(), "CourseTypeId", "CourseType1",mission.CourseTypeId);
-            var missions = db.Marks.Where(x => x.ProgramId == pid && x.DepartmentId == mission.DepartmentId).ToList();
+            var pid = db.Programs.Where(x => x.DepartmentId == user.DepartmentId).ToList();
+            ViewBag.ProgramId = new SelectList(pid, "ProgramId", "ShortName",mission.ProgramId);
+            // Populate Course Types for the selected Program
+            var courseTypes = db.CourseTypes
+                .Where(ct => ct.ProgramId == mission.ProgramId && ct.DepartmentId == mission.DepartmentId)
+                .ToList();
+            ViewBag.CourseTypeId = new SelectList(courseTypes, "CourseTypeId", "CourseType1", mission.CourseTypeId);
+            var missions = db.Marks.Where(x => x.ProgramId == mission.ProgramId && x.DepartmentId == mission.DepartmentId).ToList();
             var tuple = new Tuple<Mark, List<Mark>>(mission, missions);
             ViewBag.data = true;
             return View("Marks", tuple);
@@ -183,7 +218,8 @@ namespace SyllabusAutomation.Controllers.Teacher
                     {
                         return HttpNotFound();
                     }
-                    peo.CourseTypeId = Convert.ToInt32(form["Item1.CourseTypeId"]);
+                    peo.ProgramId = Convert.ToInt32(form["ProgramId"]);
+                    peo.CourseTypeId = Convert.ToInt32(form["CourseTypeId"]);
                     peo.CT = form["Item1.CT"].AsFloat();
                     peo.Attendence = form["Item1.Attendence"].AsFloat();
                     peo.SE = form["Item1.SE"].AsFloat();
@@ -201,6 +237,7 @@ namespace SyllabusAutomation.Controllers.Teacher
             return RedirectToAction("Marks", "Course");
         }
         #endregion
+
         #region CourseList
         public ActionResult CourseList()
         {

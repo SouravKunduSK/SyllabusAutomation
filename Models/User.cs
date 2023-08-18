@@ -14,6 +14,13 @@ namespace SyllabusAutomation.Models
     
     public partial class User
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public User()
+        {
+            this.Courses = new HashSet<Course>();
+            this.Universities = new HashSet<University>();
+        }
+    
         public int UserID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -30,7 +37,12 @@ namespace SyllabusAutomation.Models
         public Nullable<int> DepartmentId { get; set; }
         public Nullable<int> FacultyId { get; set; }
         public Nullable<int> UniversityId { get; set; }
+        public string EducationDetail { get; set; }
+        public Nullable<int> DesignationId { get; set; }
+        public Nullable<bool> IsChairman { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Course> Courses { get; set; }
         public virtual Department Department { get; set; }
         public virtual EduYear EduYear { get; set; }
         public virtual Faculty Faculty { get; set; }
@@ -38,6 +50,9 @@ namespace SyllabusAutomation.Models
         public virtual Role Role { get; set; }
         public virtual Semester Semester { get; set; }
         public virtual Session Session { get; set; }
+        public virtual TeacherDesignation TeacherDesignation { get; set; }
         public virtual University University { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<University> Universities { get; set; }
     }
 }

@@ -18,7 +18,8 @@ namespace SyllabusAutomation.Controllers.Admin
         // GET: Universities
         public ActionResult Index()
         {
-            return View(db.Universities.ToList());
+            var userId = Convert.ToInt32(Session["uid"]);
+            return View(db.Universities.Where(x=>x.UserId == userId && x.IsActive == true).ToList());
         }
 
         // GET: Universities/Details/5
@@ -55,6 +56,9 @@ namespace SyllabusAutomation.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
+                var userId = Convert.ToInt32(Session["uid"]);
+                university.IsActive = true;
+                university.UserId = userId;
                 db.Universities.Add(university);
                 db.SaveChanges();
                 return RedirectToAction("Index", "Universities");
@@ -87,11 +91,12 @@ namespace SyllabusAutomation.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                university.Logo = university.Logo;
-                university.QualityPolicy = university.QualityPolicy;
-                university.VisionOfUniversity = university.VisionOfUniversity;
-                db.Entry(university).State = EntityState.Modified;
-                db.Configuration.ValidateOnSaveEnabled = false;
+                var uni = db.Universities.Find(university.UniversityId);
+                if(uni!=null)
+                {
+                    uni.UniName = university.UniName;
+                    uni.ShortName = university.ShortName;
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

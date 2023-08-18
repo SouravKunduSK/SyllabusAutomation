@@ -1,11 +1,9 @@
 ﻿@using SyllabusAutomation.Models;
-@model Tuple<CourseType, List<CourseType>>
+@model Tuple<TeacherDesignation, List<TeacherDesignation>>
 @{
-    ViewBag.Title = "CourseType";
+    ViewBag.Title = "Designations";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
-
 
 <div class="container-fluid">
     <!-- Breadcrumb navigation -->
@@ -13,7 +11,7 @@
         <li class="breadcrumb-item">
             <a href="@Url.Action("Index", "Dashboard")">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">Course Type </li>
+        <li class="breadcrumb-item active">Teacher's Designation</li>
     </ol>
 
     <!-- Success message displayed after adding a mission -->
@@ -33,35 +31,26 @@
                 <div class="card mb-3">
                     <div class="card-header">
                         <i class="fas fa-table"></i>
-                        Add New Course Type
+                        Add Teacher's Designation
                     </div>
                     <div class="card-body">
-                        @using (Html.BeginForm("AddCourseType", "Course", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        @using (Html.BeginForm("AddDesignations", "DepartmentDetail", FormMethod.Post, new { enctype = "multipart/form-data" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <div class="col-md-6">
-                                        <h5>Select Program</h5>
-                                        @Html.DropDownListFor(x => x.Item1.ProgramId, ViewBag.ProgramList as SelectList, "--- Select Program ---", new { @class = "form-control", required = "required" })
-                                        @Html.ValidationMessageFor(x => x.Item1.ProgramId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <div class="col-md-6">
-                                        <h5>Course Type</h5>
-                                        @Html.TextBoxFor(x => x.Item1.CourseType1, new { @class = "form-control", required = "required" })
-                                        @Html.ValidationMessageFor(x => x.Item1.CourseType1, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
 
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Designation Name</h5>
+                                        @Html.TextBoxFor(x => x.Item1.Designation, new { @class = "form-control", placeholder="Lecturer, Professor..", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.Designation, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-md-6">
                                 <div class="col-md-10">
-                                    <a onclick="window.history.back();" class="btn btn-danger">Cancel</a>
+                                    <a href="@Url.Action("Designations","DepartmentDetail")" class="btn btn-danger">Cancel</a>
                                     <input type="submit" class="btn btn-success" value="Save" />
                                 </div>
                             </div>
@@ -79,38 +68,28 @@
                 <div class="card mb-3">
                     <div class="card-header">
                         <i class="fas fa-table"></i>
-                        Edit Course Type
+                        Edit Designation
                     </div>
                     <div class="card-body">
-                        @using (Html.BeginForm("UpdateCourseType", "Course", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        @using (Html.BeginForm("UpdateDesignations", "DepartmentDetail", FormMethod.Post, new { enctype = "multipart/form-data" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            
-                            @Html.HiddenFor(x => x.Item1.CourseTypeId)
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <div class="col-md-6">
-                                        <h5>Select Program</h5>
-                                        @Html.DropDownListFor(x => x.Item1.ProgramId, ViewBag.ProgramList as SelectList, "--- Select Program ---", new { @class = "form-control", required = "required" })
-                                        @Html.ValidationMessageFor(x => x.Item1.ProgramId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
+                            @Html.HiddenFor(x => x.Item1.DesId)
+
 
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="col-md-6">
-                                        <h5>Course Type</h5>
-                                        @Html.TextBoxFor(x => x.Item1.CourseType1, htmlAttributes: new { @class = "form-control", required = "required" })
-                                        @Html.ValidationMessageFor(x => x.Item1.CourseType1, "", new { @class = "text-danger" })
+                                        <h5>Designation Name</h5>
+                                        @Html.TextBoxFor(x => x.Item1.Designation, htmlAttributes: new { @class = "form-control", required = "required",placeholder = "Lecturer, Professor..", })
+                                        @Html.ValidationMessageFor(x => x.Item1.Designation, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
-
                             <div class="col-md-6">
                                 <div class="col-md-10">
-                                    <a onclick="window.history.back();" class="btn btn-danger">Cancel</a>
+                                    <a href="@Url.Action("Designations","DepartmentDetail")" class="btn btn-danger">Cancel</a>
                                     <input type="submit" class="btn btn-success" value="Update" />
                                 </div>
                             </div>
@@ -125,7 +104,7 @@
     <div class="card mb-3">
         <div class="card-header">
             <i class="fas fa-book-open"></i>
-            All Course Types
+            All Missions of the Department
             <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="btn btn-info pull-right fa fa-plus">Add New</a>
         </div>
         <div class="card-body">
@@ -133,9 +112,8 @@
                 <table class="table table-condensed table-hover table-bordered table-striped table" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Sr.No</th>
-                            <th>Course Types</th>
-                            <th>Program</th>
+                            <th>Serial No.</th>
+                            <th>Designations</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -144,10 +122,9 @@
                         {
                             <tr>
                                 <td>@(Model.Item2.IndexOf(item) + 1)</td>
-                                <td class="text-justify">@item.CourseType1</td>
-                                <td>@item.Program.ShortName</td>
+                                <td>@item.Designation</td>
                                 <td>
-                                    <a href="@Url.Action("UpdateCourseType", "Course", new { id = item.CourseTypeId })" class="btn btn-info">Edit</a>
+                                    <a href="@Url.Action("UpdateDesignations", "DepartmentDetail", new { id = item.DesId, mi = item.Designation })" class="btn btn-info">Edit</a>
                                 </td>
                             </tr>
                         }
@@ -157,4 +134,6 @@
         </div>
     </div>
 </div>
+
+
 

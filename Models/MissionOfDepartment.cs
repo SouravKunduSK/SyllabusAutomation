@@ -19,6 +19,7 @@ namespace SyllabusAutomation.Models
         public Nullable<int> DepartmentId { get; set; }
         public Nullable<int> FacultyId { get; set; }
         public Nullable<int> UniversityId { get; set; }
+        public Nullable<bool> IsActive { get; set; }
     
         public virtual Department Department { get; set; }
     }

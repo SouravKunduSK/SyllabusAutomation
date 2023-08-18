@@ -134,7 +134,7 @@ namespace SyllabusAutomation.Controllers.Teacher
         {
             int uid = (int)Session["uid"];
             var user = GetUser(uid);
-            var sessions = db.Sessions.Where(x => x.DepartmentId == user.DepartmentId).OrderByDescending(x=>x.SessionId).ToList();
+            var sessions = db.Sessions.Where(x => x.DepartmentId == user.DepartmentId && x.IsActive == true).OrderByDescending(x=>x.SessionId).ToList();
             var tuple = new Tuple<Session, List<Session>>(new Session(), sessions);
             return View(tuple);
         }
@@ -151,6 +151,7 @@ namespace SyllabusAutomation.Controllers.Teacher
                     var session = new Session();
 
                     session.DepartmentId = (int)user.DepartmentId;
+                    session.IsActive = true;
                     
                     session.SessionName = frm["Item1.SessionName"].ToString();
                     
@@ -171,12 +172,12 @@ namespace SyllabusAutomation.Controllers.Teacher
         {
             int uid = (int)Session["uid"];
             var user = GetUser(uid);
-            var session = db.Sessions.FirstOrDefault(x => x.SessionId == id);
+            var session = db.Sessions.Find(id);
             if (session == null)
             {
                 return HttpNotFound();
             }
-            var sessions = db.Sessions.Where(x => x.DepartmentId == user.DepartmentId).OrderByDescending(x=>x.SessionId).ToList();
+            var sessions = db.Sessions.Where(x => x.DepartmentId == user.DepartmentId && x.IsActive == true).OrderByDescending(x=>x.SessionId).ToList();
             var tuple = new Tuple<Session, List<Session>>(session, sessions);
 
             ViewBag.data = true;
@@ -215,89 +216,89 @@ namespace SyllabusAutomation.Controllers.Teacher
         }
         #endregion
         #region Years
-        public ActionResult YearList()
-        {
-            int uid = (int)Session["uid"];
-            var user = GetUser(uid);
-            var years = db.EduYears.Where(x => x.DepartmentId == user.DepartmentId).OrderByDescending(x => x.YearName).ToList();
-            var tuple = new Tuple<EduYear, List<EduYear>>(new EduYear(), years);
-            return View(tuple);
-        }
+        //public ActionResult YearList()
+        //{
+        //    int uid = (int)Session["uid"];
+        //    var user = GetUser(uid);
+        //    var years = db.EduYears.Where(x => x.DepartmentId == user.DepartmentId).OrderByDescending(x => x.YearName).ToList();
+        //    var tuple = new Tuple<EduYear, List<EduYear>>(new EduYear(), years);
+        //    return View(tuple);
+        //}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddNewYear(FormCollection frm)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    int uid = (int)Session["uid"];
-                    var user = GetUser(uid);
-                    var year = new EduYear();
+        //public ActionResult AddNewYear(FormCollection frm)
+        //{
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            int uid = (int)Session["uid"];
+        //            var user = GetUser(uid);
+        //            var year = new EduYear();
 
-                    year.DepartmentId = (int)user.DepartmentId;
+        //            year.DepartmentId = (int)user.DepartmentId;
 
-                    year.YearName = frm["Item1.YearName"].ToString();
+        //            year.YearName = frm["Item1.YearName"].ToString();
 
-                    db.EduYears.AddOrUpdate(year);
-                    db.SaveChanges();
-                    TempData["msg"] = "Year Name Added Successfully!";
-                }
-            }
-            catch
-            {
-                TempData["msg"] = "Something Error Occurred! Try Again... ";
-            }
+        //            db.EduYears.AddOrUpdate(year);
+        //            db.SaveChanges();
+        //            TempData["msg"] = "Year Name Added Successfully!";
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        TempData["msg"] = "Something Error Occurred! Try Again... ";
+        //    }
 
-            return RedirectToAction("YearList", "DepartmentDetail");
-        }
+        //    return RedirectToAction("YearList", "DepartmentDetail");
+        //}
 
-        public ActionResult UpdateYear(int id)
-        {
-            int uid = (int)Session["uid"];
-            var user = GetUser(uid);
-            var year = db.EduYears.FirstOrDefault(x => x.YearId == id);
-            if (year == null)
-            {
-                return HttpNotFound();
-            }
-            var years = db.EduYears.Where(x => x.DepartmentId == user.DepartmentId).OrderBy(x => x.YearName).ToList();
-            var tuple = new Tuple<EduYear, List<EduYear>>(year, years);
+        //public ActionResult UpdateYear(int id)
+        //{
+        //    int uid = (int)Session["uid"];
+        //    var user = GetUser(uid);
+        //    var year = db.EduYears.FirstOrDefault(x => x.YearId == id);
+        //    if (year == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    var years = db.EduYears.Where(x => x.DepartmentId == user.DepartmentId).OrderBy(x => x.YearName).ToList();
+        //    var tuple = new Tuple<EduYear, List<EduYear>>(year, years);
 
-            ViewBag.data = true;
-            return View("YearList", tuple);
+        //    ViewBag.data = true;
+        //    return View("YearList", tuple);
 
 
 
-        }
+        //}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult UpdateYear(int id, FormCollection frm)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    var year = db.EduYears.Find(id);
-                    if (year == null)
-                    {
-                        return HttpNotFound();
-                    }
-                    year.YearName = frm["Item1.YearName"].ToString();
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult UpdateYear(int id, FormCollection frm)
+        //{
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            var year = db.EduYears.Find(id);
+        //            if (year == null)
+        //            {
+        //                return HttpNotFound();
+        //            }
+        //            year.YearName = frm["Item1.YearName"].ToString();
 
-                    db.SaveChanges();
+        //            db.SaveChanges();
 
-                    TempData["msg"] = "Year Name Updated Successfully!";
-                }
-            }
-            catch
-            {
-                TempData["msg"] = "Something Error Occurred! Try Again... ";
-            }
+        //            TempData["msg"] = "Year Name Updated Successfully!";
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        TempData["msg"] = "Something Error Occurred! Try Again... ";
+        //    }
 
-            return RedirectToAction("YearList", "DepartmentDetail");
-        }
+        //    return RedirectToAction("YearList", "DepartmentDetail");
+        //}
         #endregion
         public ActionResult SemesterList()
         {
@@ -358,9 +359,9 @@ namespace SyllabusAutomation.Controllers.Teacher
         {
             int uid = (int)Session["uid"];
             var user = db.Users.Find(uid);
-            var dept = db.Departments.Find(user.DepartmentId);
+            var dept = db.Departments.Where(x=>x.DepartmentId==user.DepartmentId && x.IsActive == true).FirstOrDefault();
             Session["deptId"] = dept.DepartmentId;
-            var missions = db.MissionOfDepartments.Where(x => x.DepartmentId == dept.DepartmentId).ToList();
+            var missions = db.MissionOfDepartments.Where(x => x.DepartmentId == dept.DepartmentId && x.IsActive == true).ToList();
             var tuple = new Tuple<MissionOfDepartment, List<MissionOfDepartment>>(new MissionOfDepartment(), missions);
             return View(tuple);
         }
@@ -379,6 +380,7 @@ namespace SyllabusAutomation.Controllers.Teacher
                     mission.UniversityId = user.UniversityId;
                     mission.FacultyId = user.FacultyId;
                     mission.DepartmentId = user.DepartmentId;
+                    mission.IsActive = true;
                     mission.Mission = form["Item1.Mission"];
                     db.MissionOfDepartments.AddOrUpdate(mission);
                     db.SaveChanges();
@@ -402,7 +404,7 @@ namespace SyllabusAutomation.Controllers.Teacher
                 return HttpNotFound();
             }
 
-            var missions = db.MissionOfDepartments.Where(x => x.DepartmentId == mission.DepartmentId).ToList();
+            var missions = db.MissionOfDepartments.Where(x => x.DepartmentId == mission.DepartmentId && x.IsActive == true).ToList();
             var tuple = new Tuple<MissionOfDepartment, List<MissionOfDepartment>>(mission, missions);
             ViewBag.data = true;
             return View("DeptMissions", tuple);
@@ -520,6 +522,87 @@ namespace SyllabusAutomation.Controllers.Teacher
             }
 
             return peoMissionViewModels;
+        }
+
+
+
+        // Teacher's Designation
+
+        public ActionResult Designations()
+        {
+            int uid = (int)Session["uid"];
+            var user = db.Users.Find(uid);
+            var designations = db.TeacherDesignations.Where(x => x.DeptId == user.DepartmentId && x.IsActive == true).ToList();
+            var tuple = new Tuple<TeacherDesignation, List<TeacherDesignation>>(new TeacherDesignation(), designations);
+            return View(tuple);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddDesignations(FormCollection form)
+        {
+            try
+            {
+                int uid = (int)Session["uid"];
+                var user = db.Users.Find(uid);
+                if (ModelState.IsValid)
+                {
+                    var mission = new TeacherDesignation();
+                    mission.DeptId = user.DepartmentId;
+                    mission.IsActive = true;
+                    mission.Designation = form["Item1.Designation"];
+                    db.TeacherDesignations.AddOrUpdate(mission);
+                    db.SaveChanges();
+                    TempData["msg"] = "Designation Added Successfully!";
+                }
+            }
+            catch
+            {
+                TempData["msg"] = "Something Error Occurred! Try Again... ";
+            }
+
+            return RedirectToAction("Designations");
+        }
+
+        [HttpGet]
+        public ActionResult UpdateDesignations(int id)
+        {
+            var mission = db.TeacherDesignations.Find(id);
+            if (mission == null)
+            {
+                return HttpNotFound();
+            }
+
+            var missions = db.TeacherDesignations.Where(x => x.DeptId == mission.DeptId && x.IsActive == true).ToList();
+            var tuple = new Tuple<TeacherDesignation, List<TeacherDesignation>>(mission, missions);
+            ViewBag.data = true;
+            return View("Designations", tuple);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateDesignations(int id, FormCollection form)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var existingMission = db.TeacherDesignations.Find(id);
+                    if (existingMission == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    existingMission.Designation = form["Item1.Designation"];
+                    db.SaveChanges();
+                    TempData["msg"] = "Designation Updated Successfully!";
+                }
+            }
+            catch
+            {
+                TempData["msg"] = "Something Error Occurred! Try Again... ";
+            }
+
+            return RedirectToAction("Designations");
         }
     }
 }

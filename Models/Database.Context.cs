@@ -58,11 +58,10 @@ namespace SyllabusAutomation.Models
         public virtual DbSet<Semester> Semesters { get; set; }
         public virtual DbSet<Session> Sessions { get; set; }
         public virtual DbSet<Syllabu> Syllabus { get; set; }
+        public virtual DbSet<TeacherDesignation> TeacherDesignations { get; set; }
         public virtual DbSet<TeachingStrategie> TeachingStrategies { get; set; }
         public virtual DbSet<University> Universities { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Week> Weeks { get; set; }
-        public virtual DbSet<TeacherDesignation> TeacherDesignations { get; set; }
-        public virtual DbSet<TeacherofDept> TeacherofDepts { get; set; }
     }
 }

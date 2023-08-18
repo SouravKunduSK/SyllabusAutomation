@@ -26,7 +26,7 @@ namespace SyllabusAutomation.Models
         public virtual Course Course { get; set; }
         public virtual Department Department { get; set; }
         public virtual EduYear EduYear { get; set; }
-        public virtual Semester Semester { get; set; }
         public virtual Program Program { get; set; }
+        public virtual Semester Semester { get; set; }
     }
 }

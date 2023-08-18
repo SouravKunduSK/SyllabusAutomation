@@ -24,6 +24,7 @@ namespace SyllabusAutomation.Models
         public int SessionId { get; set; }
         public string SessionName { get; set; }
         public int DepartmentId { get; set; }
+        public Nullable<bool> IsActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Course> Courses { get; set; }

@@ -21,9 +21,9 @@ namespace SyllabusAutomation.Controllers.Admin
             var university = db.Universities.Find(user.UniversityId);
             Session["uniId"] = university.UniversityId;
             //var faculties = db.Faculties.Find(university.UniversityId);
-            List<Faculty> FacultyList = db.Faculties.OrderBy(x => x.ShortName).ToList();
+            List<Faculty> FacultyList = db.Faculties.Where(x=>x.UniversityId == user.UniversityId && x.IsActive == true).OrderBy(x => x.ShortName).ToList();
             ViewBag.FacultyList = new SelectList(FacultyList, "FacultyId", "ShortName");
-            var departments = db.Departments.Where(x=>x.UniversityId == university.UniversityId).ToList();
+            var departments = db.Departments.Where(x=>x.UniversityId == university.UniversityId && x.IsActive == true).ToList();
             var tuple = new Tuple<Department, List<Department>>(new Department(), departments);
             return View(tuple);
         }
@@ -41,6 +41,7 @@ namespace SyllabusAutomation.Controllers.Admin
                         department.FacultyId = Convert.ToInt32(form["Item1.FacultyId"]);
                         department.DeptName = form["Item1.DeptName"];
                         department.ShortName = form["Item1.ShortName"];
+                        department.IsActive = true;
                         db.Departments.AddOrUpdate(department);
                         db.SaveChanges();
                         TempData["msg"] = "Department Name Added Successfully!";
@@ -63,9 +64,9 @@ namespace SyllabusAutomation.Controllers.Admin
                     return HttpNotFound();
                 }
 
-                var faculties = db.Faculties.Where(x => x.UniversityId == dept.UniversityId).OrderBy(x=>x.ShortName).ToList();
+                var faculties = db.Faculties.Where(x => x.UniversityId == dept.UniversityId && x.IsActive == true).OrderBy(x=>x.ShortName).ToList();
                 ViewBag.facultyList = new SelectList(faculties, "FacultyId", "ShortName");
-                var depts = db.Departments.Where(x => x.UniversityId == dept.UniversityId).ToList();
+                var depts = db.Departments.Where(x => x.UniversityId == dept.UniversityId && x.IsActive == true).ToList();
                 var tuple = new Tuple<Department, List<Department>>(dept, depts);
                 ViewBag.data = true;
                 return View("DepartmentNamesOfUniversity", tuple);

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SyllabusAutomationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="SyllabusAutomationNewModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AssessmentStrategie">
           <Key>
             <PropertyRef Name="AssessmentStrategieId" />
@@ -82,6 +82,7 @@
           <Property Name="FacultyId" Type="int" />
           <Property Name="DepartmentId" Type="int" />
           <Property Name="UniversityId" Type="int" />
+          <Property Name="UserId" Type="int" />
         </EntityType>
         <EntityType Name="CourseAssessmentStrategie">
           <Key>
@@ -150,6 +151,7 @@
           <Property Name="Website" Type="nvarchar" MaxLength="100" />
           <Property Name="Introduction" Type="text" />
           <Property Name="MessageofChairman" Type="text" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <EntityType Name="EduYear">
           <Key>
@@ -157,9 +159,6 @@
           </Key>
           <Property Name="YearId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="YearName" Type="nvarchar" MaxLength="255" />
-          <Property Name="SemesterId" Type="int" />
-          <Property Name="SessionId" Type="int" />
-          <Property Name="DepartmentId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Faculty">
           <Key>
@@ -169,6 +168,7 @@
           <Property Name="FacultyName" Type="nvarchar(max)" />
           <Property Name="ShortName" Type="nvarchar" MaxLength="250" />
           <Property Name="UniversityId" Type="int" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <EntityType Name="GenericSkill">
           <Key>
@@ -181,6 +181,7 @@
           <Property Name="DepartmentId" Type="int" />
           <Property Name="FacultyId" Type="int" />
           <Property Name="UniversityId" Type="int" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <EntityType Name="Grade">
           <Key>
@@ -273,6 +274,7 @@
           <Property Name="DepartmentId" Type="int" />
           <Property Name="FacultyId" Type="int" />
           <Property Name="UniversityId" Type="int" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <EntityType Name="MissionOfUniversity">
           <Key>
@@ -281,6 +283,7 @@
           <Property Name="MissionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Mission" Type="nvarchar(max)" />
           <Property Name="UniversityId" Type="int" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <EntityType Name="PEO">
           <Key>
@@ -293,6 +296,7 @@
           <Property Name="DepartmentId" Type="int" />
           <Property Name="FacultyId" Type="int" />
           <Property Name="UniversityId" Type="int" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <EntityType Name="PEOToMission">
           <Key>
@@ -331,6 +335,7 @@
           <Property Name="DepartmentId" Type="int" />
           <Property Name="FacultyId" Type="int" />
           <Property Name="UniversityId" Type="int" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <EntityType Name="Program">
           <Key>
@@ -406,6 +411,7 @@
           <Property Name="SessionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SessionName" Type="nvarchar" MaxLength="255" />
           <Property Name="DepartmentId" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <EntityType Name="Syllabus">
           <Key>
@@ -426,17 +432,8 @@
           </Key>
           <Property Name="DesId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Designation" Type="nvarchar" MaxLength="50" />
-        </EntityType>
-        <EntityType Name="TeacherofDept">
-          <Key>
-            <PropertyRef Name="TeacherId" />
-          </Key>
-          <Property Name="TeacherId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TeacherName" Type="nvarchar" MaxLength="100" />
-          <Property Name="EduDetail" Type="nvarchar" MaxLength="250" />
-          <Property Name="Email" Type="nvarchar" MaxLength="100" />
-          <Property Name="DepartmentId" Type="int" />
-          <Property Name="DesignationId" Type="int" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="DeptId" Type="int" />
         </EntityType>
         <EntityType Name="TeachingStrategie">
           <Key>
@@ -448,6 +445,7 @@
           <Property Name="DepartmentId" Type="int" />
           <Property Name="FacultyId" Type="int" />
           <Property Name="UniversityId" Type="int" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <EntityType Name="University">
           <Key>
@@ -460,6 +458,8 @@
           <Property Name="VisionOfUniversity" Type="text" />
           <Property Name="QualityPolicy" Type="text" />
           <Property Name="MessageofVC" Type="text" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -481,6 +481,9 @@
           <Property Name="DepartmentId" Type="int" />
           <Property Name="FacultyId" Type="int" />
           <Property Name="UniversityId" Type="int" />
+          <Property Name="EducationDetail" Type="text" />
+          <Property Name="DesignationId" Type="int" />
+          <Property Name="IsChairman" Type="bit" />
         </EntityType>
         <EntityType Name="Week">
           <Key>
@@ -2078,15 +2081,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_EduYear_Department">
-          <End Role="Department" Type="Self.Department" Multiplicity="1" />
-          <End Role="EduYear" Type="Self.EduYear" Multiplicity="*" />
+        <Association Name="FK_Course_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Course" Type="Self.Course" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="DepartmentId" />
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
             </Principal>
-            <Dependent Role="EduYear">
-              <PropertyRef Name="DepartmentId" />
+            <Dependent Role="Course">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2174,31 +2177,43 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TeacherofDept_Department">
+        <Association Name="FK_TeacherDesignation_Department">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
-          <End Role="TeacherofDept" Type="Self.TeacherofDept" Multiplicity="*" />
+          <End Role="TeacherDesignation" Type="Self.TeacherDesignation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Department">
               <PropertyRef Name="DepartmentId" />
             </Principal>
-            <Dependent Role="TeacherofDept">
-              <PropertyRef Name="DepartmentId" />
+            <Dependent Role="TeacherDesignation">
+              <PropertyRef Name="DeptId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TeacherofDept_TeacherDesignation">
+        <Association Name="FK_University_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="University" Type="Self.University" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="University">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_TeacherDesignation">
           <End Role="TeacherDesignation" Type="Self.TeacherDesignation" Multiplicity="0..1" />
-          <End Role="TeacherofDept" Type="Self.TeacherofDept" Multiplicity="*" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TeacherDesignation">
               <PropertyRef Name="DesId" />
             </Principal>
-            <Dependent Role="TeacherofDept">
+            <Dependent Role="User">
               <PropertyRef Name="DesignationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="SyllabusAutomationModelStoreContainer">
+        <EntityContainer Name="SyllabusAutomationNewModelStoreContainer">
           <EntitySet Name="AssessmentStrategie" EntityType="Self.AssessmentStrategie" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CIE" EntityType="Self.CIE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CLO" EntityType="Self.CLO" Schema="dbo" store:Type="Tables" />
@@ -2233,7 +2248,6 @@
           <EntitySet Name="Session" EntityType="Self.Session" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Syllabus" EntityType="Self.Syllabus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TeacherDesignation" EntityType="Self.TeacherDesignation" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TeacherofDept" EntityType="Self.TeacherofDept" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TeachingStrategie" EntityType="Self.TeachingStrategie" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="University" EntityType="Self.University" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
@@ -2766,9 +2780,9 @@
             <End Role="Course" EntitySet="Course" />
             <End Role="AssessmentStrategie" EntitySet="AssessmentStrategie" />
           </AssociationSet>
-          <AssociationSet Name="FK_EduYear_Department" Association="Self.FK_EduYear_Department">
-            <End Role="Department" EntitySet="Department" />
-            <End Role="EduYear" EntitySet="EduYear" />
+          <AssociationSet Name="FK_Course_User" Association="Self.FK_Course_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Course" EntitySet="Course" />
           </AssociationSet>
           <AssociationSet Name="FK_Grade_University" Association="Self.FK_Grade_University">
             <End Role="University" EntitySet="University" />
@@ -2798,19 +2812,24 @@
             <End Role="Semester" EntitySet="Semester" />
             <End Role="Syllabus" EntitySet="Syllabus" />
           </AssociationSet>
-          <AssociationSet Name="FK_TeacherofDept_Department" Association="Self.FK_TeacherofDept_Department">
+          <AssociationSet Name="FK_TeacherDesignation_Department" Association="Self.FK_TeacherDesignation_Department">
             <End Role="Department" EntitySet="Department" />
-            <End Role="TeacherofDept" EntitySet="TeacherofDept" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TeacherofDept_TeacherDesignation" Association="Self.FK_TeacherofDept_TeacherDesignation">
             <End Role="TeacherDesignation" EntitySet="TeacherDesignation" />
-            <End Role="TeacherofDept" EntitySet="TeacherofDept" />
+          </AssociationSet>
+          <AssociationSet Name="FK_University_User" Association="Self.FK_University_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="University" EntitySet="University" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_TeacherDesignation" Association="Self.FK_User_TeacherDesignation">
+            <End Role="TeacherDesignation" EntitySet="TeacherDesignation" />
+            <End Role="User" EntitySet="User" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="SyllabusAutomationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="SyllabusAutomationNewModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="AssessmentStrategie">
           <Key>
             <PropertyRef Name="AssessmentStrategieId" />
@@ -2909,6 +2928,7 @@
           <Property Name="FacultyId" Type="Int32" />
           <Property Name="DepartmentId" Type="Int32" />
           <Property Name="UniversityId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
           <NavigationProperty Name="AssessmentStrategies" Relationship="Self.FK_AssessmentStrategie_Course" FromRole="Course" ToRole="AssessmentStrategie" />
           <NavigationProperty Name="CIEs" Relationship="Self.FK__CIE__CourseId__59FA5E80" FromRole="Course" ToRole="CIE" />
           <NavigationProperty Name="CLOes" Relationship="Self.FK__CLO__CourseId__5EBF139D" FromRole="Course" ToRole="CLO" />
@@ -2930,7 +2950,8 @@
           <NavigationProperty Name="Resources" Relationship="Self.FK__Resource__Course__395884C4" FromRole="Course" ToRole="Resource" />
           <NavigationProperty Name="SEEs" Relationship="Self.FK__SEE__CourseId__3F115E1A" FromRole="Course" ToRole="SEE" />
           <NavigationProperty Name="Weeks" Relationship="Self.FK__Week__CourseId__540C7B00" FromRole="Course" ToRole="Week" />
-          <NavigationProperty Name="Syllabus" Relationship="SyllabusAutomationModel.FK_Syllabus_Course" FromRole="Course" ToRole="Syllabu" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Course_User" FromRole="Course" ToRole="User" />
+          <NavigationProperty Name="Syllabus" Relationship="Self.FK_Syllabus_Course" FromRole="Course" ToRole="Syllabus" />
         </EntityType>
         <EntityType Name="CourseAssessmentStrategie">
           <Key>
@@ -3013,6 +3034,14 @@
           <Property Name="UniversityId" Type="Int32" />
           <Property Name="FacultyId" Type="Int32" />
           <Property Name="ShortName" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Fax" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Website" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Introduction" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="MessageofChairman" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
           <NavigationProperty Name="AssessmentStrategies" Relationship="Self.FK__Assessmen__Depar__5535A963" FromRole="Department" ToRole="AssessmentStrategie" />
           <NavigationProperty Name="CIEs" Relationship="Self.FK__CIE__DepartmentI__5BE2A6F2" FromRole="Department" ToRole="CIE" />
           <NavigationProperty Name="CLOes" Relationship="Self.FK__CLO__DepartmentI__619B8048" FromRole="Department" ToRole="CLO" />
@@ -3040,17 +3069,9 @@
           <NavigationProperty Name="TeachingStrategies" Relationship="Self.FK__TeachingS__Depar__47A6A41B" FromRole="Department" ToRole="TeachingStrategie" />
           <NavigationProperty Name="Users" Relationship="Self.FK__User__Department__4B7734FF" FromRole="Department" ToRole="User" />
           <NavigationProperty Name="Weeks" Relationship="Self.FK__Week__Department__531856C7" FromRole="Department" ToRole="Week" />
-          <NavigationProperty Name="EduYears" Relationship="Self.FK_EduYear_Department" FromRole="Department" ToRole="EduYear" />
           <NavigationProperty Name="Sessions" Relationship="Self.FK_Session_Department" FromRole="Department" ToRole="Session" />
-          <Property Name="Mobile" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="Fax" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Website" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Introduction" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="MessageofChairman" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Syllabus" Relationship="SyllabusAutomationModel.FK_Syllabus_Department" FromRole="Department" ToRole="Syllabu" />
-          <NavigationProperty Name="TeacherofDepts" Relationship="SyllabusAutomationModel.FK_TeacherofDept_Department" FromRole="Department" ToRole="TeacherofDept" />
+          <NavigationProperty Name="Syllabus" Relationship="Self.FK_Syllabus_Department" FromRole="Department" ToRole="Syllabus" />
+          <NavigationProperty Name="TeacherDesignations" Relationship="Self.FK_TeacherDesignation_Department" FromRole="Department" ToRole="TeacherDesignation" />
         </EntityType>
         <EntityType Name="EduYear">
           <Key>
@@ -3058,13 +3079,9 @@
           </Key>
           <Property Name="YearId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="YearName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="SemesterId" Type="Int32" />
-          <Property Name="SessionId" Type="Int32" />
-          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Courses" Relationship="Self.FK__Course__YearId__6EF57B66" FromRole="EduYear" ToRole="Course" />
-          <NavigationProperty Name="Department" Relationship="Self.FK_EduYear_Department" FromRole="EduYear" ToRole="Department" />
           <NavigationProperty Name="Users" Relationship="Self.FK__User__YearId__4D5F7D71" FromRole="EduYear" ToRole="User" />
-          <NavigationProperty Name="Syllabus" Relationship="SyllabusAutomationModel.FK_Syllabus_EduYear" FromRole="EduYear" ToRole="Syllabu" />
+          <NavigationProperty Name="Syllabus" Relationship="Self.FK_Syllabus_EduYear" FromRole="EduYear" ToRole="Syllabus" />
         </EntityType>
         <EntityType Name="Faculty">
           <Key>
@@ -3074,6 +3091,7 @@
           <Property Name="FacultyName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ShortName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="UniversityId" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
           <NavigationProperty Name="AssessmentStrategies" Relationship="Self.FK__Assessmen__Facul__5812160E" FromRole="Faculty" ToRole="AssessmentStrategie" />
           <NavigationProperty Name="CIEs" Relationship="Self.FK__CIE__FacultyId__5CD6CB2B" FromRole="Faculty" ToRole="CIE" />
           <NavigationProperty Name="CLOes" Relationship="Self.FK__CLO__FacultyId__60A75C0F" FromRole="Faculty" ToRole="CLO" />
@@ -3113,6 +3131,7 @@
           <Property Name="DepartmentId" Type="Int32" />
           <Property Name="FacultyId" Type="Int32" />
           <Property Name="UniversityId" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
           <NavigationProperty Name="Department" Relationship="Self.FK__GenericSk__Depar__07C12930" FromRole="GenericSkill" ToRole="Department" />
           <NavigationProperty Name="Faculty" Relationship="Self.FK__GenericSk__Facul__06CD04F7" FromRole="GenericSkill" ToRole="Faculty" />
           <NavigationProperty Name="Program" Relationship="Self.FK__GenericSk__Progr__04E4BC85" FromRole="GenericSkill" ToRole="Program" />
@@ -3127,7 +3146,7 @@
           <Property Name="Letter" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Point" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="UniversityId" Type="Int32" />
-          <NavigationProperty Name="University" Relationship="SyllabusAutomationModel.FK_Grade_University" FromRole="Grade" ToRole="University" />
+          <NavigationProperty Name="University" Relationship="Self.FK_Grade_University" FromRole="Grade" ToRole="University" />
         </EntityType>
         <EntityType Name="LearningPlan">
           <Key>
@@ -3242,6 +3261,7 @@
           <Property Name="DepartmentId" Type="Int32" />
           <Property Name="FacultyId" Type="Int32" />
           <Property Name="UniversityId" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
           <NavigationProperty Name="Department" Relationship="Self.FK__MissionOf__Depar__245D67DE" FromRole="MissionOfDepartment" ToRole="Department" />
         </EntityType>
         <EntityType Name="MissionOfUniversity">
@@ -3251,6 +3271,7 @@
           <Property Name="MissionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Mission" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="UniversityId" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
           <NavigationProperty Name="University" Relationship="Self.FK__MissionOf__Unive__25518C17" FromRole="MissionOfUniversity" ToRole="University" />
         </EntityType>
         <EntityType Name="PEO">
@@ -3264,6 +3285,7 @@
           <Property Name="DepartmentId" Type="Int32" />
           <Property Name="FacultyId" Type="Int32" />
           <Property Name="UniversityId" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
           <NavigationProperty Name="Department" Relationship="Self.FK__PEO__DepartmentI__29221CFB" FromRole="PEO" ToRole="Department" />
           <NavigationProperty Name="Faculty" Relationship="Self.FK__PEO__FacultyId__282DF8C2" FromRole="PEO" ToRole="Faculty" />
           <NavigationProperty Name="Program" Relationship="Self.FK__PEO__ProgramId__2645B050" FromRole="PEO" ToRole="Program" />
@@ -3314,6 +3336,7 @@
           <Property Name="DepartmentId" Type="Int32" />
           <Property Name="FacultyId" Type="Int32" />
           <Property Name="UniversityId" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
           <NavigationProperty Name="Department" Relationship="Self.FK__PLO__DepartmentI__3493CFA7" FromRole="PLO" ToRole="Department" />
           <NavigationProperty Name="Faculty" Relationship="Self.FK__PLO__FacultyId__339FAB6E" FromRole="PLO" ToRole="Faculty" />
           <NavigationProperty Name="Program" Relationship="Self.FK__PLO__ProgramId__31B762FC" FromRole="PLO" ToRole="Program" />
@@ -3364,7 +3387,7 @@
           <NavigationProperty Name="TeachingStrategies" Relationship="Self.FK__TeachingS__Progr__44CA3770" FromRole="Program" ToRole="TeachingStrategie" />
           <NavigationProperty Name="Users" Relationship="Self.FK__User__ProgramId__4F47C5E3" FromRole="Program" ToRole="User" />
           <NavigationProperty Name="Weeks" Relationship="Self.FK__Week__ProgramId__5224328E" FromRole="Program" ToRole="Week" />
-          <NavigationProperty Name="Syllabus" Relationship="SyllabusAutomationModel.FK_Syllabus_Program" FromRole="Program" ToRole="Syllabu" />
+          <NavigationProperty Name="Syllabus" Relationship="Self.FK_Syllabus_Program" FromRole="Program" ToRole="Syllabus" />
         </EntityType>
         <EntityType Name="Resource">
           <Key>
@@ -3426,10 +3449,10 @@
             <PropertyRef Name="SemesterId" />
           </Key>
           <Property Name="SemesterId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SemesterName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Courses" Relationship="Self.FK__Course__Semister__6E01572D" FromRole="Semester" ToRole="Course" />
           <NavigationProperty Name="Users" Relationship="Self.FK__User__SemisterId__4E53A1AA" FromRole="Semester" ToRole="User" />
-          <NavigationProperty Name="Syllabus" Relationship="SyllabusAutomationModel.FK_Syllabus_Semester" FromRole="Semester" ToRole="Syllabu" />
-          <Property Name="SemesterName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Syllabus" Relationship="Self.FK_Syllabus_Semester" FromRole="Semester" ToRole="Syllabus" />
         </EntityType>
         <EntityType Name="Session">
           <Key>
@@ -3438,6 +3461,7 @@
           <Property Name="SessionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SessionName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" />
           <NavigationProperty Name="Courses" Relationship="Self.FK__Course__SessionI__6D0D32F4" FromRole="Session" ToRole="Course" />
           <NavigationProperty Name="Department" Relationship="Self.FK_Session_Department" FromRole="Session" ToRole="Department" />
           <NavigationProperty Name="Users" Relationship="Self.FK__User__SessionId__4C6B5938" FromRole="Session" ToRole="User" />
@@ -3451,14 +3475,25 @@
           <Property Name="YearId" Type="Int32" />
           <Property Name="CourseId" Type="Int32" />
           <Property Name="DeptId" Type="Int32" />
-          <NavigationProperty Name="Course" Relationship="SyllabusAutomationModel.FK_Syllabus_Course" FromRole="Syllabu" ToRole="Course" />
-          <NavigationProperty Name="Department" Relationship="SyllabusAutomationModel.FK_Syllabus_Department" FromRole="Syllabu" ToRole="Department" />
-          <NavigationProperty Name="EduYear" Relationship="SyllabusAutomationModel.FK_Syllabus_EduYear" FromRole="Syllabu" ToRole="EduYear" />
           <Property Name="SemesterId" Type="Int32" />
           <Property Name="CourseCode" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Semester" Relationship="SyllabusAutomationModel.FK_Syllabus_Semester" FromRole="Syllabu" ToRole="Semester" />
           <Property Name="ProgramId" Type="Int32" />
-          <NavigationProperty Name="Program" Relationship="SyllabusAutomationModel.FK_Syllabus_Program" FromRole="Syllabu" ToRole="Program" />
+          <NavigationProperty Name="Course" Relationship="Self.FK_Syllabus_Course" FromRole="Syllabus" ToRole="Course" />
+          <NavigationProperty Name="Department" Relationship="Self.FK_Syllabus_Department" FromRole="Syllabus" ToRole="Department" />
+          <NavigationProperty Name="EduYear" Relationship="Self.FK_Syllabus_EduYear" FromRole="Syllabus" ToRole="EduYear" />
+          <NavigationProperty Name="Program" Relationship="Self.FK_Syllabus_Program" FromRole="Syllabus" ToRole="Program" />
+          <NavigationProperty Name="Semester" Relationship="Self.FK_Syllabus_Semester" FromRole="Syllabus" ToRole="Semester" />
+        </EntityType>
+        <EntityType Name="TeacherDesignation">
+          <Key>
+            <PropertyRef Name="DesId" />
+          </Key>
+          <Property Name="DesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Designation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="DeptId" Type="Int32" />
+          <NavigationProperty Name="Department" Relationship="Self.FK_TeacherDesignation_Department" FromRole="TeacherDesignation" ToRole="Department" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_User_TeacherDesignation" FromRole="TeacherDesignation" ToRole="User" />
         </EntityType>
         <EntityType Name="TeachingStrategie">
           <Key>
@@ -3470,6 +3505,7 @@
           <Property Name="DepartmentId" Type="Int32" />
           <Property Name="FacultyId" Type="Int32" />
           <Property Name="UniversityId" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
           <NavigationProperty Name="Department" Relationship="Self.FK__TeachingS__Depar__47A6A41B" FromRole="TeachingStrategie" ToRole="Department" />
           <NavigationProperty Name="Faculty" Relationship="Self.FK__TeachingS__Facul__46B27FE2" FromRole="TeachingStrategie" ToRole="Faculty" />
           <NavigationProperty Name="Program" Relationship="Self.FK__TeachingS__Progr__44CA3770" FromRole="TeachingStrategie" ToRole="Program" />
@@ -3485,6 +3521,9 @@
           <Property Name="Logo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="VisionOfUniversity" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="QualityPolicy" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="MessageofVC" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
           <NavigationProperty Name="AssessmentStrategies" Relationship="Self.FK__Assessmen__Unive__571DF1D5" FromRole="University" ToRole="AssessmentStrategie" />
           <NavigationProperty Name="CIEs" Relationship="Self.FK__CIE__UniversityI__5DCAEF64" FromRole="University" ToRole="CIE" />
           <NavigationProperty Name="CLOes" Relationship="Self.FK__CLO__UniversityI__5FB337D6" FromRole="University" ToRole="CLO" />
@@ -3496,6 +3535,7 @@
           <NavigationProperty Name="CurriculmnStructures" Relationship="Self.FK__Curriculm__Unive__7E37BEF6" FromRole="University" ToRole="CurriculmnStructure" />
           <NavigationProperty Name="Faculties" Relationship="Self.FK__Faculty__Univers__03F0984C" FromRole="University" ToRole="Faculty" />
           <NavigationProperty Name="GenericSkills" Relationship="Self.FK__GenericSk__Unive__05D8E0BE" FromRole="University" ToRole="GenericSkill" />
+          <NavigationProperty Name="Grades" Relationship="Self.FK_Grade_University" FromRole="University" ToRole="Grade" />
           <NavigationProperty Name="LearningPlans" Relationship="Self.FK__LearningP__Unive__09A971A2" FromRole="University" ToRole="LearningPlan" />
           <NavigationProperty Name="LPAssessmentStrategies" Relationship="Self.FK__LPAssessm__Unive__0F624AF8" FromRole="University" ToRole="LPAssessmentStrategie" />
           <NavigationProperty Name="LPCLOes" Relationship="Self.FK__LPCLO__Universit__18EBB532" FromRole="University" ToRole="LPCLO" />
@@ -3513,8 +3553,7 @@
           <NavigationProperty Name="TeachingStrategies" Relationship="Self.FK__TeachingS__Unive__45BE5BA9" FromRole="University" ToRole="TeachingStrategie" />
           <NavigationProperty Name="Users" Relationship="Self.FK__User__University__498EEC8D" FromRole="University" ToRole="User" />
           <NavigationProperty Name="Weeks" Relationship="Self.FK__Week__University__503BEA1C" FromRole="University" ToRole="Week" />
-          <Property Name="MessageofVC" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Grades" Relationship="SyllabusAutomationModel.FK_Grade_University" FromRole="University" ToRole="Grade" />
+          <NavigationProperty Name="User" Relationship="Self.FK_University_User" FromRole="University" ToRole="User" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -3536,6 +3575,10 @@
           <Property Name="DepartmentId" Type="Int32" />
           <Property Name="FacultyId" Type="Int32" />
           <Property Name="UniversityId" Type="Int32" />
+          <Property Name="EducationDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DesignationId" Type="Int32" />
+          <Property Name="IsChairman" Type="Boolean" />
+          <NavigationProperty Name="Courses" Relationship="Self.FK_Course_User" FromRole="User" ToRole="Course" />
           <NavigationProperty Name="Department" Relationship="Self.FK__User__Department__4B7734FF" FromRole="User" ToRole="Department" />
           <NavigationProperty Name="EduYear" Relationship="Self.FK__User__YearId__4D5F7D71" FromRole="User" ToRole="EduYear" />
           <NavigationProperty Name="Faculty" Relationship="Self.FK__User__FacultyId__4A8310C6" FromRole="User" ToRole="Faculty" />
@@ -3543,7 +3586,9 @@
           <NavigationProperty Name="Role" Relationship="Self.FK__User__RoleId__489AC854" FromRole="User" ToRole="Role" />
           <NavigationProperty Name="Semester" Relationship="Self.FK__User__SemisterId__4E53A1AA" FromRole="User" ToRole="Semester" />
           <NavigationProperty Name="Session" Relationship="Self.FK__User__SessionId__4C6B5938" FromRole="User" ToRole="Session" />
+          <NavigationProperty Name="TeacherDesignation" Relationship="Self.FK_User_TeacherDesignation" FromRole="User" ToRole="TeacherDesignation" />
           <NavigationProperty Name="University" Relationship="Self.FK__User__University__498EEC8D" FromRole="User" ToRole="University" />
+          <NavigationProperty Name="Universities" Relationship="Self.FK_University_User" FromRole="User" ToRole="University" />
         </EntityType>
         <EntityType Name="Week">
           <Key>
@@ -4019,6 +4064,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Course_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Course" Type="Self.Course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Course">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Syllabus_Course">
+          <End Role="Course" Type="Self.Course" Multiplicity="0..1" />
+          <End Role="Syllabus" Type="Self.Syllabu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="CourseId" />
+            </Principal>
+            <Dependent Role="Syllabus">
+              <PropertyRef Name="CourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__CourseAss__Depar__73BA3083">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
           <End Role="CourseAssessmentStrategie" Type="Self.CourseAssessmentStrategie" Multiplicity="*" />
@@ -4439,18 +4508,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_EduYear_Department">
-          <End Role="Department" Type="Self.Department" Multiplicity="1" />
-          <End Role="EduYear" Type="Self.EduYear" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="DepartmentId" />
-            </Principal>
-            <Dependent Role="EduYear">
-              <PropertyRef Name="DepartmentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Session_Department">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="Session" Type="Self.Session" Multiplicity="*" />
@@ -4463,6 +4520,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Syllabus_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Syllabus" Type="Self.Syllabu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="Syllabus">
+              <PropertyRef Name="DeptId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TeacherDesignation_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="TeacherDesignation" Type="Self.TeacherDesignation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="TeacherDesignation">
+              <PropertyRef Name="DeptId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__User__YearId__4D5F7D71">
           <End Role="EduYear" Type="Self.EduYear" Multiplicity="0..1" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
@@ -4471,6 +4552,18 @@
               <PropertyRef Name="YearId" />
             </Principal>
             <Dependent Role="User">
+              <PropertyRef Name="YearId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Syllabus_EduYear">
+          <End Role="EduYear" Type="Self.EduYear" Multiplicity="0..1" />
+          <End Role="Syllabus" Type="Self.Syllabu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EduYear">
+              <PropertyRef Name="YearId" />
+            </Principal>
+            <Dependent Role="Syllabus">
               <PropertyRef Name="YearId" />
             </Dependent>
           </ReferentialConstraint>
@@ -4699,6 +4792,18 @@
               <PropertyRef Name="UniversityId" />
             </Principal>
             <Dependent Role="GenericSkill">
+              <PropertyRef Name="UniversityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Grade_University">
+          <End Role="University" Type="Self.University" Multiplicity="0..1" />
+          <End Role="Grade" Type="Self.Grade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="University">
+              <PropertyRef Name="UniversityId" />
+            </Principal>
+            <Dependent Role="Grade">
               <PropertyRef Name="UniversityId" />
             </Dependent>
           </ReferentialConstraint>
@@ -5051,6 +5156,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Syllabus_Program">
+          <End Role="Program" Type="Self.Program" Multiplicity="0..1" />
+          <End Role="Syllabus" Type="Self.Syllabu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Program">
+              <PropertyRef Name="ProgramId" />
+            </Principal>
+            <Dependent Role="Syllabus">
+              <PropertyRef Name="ProgramId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Resource__Resour__3864608B">
           <End Role="ResourceType" Type="Self.ResourceType" Multiplicity="0..1" />
           <End Role="Resource" Type="Self.Resource" Multiplicity="*" />
@@ -5123,6 +5240,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Syllabus_Semester">
+          <End Role="Semester" Type="Self.Semester" Multiplicity="0..1" />
+          <End Role="Syllabus" Type="Self.Syllabu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Semester">
+              <PropertyRef Name="SemesterId" />
+            </Principal>
+            <Dependent Role="Syllabus">
+              <PropertyRef Name="SemesterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__User__SessionId__4C6B5938">
           <End Role="Session" Type="Self.Session" Multiplicity="0..1" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
@@ -5132,6 +5261,18 @@
             </Principal>
             <Dependent Role="User">
               <PropertyRef Name="SessionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_TeacherDesignation">
+          <End Role="TeacherDesignation" Type="Self.TeacherDesignation" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TeacherDesignation">
+              <PropertyRef Name="DesId" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="DesignationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5171,6 +5312,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_University_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="University" Type="Self.University" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="University">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="SyllabusAutomationEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AssessmentStrategies" EntityType="Self.AssessmentStrategie" />
           <EntitySet Name="CIEs" EntityType="Self.CIE" />
@@ -5205,6 +5358,7 @@
           <EntitySet Name="Semesters" EntityType="Self.Semester" />
           <EntitySet Name="Sessions" EntityType="Self.Session" />
           <EntitySet Name="Syllabus" EntityType="Self.Syllabu" />
+          <EntitySet Name="TeacherDesignations" EntityType="Self.TeacherDesignation" />
           <EntitySet Name="TeachingStrategies" EntityType="Self.TeachingStrategie" />
           <EntitySet Name="Universities" EntityType="Self.University" />
           <EntitySet Name="Users" EntityType="Self.User" />
@@ -5361,6 +5515,14 @@
             <End Role="Course" EntitySet="Courses" />
             <End Role="Week" EntitySet="Weeks" />
           </AssociationSet>
+          <AssociationSet Name="FK_Course_User" Association="Self.FK_Course_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Course" EntitySet="Courses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Syllabus_Course" Association="Self.FK_Syllabus_Course">
+            <End Role="Course" EntitySet="Courses" />
+            <End Role="Syllabus" EntitySet="Syllabus" />
+          </AssociationSet>
           <AssociationSet Name="FK__CourseAss__Depar__73BA3083" Association="Self.FK__CourseAss__Depar__73BA3083">
             <End Role="Department" EntitySet="Departments" />
             <End Role="CourseAssessmentStrategie" EntitySet="CourseAssessmentStrategies" />
@@ -5501,17 +5663,25 @@
             <End Role="Department" EntitySet="Departments" />
             <End Role="Week" EntitySet="Weeks" />
           </AssociationSet>
-          <AssociationSet Name="FK_EduYear_Department" Association="Self.FK_EduYear_Department">
-            <End Role="Department" EntitySet="Departments" />
-            <End Role="EduYear" EntitySet="EduYears" />
-          </AssociationSet>
           <AssociationSet Name="FK_Session_Department" Association="Self.FK_Session_Department">
             <End Role="Department" EntitySet="Departments" />
             <End Role="Session" EntitySet="Sessions" />
           </AssociationSet>
+          <AssociationSet Name="FK_Syllabus_Department" Association="Self.FK_Syllabus_Department">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Syllabus" EntitySet="Syllabus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TeacherDesignation_Department" Association="Self.FK_TeacherDesignation_Department">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="TeacherDesignation" EntitySet="TeacherDesignations" />
+          </AssociationSet>
           <AssociationSet Name="FK__User__YearId__4D5F7D71" Association="Self.FK__User__YearId__4D5F7D71">
             <End Role="EduYear" EntitySet="EduYears" />
             <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Syllabus_EduYear" Association="Self.FK_Syllabus_EduYear">
+            <End Role="EduYear" EntitySet="EduYears" />
+            <End Role="Syllabus" EntitySet="Syllabus" />
           </AssociationSet>
           <AssociationSet Name="FK__Faculty__Univers__03F0984C" Association="Self.FK__Faculty__Univers__03F0984C">
             <End Role="University" EntitySet="Universities" />
@@ -5588,6 +5758,10 @@
           <AssociationSet Name="FK__GenericSk__Unive__05D8E0BE" Association="Self.FK__GenericSk__Unive__05D8E0BE">
             <End Role="University" EntitySet="Universities" />
             <End Role="GenericSkill" EntitySet="GenericSkills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Grade_University" Association="Self.FK_Grade_University">
+            <End Role="University" EntitySet="Universities" />
+            <End Role="Grade" EntitySet="Grades" />
           </AssociationSet>
           <AssociationSet Name="FK__LearningP__Progr__0D7A0286" Association="Self.FK__LearningP__Progr__0D7A0286">
             <End Role="Program" EntitySet="Programs" />
@@ -5705,6 +5879,10 @@
             <End Role="Program" EntitySet="Programs" />
             <End Role="Week" EntitySet="Weeks" />
           </AssociationSet>
+          <AssociationSet Name="FK_Syllabus_Program" Association="Self.FK_Syllabus_Program">
+            <End Role="Program" EntitySet="Programs" />
+            <End Role="Syllabus" EntitySet="Syllabus" />
+          </AssociationSet>
           <AssociationSet Name="FK__Resource__Resour__3864608B" Association="Self.FK__Resource__Resour__3864608B">
             <End Role="ResourceType" EntitySet="ResourceTypes" />
             <End Role="Resource" EntitySet="Resources" />
@@ -5729,8 +5907,16 @@
             <End Role="Semester" EntitySet="Semesters" />
             <End Role="User" EntitySet="Users" />
           </AssociationSet>
+          <AssociationSet Name="FK_Syllabus_Semester" Association="Self.FK_Syllabus_Semester">
+            <End Role="Semester" EntitySet="Semesters" />
+            <End Role="Syllabus" EntitySet="Syllabus" />
+          </AssociationSet>
           <AssociationSet Name="FK__User__SessionId__4C6B5938" Association="Self.FK__User__SessionId__4C6B5938">
             <End Role="Session" EntitySet="Sessions" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_TeacherDesignation" Association="Self.FK_User_TeacherDesignation">
+            <End Role="TeacherDesignation" EntitySet="TeacherDesignations" />
             <End Role="User" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK__TeachingS__Unive__45BE5BA9" Association="Self.FK__TeachingS__Unive__45BE5BA9">
@@ -5745,166 +5931,19 @@
             <End Role="University" EntitySet="Universities" />
             <End Role="Week" EntitySet="Weeks" />
           </AssociationSet>
-          <AssociationSet Name="FK_Syllabus_Course" Association="SyllabusAutomationModel.FK_Syllabus_Course">
-            <End Role="Course" EntitySet="Courses" />
-            <End Role="Syllabu" EntitySet="Syllabus" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Syllabus_Department" Association="SyllabusAutomationModel.FK_Syllabus_Department">
-            <End Role="Department" EntitySet="Departments" />
-            <End Role="Syllabu" EntitySet="Syllabus" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Syllabus_EduYear" Association="SyllabusAutomationModel.FK_Syllabus_EduYear">
-            <End Role="EduYear" EntitySet="EduYears" />
-            <End Role="Syllabu" EntitySet="Syllabus" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Grade_University" Association="SyllabusAutomationModel.FK_Grade_University">
+          <AssociationSet Name="FK_University_User" Association="Self.FK_University_User">
+            <End Role="User" EntitySet="Users" />
             <End Role="University" EntitySet="Universities" />
-            <End Role="Grade" EntitySet="Grades" />
-          </AssociationSet>
-          <EntitySet Name="TeacherDesignations" EntityType="SyllabusAutomationModel.TeacherDesignation" />
-          <EntitySet Name="TeacherofDepts" EntityType="SyllabusAutomationModel.TeacherofDept" />
-          <AssociationSet Name="FK_TeacherofDept_Department" Association="SyllabusAutomationModel.FK_TeacherofDept_Department">
-            <End Role="Department" EntitySet="Departments" />
-            <End Role="TeacherofDept" EntitySet="TeacherofDepts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Syllabus_Semester" Association="SyllabusAutomationModel.FK_Syllabus_Semester">
-            <End Role="Semester" EntitySet="Semesters" />
-            <End Role="Syllabu" EntitySet="Syllabus" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TeacherofDept_TeacherDesignation" Association="SyllabusAutomationModel.FK_TeacherofDept_TeacherDesignation">
-            <End Role="TeacherDesignation" EntitySet="TeacherDesignations" />
-            <End Role="TeacherofDept" EntitySet="TeacherofDepts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Syllabus_Program" Association="SyllabusAutomationModel.FK_Syllabus_Program">
-            <End Role="Program" EntitySet="Programs" />
-            <End Role="Syllabu" EntitySet="Syllabus" />
           </AssociationSet>
         </EntityContainer>
-        <Association Name="FK_Syllabus_Course">
-          <End Type="SyllabusAutomationModel.Course" Role="Course" Multiplicity="0..1" />
-          <End Type="SyllabusAutomationModel.Syllabu" Role="Syllabu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Course">
-              <PropertyRef Name="CourseId" />
-            </Principal>
-            <Dependent Role="Syllabu">
-              <PropertyRef Name="CourseId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Syllabus_Department">
-          <End Type="SyllabusAutomationModel.Department" Role="Department" Multiplicity="0..1" />
-          <End Type="SyllabusAutomationModel.Syllabu" Role="Syllabu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="DepartmentId" />
-            </Principal>
-            <Dependent Role="Syllabu">
-              <PropertyRef Name="DeptId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Syllabus_EduYear">
-          <End Type="SyllabusAutomationModel.EduYear" Role="EduYear" Multiplicity="0..1" />
-          <End Type="SyllabusAutomationModel.Syllabu" Role="Syllabu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EduYear">
-              <PropertyRef Name="YearId" />
-            </Principal>
-            <Dependent Role="Syllabu">
-              <PropertyRef Name="YearId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Grade_University">
-          <End Type="SyllabusAutomationModel.University" Role="University" Multiplicity="0..1" />
-          <End Type="SyllabusAutomationModel.Grade" Role="Grade" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="University">
-              <PropertyRef Name="UniversityId" />
-            </Principal>
-            <Dependent Role="Grade">
-              <PropertyRef Name="UniversityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="TeacherDesignation">
-          <Key>
-            <PropertyRef Name="DesId" />
-          </Key>
-          <Property Name="DesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Designation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="TeacherofDepts" Relationship="SyllabusAutomationModel.FK_TeacherofDept_TeacherDesignation" FromRole="TeacherDesignation" ToRole="TeacherofDept" />
-        </EntityType>
-        <EntityType Name="TeacherofDept">
-          <Key>
-            <PropertyRef Name="TeacherId" />
-          </Key>
-          <Property Name="TeacherId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TeacherName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="EduDetail" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="DepartmentId" Type="Int32" />
-          <Property Name="DesignationId" Type="Int32" />
-          <NavigationProperty Name="Department" Relationship="SyllabusAutomationModel.FK_TeacherofDept_Department" FromRole="TeacherofDept" ToRole="Department" />
-          <NavigationProperty Name="TeacherDesignation" Relationship="SyllabusAutomationModel.FK_TeacherofDept_TeacherDesignation" FromRole="TeacherofDept" ToRole="TeacherDesignation" />
-        </EntityType>
-        <Association Name="FK_TeacherofDept_Department">
-          <End Type="SyllabusAutomationModel.Department" Role="Department" Multiplicity="0..1" />
-          <End Type="SyllabusAutomationModel.TeacherofDept" Role="TeacherofDept" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="DepartmentId" />
-            </Principal>
-            <Dependent Role="TeacherofDept">
-              <PropertyRef Name="DepartmentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Syllabus_Semester">
-          <End Type="SyllabusAutomationModel.Semester" Role="Semester" Multiplicity="0..1" />
-          <End Type="SyllabusAutomationModel.Syllabu" Role="Syllabu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Semester">
-              <PropertyRef Name="SemesterId" />
-            </Principal>
-            <Dependent Role="Syllabu">
-              <PropertyRef Name="SemesterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TeacherofDept_TeacherDesignation">
-          <End Type="SyllabusAutomationModel.TeacherDesignation" Role="TeacherDesignation" Multiplicity="0..1" />
-          <End Type="SyllabusAutomationModel.TeacherofDept" Role="TeacherofDept" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TeacherDesignation">
-              <PropertyRef Name="DesId" />
-            </Principal>
-            <Dependent Role="TeacherofDept">
-              <PropertyRef Name="DesignationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Syllabus_Program">
-          <End Type="SyllabusAutomationModel.Program" Role="Program" Multiplicity="0..1" />
-          <End Type="SyllabusAutomationModel.Syllabu" Role="Syllabu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Program">
-              <PropertyRef Name="ProgramId" />
-            </Principal>
-            <Dependent Role="Syllabu">
-              <PropertyRef Name="ProgramId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="SyllabusAutomationModelStoreContainer" CdmEntityContainer="SyllabusAutomationEntities">
+        <EntityContainerMapping StorageEntityContainer="SyllabusAutomationNewModelStoreContainer" CdmEntityContainer="SyllabusAutomationEntities">
           <EntitySetMapping Name="AssessmentStrategies">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.AssessmentStrategie">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.AssessmentStrategie">
               <MappingFragment StoreEntitySet="AssessmentStrategie">
                 <ScalarProperty Name="AssessmentStrategieId" ColumnName="AssessmentStrategieId" />
                 <ScalarProperty Name="Strategies" ColumnName="Strategies" />
@@ -5918,7 +5957,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CIEs">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.CIE">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.CIE">
               <MappingFragment StoreEntitySet="CIE">
                 <ScalarProperty Name="CIEId" ColumnName="CIEId" />
                 <ScalarProperty Name="Category" ColumnName="Category" />
@@ -5936,7 +5975,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CLOes">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.CLO">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.CLO">
               <MappingFragment StoreEntitySet="CLO">
                 <ScalarProperty Name="CLOId" ColumnName="CLOId" />
                 <ScalarProperty Name="Outcomes" ColumnName="Outcomes" />
@@ -5950,7 +5989,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CLOToPLOes">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.CLOToPLO">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.CLOToPLO">
               <MappingFragment StoreEntitySet="CLOToPLO">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CLOId" ColumnName="CLOId" />
@@ -5965,7 +6004,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Courses">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.Course">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.Course">
               <MappingFragment StoreEntitySet="Course">
                 <ScalarProperty Name="CourseId" ColumnName="CourseId" />
                 <ScalarProperty Name="CourseCode" ColumnName="CourseCode" />
@@ -5983,11 +6022,12 @@
                 <ScalarProperty Name="FacultyId" ColumnName="FacultyId" />
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="UniversityId" ColumnName="UniversityId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CourseAssessmentStrategies">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.CourseAssessmentStrategie">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.CourseAssessmentStrategie">
               <MappingFragment StoreEntitySet="CourseAssessmentStrategie">
                 <ScalarProperty Name="CourseAssessmentStrategieId" ColumnName="CourseAssessmentStrategieId" />
                 <ScalarProperty Name="AssessmentStrategieId" ColumnName="AssessmentStrategieId" />
@@ -6000,7 +6040,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CourseObjectives">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.CourseObjective">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.CourseObjective">
               <MappingFragment StoreEntitySet="CourseObjective">
                 <ScalarProperty Name="CourseObjectiveId" ColumnName="CourseObjectiveId" />
                 <ScalarProperty Name="Objectives" ColumnName="Objectives" />
@@ -6013,7 +6053,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CourseTypes">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.CourseType">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.CourseType">
               <MappingFragment StoreEntitySet="CourseType">
                 <ScalarProperty Name="CourseTypeId" ColumnName="CourseTypeId" />
                 <ScalarProperty Name="CourseType1" ColumnName="CourseType" />
@@ -6025,7 +6065,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CurriculmnStructures">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.CurriculmnStructure">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.CurriculmnStructure">
               <MappingFragment StoreEntitySet="CurriculmnStructure">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Fields" ColumnName="Fields" />
@@ -6041,47 +6081,46 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Departments">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.Department">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.Department">
               <MappingFragment StoreEntitySet="Department">
-                <ScalarProperty Name="MessageofChairman" ColumnName="MessageofChairman" />
-                <ScalarProperty Name="Introduction" ColumnName="Introduction" />
-                <ScalarProperty Name="Website" ColumnName="Website" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Fax" ColumnName="Fax" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="DeptName" ColumnName="DeptName" />
                 <ScalarProperty Name="Vision" ColumnName="Vision" />
                 <ScalarProperty Name="UniversityId" ColumnName="UniversityId" />
                 <ScalarProperty Name="FacultyId" ColumnName="FacultyId" />
                 <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Website" ColumnName="Website" />
+                <ScalarProperty Name="Introduction" ColumnName="Introduction" />
+                <ScalarProperty Name="MessageofChairman" ColumnName="MessageofChairman" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EduYears">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.EduYear">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.EduYear">
               <MappingFragment StoreEntitySet="EduYear">
                 <ScalarProperty Name="YearId" ColumnName="YearId" />
                 <ScalarProperty Name="YearName" ColumnName="YearName" />
-                <ScalarProperty Name="SemesterId" ColumnName="SemesterId" />
-                <ScalarProperty Name="SessionId" ColumnName="SessionId" />
-                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Faculties">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.Faculty">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.Faculty">
               <MappingFragment StoreEntitySet="Faculty">
                 <ScalarProperty Name="FacultyId" ColumnName="FacultyId" />
                 <ScalarProperty Name="FacultyName" ColumnName="FacultyName" />
                 <ScalarProperty Name="ShortName" ColumnName="ShortName" />
                 <ScalarProperty Name="UniversityId" ColumnName="UniversityId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="GenericSkills">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.GenericSkill">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.GenericSkill">
               <MappingFragment StoreEntitySet="GenericSkill">
                 <ScalarProperty Name="GSId" ColumnName="GSId" />
                 <ScalarProperty Name="GSName" ColumnName="GSName" />
@@ -6090,22 +6129,23 @@
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="FacultyId" ColumnName="FacultyId" />
                 <ScalarProperty Name="UniversityId" ColumnName="UniversityId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Grades">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.Grade">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.Grade">
               <MappingFragment StoreEntitySet="Grade">
-                <ScalarProperty Name="UniversityId" ColumnName="UniversityId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Numerical" ColumnName="Numerical" />
                 <ScalarProperty Name="Letter" ColumnName="Letter" />
                 <ScalarProperty Name="Point" ColumnName="Point" />
+                <ScalarProperty Name="UniversityId" ColumnName="UniversityId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="LearningPlans">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.LearningPlan">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.LearningPlan">
               <MappingFragment StoreEntitySet="LearningPlan">
                 <ScalarProperty Name="PlanId" ColumnName="PlanId" />
                 <ScalarProperty Name="WeekId" ColumnName="WeekId" />
@@ -6120,7 +6160,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="LPAssessmentStrategies">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.LPAssessmentStrategie">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.LPAssessmentStrategie">
               <MappingFragment StoreEntitySet="LPAssessmentStrategie">
                 <ScalarProperty Name="LPAssessmentStrategieId" ColumnName="LPAssessmentStrategieId" />
                 <ScalarProperty Name="AssessmentStrategieId" ColumnName="AssessmentStrategieId" />
@@ -6135,7 +6175,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="LPCLOes">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.LPCLO">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.LPCLO">
               <MappingFragment StoreEntitySet="LPCLO">
                 <ScalarProperty Name="LPCLOId" ColumnName="LPCLOId" />
                 <ScalarProperty Name="CLOId" ColumnName="CLOId" />
@@ -6150,7 +6190,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="LPTeachingStrategies">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.LPTeachingStrategie">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.LPTeachingStrategie">
               <MappingFragment StoreEntitySet="LPTeachingStrategie">
                 <ScalarProperty Name="LPTeachingStrategieId" ColumnName="LPTeachingStrategieId" />
                 <ScalarProperty Name="TeachingStrategieId" ColumnName="TeachingStrategieId" />
@@ -6165,7 +6205,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Marks">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.Mark">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.Mark">
               <MappingFragment StoreEntitySet="Marks">
                 <ScalarProperty Name="MarksId" ColumnName="MarksId" />
                 <ScalarProperty Name="CourseTypeId" ColumnName="CourseTypeId" />
@@ -6182,27 +6222,29 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MissionOfDepartments">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.MissionOfDepartment">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.MissionOfDepartment">
               <MappingFragment StoreEntitySet="MissionOfDepartment">
                 <ScalarProperty Name="MissionId" ColumnName="MissionId" />
                 <ScalarProperty Name="Mission" ColumnName="Mission" />
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="FacultyId" ColumnName="FacultyId" />
                 <ScalarProperty Name="UniversityId" ColumnName="UniversityId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MissionOfUniversities">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.MissionOfUniversity">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.MissionOfUniversity">
               <MappingFragment StoreEntitySet="MissionOfUniversity">
                 <ScalarProperty Name="MissionId" ColumnName="MissionId" />
                 <ScalarProperty Name="Mission" ColumnName="Mission" />
                 <ScalarProperty Name="UniversityId" ColumnName="UniversityId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PEOs">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.PEO">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.PEO">
               <MappingFragment StoreEntitySet="PEO">
                 <ScalarProperty Name="PEOId" ColumnName="PEOId" />
                 <ScalarProperty Name="PEOName" ColumnName="PEOName" />
@@ -6211,11 +6253,12 @@
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="FacultyId" ColumnName="FacultyId" />
                 <ScalarProperty Name="UniversityId" ColumnName="UniversityId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PEOToMissions">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.PEOToMission">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.PEOToMission">
               <MappingFragment StoreEntitySet="PEOToMission">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PEOId" ColumnName="PEOId" />
@@ -6229,7 +6272,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PEOToPLOes">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.PEOToPLO">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.PEOToPLO">
               <MappingFragment StoreEntitySet="PEOToPLO">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PEOId" ColumnName="PEOId" />
@@ -6243,7 +6286,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PLOes">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.PLO">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.PLO">
               <MappingFragment StoreEntitySet="PLO">
                 <ScalarProperty Name="PLOId" ColumnName="PLOId" />
                 <ScalarProperty Name="PLOName" ColumnName="PLOName" />
@@ -6252,11 +6295,12 @@
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="FacultyId" ColumnName="FacultyId" />
                 <ScalarProperty Name="UniversityId" ColumnName="UniversityId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Programs">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.Program">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.Program">
               <MappingFragment StoreEntitySet="Program">
                 <ScalarProperty Name="ProgramId" ColumnName="ProgramId" />
                 <ScalarProperty Name="ProgramName" ColumnName="ProgramName" />
@@ -6276,7 +6320,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Resources">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.Resource">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.Resource">
               <MappingFragment StoreEntitySet="Resource">
                 <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
                 <ScalarProperty Name="ResourceName" ColumnName="ResourceName" />
@@ -6290,7 +6334,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ResourceTypes">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.ResourceType">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.ResourceType">
               <MappingFragment StoreEntitySet="ResourceType">
                 <ScalarProperty Name="ResourceTypeId" ColumnName="ResourceTypeId" />
                 <ScalarProperty Name="TypeName" ColumnName="TypeName" />
@@ -6299,7 +6343,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Roles">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.Role">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.Role">
               <MappingFragment StoreEntitySet="Role">
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
@@ -6307,7 +6351,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SEEs">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.SEE">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.SEE">
               <MappingFragment StoreEntitySet="SEE">
                 <ScalarProperty Name="SEEId" ColumnName="SEEId" />
                 <ScalarProperty Name="Category" ColumnName="Category" />
@@ -6321,38 +6365,49 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Semesters">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.Semester">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.Semester">
               <MappingFragment StoreEntitySet="Semester">
-                <ScalarProperty Name="SemesterName" ColumnName="SemesterName" />
                 <ScalarProperty Name="SemesterId" ColumnName="SemesterId" />
+                <ScalarProperty Name="SemesterName" ColumnName="SemesterName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Sessions">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.Session">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.Session">
               <MappingFragment StoreEntitySet="Session">
                 <ScalarProperty Name="SessionId" ColumnName="SessionId" />
                 <ScalarProperty Name="SessionName" ColumnName="SessionName" />
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Syllabus">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.Syllabu">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.Syllabu">
               <MappingFragment StoreEntitySet="Syllabus">
-                <ScalarProperty Name="ProgramId" ColumnName="ProgramId" />
-                <ScalarProperty Name="CourseCode" ColumnName="CourseCode" />
-                <ScalarProperty Name="SemesterId" ColumnName="SemesterId" />
-                <ScalarProperty Name="DeptId" ColumnName="DeptId" />
-                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
-                <ScalarProperty Name="YearId" ColumnName="YearId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="SessionId" ColumnName="SessionId" />
+                <ScalarProperty Name="YearId" ColumnName="YearId" />
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="DeptId" ColumnName="DeptId" />
+                <ScalarProperty Name="SemesterId" ColumnName="SemesterId" />
+                <ScalarProperty Name="CourseCode" ColumnName="CourseCode" />
+                <ScalarProperty Name="ProgramId" ColumnName="ProgramId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TeacherDesignations">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.TeacherDesignation">
+              <MappingFragment StoreEntitySet="TeacherDesignation">
+                <ScalarProperty Name="DesId" ColumnName="DesId" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="DeptId" ColumnName="DeptId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TeachingStrategies">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.TeachingStrategie">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.TeachingStrategie">
               <MappingFragment StoreEntitySet="TeachingStrategie">
                 <ScalarProperty Name="TeachingStrategieId" ColumnName="TeachingStrategieId" />
                 <ScalarProperty Name="Strategies" ColumnName="Strategies" />
@@ -6360,24 +6415,27 @@
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="FacultyId" ColumnName="FacultyId" />
                 <ScalarProperty Name="UniversityId" ColumnName="UniversityId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Universities">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.University">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.University">
               <MappingFragment StoreEntitySet="University">
-                <ScalarProperty Name="MessageofVC" ColumnName="MessageofVC" />
                 <ScalarProperty Name="UniversityId" ColumnName="UniversityId" />
                 <ScalarProperty Name="UniName" ColumnName="UniName" />
                 <ScalarProperty Name="ShortName" ColumnName="ShortName" />
                 <ScalarProperty Name="Logo" ColumnName="Logo" />
                 <ScalarProperty Name="VisionOfUniversity" ColumnName="VisionOfUniversity" />
                 <ScalarProperty Name="QualityPolicy" ColumnName="QualityPolicy" />
+                <ScalarProperty Name="MessageofVC" ColumnName="MessageofVC" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.User">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.User">
               <MappingFragment StoreEntitySet="User">
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
@@ -6395,11 +6453,14 @@
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="FacultyId" ColumnName="FacultyId" />
                 <ScalarProperty Name="UniversityId" ColumnName="UniversityId" />
+                <ScalarProperty Name="EducationDetail" ColumnName="EducationDetail" />
+                <ScalarProperty Name="DesignationId" ColumnName="DesignationId" />
+                <ScalarProperty Name="IsChairman" ColumnName="IsChairman" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Weeks">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.Week">
+            <EntityTypeMapping TypeName="SyllabusAutomationNewModel.Week">
               <MappingFragment StoreEntitySet="Week">
                 <ScalarProperty Name="WeekId" ColumnName="WeekId" />
                 <ScalarProperty Name="Timeline" ColumnName="Timeline" />
@@ -6408,26 +6469,6 @@
                 <ScalarProperty Name="ProgramId" ColumnName="ProgramId" />
                 <ScalarProperty Name="FacultyId" ColumnName="FacultyId" />
                 <ScalarProperty Name="UniversityId" ColumnName="UniversityId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TeacherDesignations">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.TeacherDesignation">
-              <MappingFragment StoreEntitySet="TeacherDesignation">
-                <ScalarProperty Name="Designation" ColumnName="Designation" />
-                <ScalarProperty Name="DesId" ColumnName="DesId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TeacherofDepts">
-            <EntityTypeMapping TypeName="SyllabusAutomationModel.TeacherofDept">
-              <MappingFragment StoreEntitySet="TeacherofDept">
-                <ScalarProperty Name="DesignationId" ColumnName="DesignationId" />
-                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="EduDetail" ColumnName="EduDetail" />
-                <ScalarProperty Name="TeacherName" ColumnName="TeacherName" />
-                <ScalarProperty Name="TeacherId" ColumnName="TeacherId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

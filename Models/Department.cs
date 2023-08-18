@@ -43,10 +43,9 @@ namespace SyllabusAutomation.Models
             this.TeachingStrategies = new HashSet<TeachingStrategie>();
             this.Users = new HashSet<User>();
             this.Weeks = new HashSet<Week>();
-            this.EduYears = new HashSet<EduYear>();
             this.Sessions = new HashSet<Session>();
             this.Syllabus = new HashSet<Syllabu>();
-            this.TeacherofDepts = new HashSet<TeacherofDept>();
+            this.TeacherDesignations = new HashSet<TeacherDesignation>();
         }
     
         public int DepartmentId { get; set; }
@@ -62,6 +61,7 @@ namespace SyllabusAutomation.Models
         public string Website { get; set; }
         public string Introduction { get; set; }
         public string MessageofChairman { get; set; }
+        public Nullable<bool> IsActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AssessmentStrategie> AssessmentStrategies { get; set; }
@@ -117,12 +117,10 @@ namespace SyllabusAutomation.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Week> Weeks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EduYear> EduYears { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Session> Sessions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Syllabu> Syllabus { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TeacherofDept> TeacherofDepts { get; set; }
+        public virtual ICollection<TeacherDesignation> TeacherDesignations { get; set; }
     }
 }

@@ -17,13 +17,16 @@ namespace SyllabusAutomation.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TeacherDesignation()
         {
-            this.TeacherofDepts = new HashSet<TeacherofDept>();
+            this.Users = new HashSet<User>();
         }
     
         public int DesId { get; set; }
         public string Designation { get; set; }
+        public Nullable<bool> IsActive { get; set; }
+        public Nullable<int> DeptId { get; set; }
     
+        public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TeacherofDept> TeacherofDepts { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

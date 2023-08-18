@@ -20,7 +20,7 @@ namespace SyllabusAutomation.Controllers.Admin
         {
             int uid = (int)Session["uid"];
             var user = db.Users.Find(uid);
-            var university = db.Universities.Find(user.UniversityId);
+            var university = db.Universities.Where(x=>x.IsActive==true && x.UniversityId == user.UniversityId ).FirstOrDefault();
             return View(university);
         }
 

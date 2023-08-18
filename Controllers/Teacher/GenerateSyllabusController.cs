@@ -105,8 +105,8 @@ namespace SyllabusAutomation.Controllers.Teacher
             ViewBag.ProgramList = new SelectList(programs, "ProgramId", "ShortName");
             var sessions = db.Sessions.Where(x => x.DepartmentId == user.DepartmentId).ToList();
             ViewBag.SessionList = new SelectList(sessions, "SessionId", "SessionName");
-            var years = db.EduYears.Where(x => x.DepartmentId == user.DepartmentId).ToList();
-            ViewBag.YearList = new SelectList(years, "YearId", "YearName");
+            //var years = db.EduYears.Where(x => x.DepartmentId == user.DepartmentId).ToList();
+            //ViewBag.YearList = new SelectList(years, "YearId", "YearName");
             var semesters = db.Semesters.ToList();
             ViewBag.semesterList = new SelectList(semesters, "SemesterId", "SemesterName");
             return View();

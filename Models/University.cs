@@ -28,6 +28,7 @@ namespace SyllabusAutomation.Models
             this.CurriculmnStructures = new HashSet<CurriculmnStructure>();
             this.Faculties = new HashSet<Faculty>();
             this.GenericSkills = new HashSet<GenericSkill>();
+            this.Grades = new HashSet<Grade>();
             this.LearningPlans = new HashSet<LearningPlan>();
             this.LPAssessmentStrategies = new HashSet<LPAssessmentStrategie>();
             this.LPCLOes = new HashSet<LPCLO>();
@@ -45,7 +46,6 @@ namespace SyllabusAutomation.Models
             this.TeachingStrategies = new HashSet<TeachingStrategie>();
             this.Users = new HashSet<User>();
             this.Weeks = new HashSet<Week>();
-            this.Grades = new HashSet<Grade>();
         }
     
         public int UniversityId { get; set; }
@@ -55,6 +55,8 @@ namespace SyllabusAutomation.Models
         public string VisionOfUniversity { get; set; }
         public string QualityPolicy { get; set; }
         public string MessageofVC { get; set; }
+        public Nullable<int> UserId { get; set; }
+        public Nullable<bool> IsActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AssessmentStrategie> AssessmentStrategies { get; set; }
@@ -78,6 +80,8 @@ namespace SyllabusAutomation.Models
         public virtual ICollection<Faculty> Faculties { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GenericSkill> GenericSkills { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Grade> Grades { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LearningPlan> LearningPlans { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -112,7 +116,6 @@ namespace SyllabusAutomation.Models
         public virtual ICollection<User> Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Week> Weeks { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Grade> Grades { get; set; }
+        public virtual User User { get; set; }
     }
 }
