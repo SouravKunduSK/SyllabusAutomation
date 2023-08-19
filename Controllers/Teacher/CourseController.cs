@@ -350,11 +350,12 @@ namespace SyllabusAutomation.Controllers.Teacher
 
         public ActionResult CLOList(int id)
         {
-            int uid = (int)Session["uid"];
-            var user = db.Users.Find(uid);
-            var pid = Convert.ToInt32(Session["programId"]); 
+            var course = db.Courses.Find(id);
+            Session["course"] = course;
+            var user = db.Users.Where(x=>x.UserID == course.UserId).FirstOrDefault();
+            
             Session["cid"] = id;
-            var clos = db.CLOes.Where(x => x.CourseId == id && x.ProgramId == pid).ToList();
+            var clos = db.CLOes.Where(x => x.CourseId == id).ToList();
             var tuple = new Tuple<CLO, List<CLO>>(new CLO(), clos);
             return View(tuple);
         }
@@ -432,6 +433,8 @@ namespace SyllabusAutomation.Controllers.Teacher
 
         public ActionResult CLOToPLO(int? id)
         {
+            var course = db.Courses.Find(id);
+            Session["course"] = course;
             Session["cid"] = id;
             var cloPloViewModels = GetCLOToPLOViewModels(id);// Implement this method to populate view models
 
@@ -484,7 +487,7 @@ namespace SyllabusAutomation.Controllers.Teacher
             }
             catch (Exception ex)
             {
-                TempData["msg"] = "An error occurred while saving mappings." + ex;
+                TempData["msg"] = "An error occurred while saving mappings.";
                 return Json(new { success = false, message = "An error occurred while saving mappings: " + ex.Message });
             }
         }
@@ -532,11 +535,6 @@ namespace SyllabusAutomation.Controllers.Teacher
 
             return cloPloViewModels;
         }
-
-
-
-
-
 
         public ActionResult SEEList(int id)
         {
@@ -712,22 +710,10 @@ namespace SyllabusAutomation.Controllers.Teacher
             return RedirectToAction("CIEList", new RouteValueDictionary(new { Controller = "Course", Action = "CIEList", id = (int)Session["cid"] }));
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         public ActionResult Objectives(int id)
         {
+            var course = db.Courses.Find(id);
+            Session["course"] = course;
             int uid = (int)Session["uid"];
             var user = db.Users.Find(uid);
             Session["cid"] = id;
@@ -807,18 +793,15 @@ namespace SyllabusAutomation.Controllers.Teacher
             return RedirectToAction("Objectives", new RouteValueDictionary(new { Controller = "Course", Action = "Objectives", id = (int)Session["cid"] }));
         }
 
-
-
-
-        #endregion
-
         public ActionResult AssesmentStrategies(int id)
         {
+            var course = db.Courses.Find(id);
+            Session["course"] = course;
             int uid = (int)Session["uid"];
             var user = db.Users.Find(uid);
             var pid = Convert.ToInt32(Session["programId"]);
             Session["cid"] = id;
-            var plos = db.AssessmentStrategies.Where(x =>x.CourseId==id&&x.ProgramId==pid&& x.DepartmentId == user.DepartmentId).ToList();
+            var plos = db.AssessmentStrategies.Where(x => x.CourseId == id && x.ProgramId == pid && x.DepartmentId == user.DepartmentId).ToList();
             var tuple = new Tuple<AssessmentStrategie, List<AssessmentStrategie>>(new AssessmentStrategie(), plos);
             return View(tuple);
         }
@@ -867,7 +850,7 @@ namespace SyllabusAutomation.Controllers.Teacher
                 return HttpNotFound();
             }
 
-            var missions = db.AssessmentStrategies.Where(x =>x.CourseId==courseId&&x.ProgramId==pid).ToList();
+            var missions = db.AssessmentStrategies.Where(x => x.CourseId == courseId && x.ProgramId == pid).ToList();
             var tuple = new Tuple<AssessmentStrategie, List<AssessmentStrategie>>(mission, missions);
             ViewBag.data = true;
             return View("AssesmentStrategies", tuple);
@@ -897,17 +880,19 @@ namespace SyllabusAutomation.Controllers.Teacher
                 TempData["msg"] = "Something Error Occurred! Try Again... ";
             }
 
-            
+
             return RedirectToAction("AssesmentStrategies", new RouteValueDictionary(new { Controller = "Course", Action = "AssesmentStrategies", id = (int)Session["cid"] }));
         }
 
         public ActionResult ResourceList(int id)
         {
+            var course = db.Courses.Find(id);
+            Session["course"] = course;
             int uid = (int)Session["uid"];
             var user = db.Users.Find(uid);
             var pid = Convert.ToInt32(Session["programId"]);
             Session["cid"] = id;
-            ViewBag.ResourceTypeList = new SelectList(db.ResourceTypes.ToList(),"ResourceTypeId","TypeName");
+            ViewBag.ResourceTypeList = new SelectList(db.ResourceTypes.ToList(), "ResourceTypeId", "TypeName");
             var plos = db.Resources.Where(x => x.CourseId == id && x.ProgramId == pid && x.DepartmentId == user.DepartmentId).ToList();
             var tuple = new Tuple<Resource, List<Resource>>(new Resource(), plos);
             return View(tuple);
@@ -932,7 +917,7 @@ namespace SyllabusAutomation.Controllers.Teacher
                     peo.CourseId = courseId;
                     peo.ProgramId = pid;
                     peo.ResourceName = form["Item1.ResourceName"];
-                    peo.ResourceTypeId =Convert.ToInt32(form["Item1.ResourceTypeId"]);
+                    peo.ResourceTypeId = Convert.ToInt32(form["Item1.ResourceTypeId"]);
                     db.Resources.AddOrUpdate(peo);
                     db.SaveChanges();
                     TempData["msg"] = "Resource Added Successfully!";
@@ -987,7 +972,7 @@ namespace SyllabusAutomation.Controllers.Teacher
                 TempData["msg"] = "Something Error Occurred! Try Again... ";
             }
 
-            
+
             return RedirectToAction("ResourceList", new RouteValueDictionary(new { Controller = "Course", Action = "ResourceList", id = (int)Session["cid"] }));
         }
 
@@ -995,20 +980,21 @@ namespace SyllabusAutomation.Controllers.Teacher
 
         {
 
-
+            var course = db.Courses.Find(id);
+            Session["course"] = course;
             var p = db.LearningPlans.Find(id);
-            var ci = db.LearningPlans.Where(x => x.CourseId == id).OrderByDescending(x=>x.Week.WeekId).ToList();
+            var ci = db.LearningPlans.Where(x => x.CourseId == id).OrderByDescending(x => x.Week.WeekId).ToList();
             ViewBag.closes = db.CLOes.Where(x => x.CourseId == id).ToList();
             ViewBag.ci = ci;
             Session["courseId"] = id;
             return View();
         }
-        
+
         public ActionResult CreateLearningPlan()
         {
             var idd = (int)Session["courseId"];
             List<Week> w = db.Weeks.ToList();
-            
+
 
             var list = db.LearningPlans.Where(x => x.CourseId == idd).ToList();
             //ViewBag.l = list;
@@ -1038,7 +1024,9 @@ namespace SyllabusAutomation.Controllers.Teacher
             db.SaveChanges();
             Session["subjectId"] = learningPlan.CourseId;
             Session["planId"] = learningPlan.PlanId;
-            return RedirectToAction("LPCLO", new RouteValueDictionary(new { Controller = "Course", Action = "LPCLO", id = (int)Session["planId"], cid = (int)Session["courseId"] }));
+            TempData["msg"] = "Plan Added Successfully! Go Next...";
+            ViewBag.Saved = true;
+            return RedirectToAction("CreateLearningPlan","Course");
 
         }
 
@@ -1066,6 +1054,7 @@ namespace SyllabusAutomation.Controllers.Teacher
             //var q = db.LPCLOes.Where(x => x.PlanId == id).ToList();
             //var data = db.LPCLOes.Find(id);
             //var tuple = new Tuple<LPCLO, List<LPCLO>>(data, q);
+           
             Session["planId"] = id;
             return View(tuple);
         }
@@ -1088,13 +1077,16 @@ namespace SyllabusAutomation.Controllers.Teacher
             var clo = db.CLOes.Find(b.CLOId);
             b.Outcomes = clo.Outcomes;
             b.PlanId = (int)Session["planId"];
+            ViewBag.Saved = true;
+            TempData["msg"] = "CLO Added Successfully! Go Next...";
             db.LPCLOes.Add(b);
             db.SaveChanges();
             return RedirectToAction("LPCLO", new RouteValueDictionary(new { Controller = "Course", Action = "LPCLO", id = (int)Session["planId"], cid = cid }));
         }
         public ActionResult LPA(int id)
         {
-            List<AssessmentStrategie> AssesmntList = db.AssessmentStrategies.ToList();
+            var plans = db.LearningPlans.Find(id);
+            List<AssessmentStrategie> AssesmntList = db.AssessmentStrategies.Where(x=>x.DepartmentId == plans.Course.DepartmentId).ToList();
 
             ViewBag.AssesmntList = new SelectList(AssesmntList, "AssessmentStrategieId", "Strategies");
             var q = db.LPAssessmentStrategies.Where(x => x.PlanId == id).ToList();
@@ -1106,9 +1098,7 @@ namespace SyllabusAutomation.Controllers.Teacher
         [HttpPost]
         public ActionResult CreateLPA(FormCollection frm)
         {
-            List<AssessmentStrategie> AssesmntList = db.AssessmentStrategies.ToList();
-
-            ViewBag.AssesmntList = new SelectList(AssesmntList, "AssessmentStrategieId", "Strategies");
+            
 
             var b = new LPAssessmentStrategie();
             b.CourseId = (int)Session["courseId"];
@@ -1118,12 +1108,19 @@ namespace SyllabusAutomation.Controllers.Teacher
             b.PlanId = (int)Session["planId"];
             //     b.Strategies = db.AssessmentStrategies.Find(b.AssessmentStrategieId).Strategies.ToString();
             db.LPAssessmentStrategies.Add(b);
+            var plans = db.LearningPlans.Find(b.PlanId);
+            List<AssessmentStrategie> AssesmntList = db.AssessmentStrategies.Where(x=>x.DepartmentId==plans.Course.DepartmentId).ToList();
+
+            ViewBag.AssesmntList = new SelectList(AssesmntList, "AssessmentStrategieId", "Strategies");
+            ViewBag.Saved = true;
+            TempData["msg"] = "Assesment Added Successfully! Go Next...";
             db.SaveChanges();
             return RedirectToAction("LPA", new RouteValueDictionary(new { Controller = "Course", Action = "LPA", id = (int)Session["planId"] }));
         }
         public ActionResult LPTS(int id)
         {
-            List<TeachingStrategie> StrategieList = db.TeachingStrategies.ToList();
+            var plans = db.LearningPlans.Find(id);
+            List<TeachingStrategie> StrategieList = db.TeachingStrategies.Where(x => x.DepartmentId == plans.Course.DepartmentId).ToList();
 
             ViewBag.StrategieList = new SelectList(StrategieList, "TeachingStrategieId", "Strategies");
             var q = db.LPTeachingStrategies.Where(x => x.PlanId == id).ToList();
@@ -1136,9 +1133,7 @@ namespace SyllabusAutomation.Controllers.Teacher
         [ValidateAntiForgeryToken]
         public ActionResult CreateLPTS(FormCollection frm)
         {
-            List<TeachingStrategie> StrategieList = db.TeachingStrategies.ToList();
-
-            ViewBag.StrategieList = new SelectList(StrategieList, "TeachingStrategieId", "Strategies");
+           
 
             var b = new LPTeachingStrategie();
             b.CourseId = (int)Session["courseId"];
@@ -1146,9 +1141,202 @@ namespace SyllabusAutomation.Controllers.Teacher
             var lpts = db.TeachingStrategies.Find(b.TeachingStrategieId);
             b.Strategies = lpts.Strategies;
             b.PlanId = (int)Session["planId"];
+            ViewBag.Saved = true;
+            TempData["msg"] = "CLO Added Successfully! Go Next...";
             db.LPTeachingStrategies.Add(b);
             db.SaveChanges();
-            return RedirectToAction("LPTS", new RouteValueDictionary(new { Controller = "Course", Action ="LPTS", id = (int)Session["planId"] }));
+            var plans = db.LearningPlans.Find(b.PlanId);
+            List<TeachingStrategie> StrategieList = db.TeachingStrategies.Where(x => x.DepartmentId == plans.Course.DepartmentId).ToList();
+
+            ViewBag.StrategieList = new SelectList(StrategieList, "TeachingStrategieId", "Strategies");
+            return RedirectToAction("LPTS", new RouteValueDictionary(new { Controller = "Course", Action = "LPTS", id = (int)Session["planId"] }));
         }
+
+
+        #endregion
+
+        #region Course Selection
+
+        public ActionResult Selection()
+        {
+            int uid = (int)Session["uid"];
+            var user = db.Users.Find(uid);
+            var programs = db.Programs.Where(x => x.DepartmentId == user.DepartmentId).OrderBy(x => x.ShortName).ToList();
+            ViewBag.ProgramList = new SelectList(programs, "ProgramId", "ShortName");
+            var sessions = db.Sessions.Where(x => x.DepartmentId == user.DepartmentId).ToList();
+            ViewBag.SessionList = new SelectList(sessions, "SessionId", "SessionName");
+            var years = db.EduYears.ToList();
+            ViewBag.YearList = new SelectList(years, "YearId", "YearName");
+            var semesters = db.Semesters.ToList();
+            ViewBag.semesterList = new SelectList(semesters, "SemesterId", "SemesterName");
+            return View();
+
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Selection(FormCollection frm)
+        {
+            int uid = (int)Session["uid"];
+            var user = db.Users.Find(uid);
+            Session["programId"] = frm["ProgramId"];
+            Session["sessionId"] = frm["SessionId"];
+            Session["year"] = frm["YearId"];
+            Session["semester"] = frm["SemisterId"];
+            
+            return RedirectToAction("DeptCourseList", "Course");
+        }
+        #endregion
+
+        #region CourseList
+        public ActionResult DeptCourseList()
+        {
+            int uid = (int)Session["uid"];
+            var user = db.Users.Find(uid);
+            var pid = Convert.ToInt32(Session["programId"]);
+            var sessionId = Convert.ToInt32(Session["sessionId"]);
+            var yearId = Convert.ToInt32(Session["year"]);
+            var semesterId = Convert.ToInt32(Session["semester"]);
+
+
+            ViewBag.program = db.Programs.Find(pid).ProgramName;
+            ViewBag.session = db.Sessions.Find(sessionId).SessionName;
+            ViewBag.year = db.EduYears.Find(yearId).YearName;
+            ViewBag.semester = db.Semesters.Find(semesterId).SemesterName;
+            ViewBag.TeacherList = new SelectList(db.Users.Where(x => x.DepartmentId == user.DepartmentId && x.RoleId == 4 && x.IsActive == true).ToList().Select(u => new
+            {
+                UserID = u.UserID,
+                DisplayName = $"{u.FirstName} {u.LastName}" 
+            }), "UserID", "DisplayName");
+            ViewBag.CourseTypeList = new SelectList(db.CourseTypes.Where(x => x.ProgramId == pid && x.DepartmentId == user.DepartmentId).ToList(), "CourseTypeId", "CourseType1");
+            var plos = db.Courses.Where(x => x.ProgramId == pid && x.SessionId==sessionId 
+            && x.YearId==yearId && x.SemisterId == semesterId && x.DepartmentId == user.DepartmentId).ToList();
+            var tuple = new Tuple<Course, List<Course>>(new Course(), plos);
+            return View(tuple);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddDeptCourseList(FormCollection form)
+        {
+            try
+            {
+                int uid = (int)Session["uid"];
+                var user = db.Users.Find(uid);
+                var pid = Convert.ToInt32(Session["programId"]);
+                var sessionId = Convert.ToInt32(Session["sessionId"]);
+                var yearId = Convert.ToInt32(Session["year"]);
+                var semesterId = Convert.ToInt32(Session["semester"]);
+                if (ModelState.IsValid)
+                {
+                    var peo = new Course();
+                    peo.UniversityId = user.UniversityId;
+                    peo.FacultyId = user.FacultyId;
+                    peo.DepartmentId = user.DepartmentId;
+                    peo.ProgramId = pid;
+                    peo.YearId = yearId;
+                    peo.SessionId = sessionId;
+                    peo.SemisterId = semesterId;
+                    peo.UserId = Convert.ToInt32(form["Item1.UserId"]);
+                    peo.CourseTypeId = Convert.ToInt32(form["Item1.CourseTypeId"]);
+                    var mark = db.Marks.Find(peo.CourseTypeId);
+                    peo.CourseCode = form["Item1.CourseCode"];
+                    peo.CourseTitle = form["Item1.CourseTitle"];
+                    peo.Credit = form["Item1.Credit"].AsFloat();
+                    
+                    peo.TotalCredit = peo.Credit;
+                    peo.MarksId = mark.MarksId;
+                    peo.TotalMarks = mark.Total;
+                    db.Courses.AddOrUpdate(peo);
+                    db.SaveChanges();
+                    TempData["msg"] = "Course Added Successfully!";
+                }
+            }
+            catch
+            {
+                TempData["msg"] = "Something Error Occurred! Try Again... ";
+            }
+            return RedirectToAction("DeptCourseList", "Course");
+
+        }
+
+        [HttpGet]
+        public ActionResult UpdateDeptCourseList(int id)
+        {
+            int uid = (int)Session["uid"];
+            var user = db.Users.Find(uid);
+            var pid = Convert.ToInt32(Session["programId"]);
+            var sessionId = Convert.ToInt32(Session["sessionId"]);
+            var yearId = Convert.ToInt32(Session["year"]);
+            var semesterId = Convert.ToInt32(Session["semester"]);
+            var mission = db.Courses.Find(id);
+
+            if (mission == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.program = db.Programs.Find(pid).ProgramName;
+            ViewBag.session = db.Sessions.Find(sessionId).SessionName;
+            ViewBag.year = db.EduYears.Find(yearId).YearName;
+            ViewBag.semester = db.Semesters.Find(semesterId).SemesterName;
+
+            ViewBag.TeacherList = new SelectList(db.Users.Where(x => x.DepartmentId == user.DepartmentId && x.RoleId == 4 && x.IsActive == true).ToList().Select(u => new
+            {
+                UserID = u.UserID,
+                DisplayName = $"{u.FirstName} {u.LastName}"
+            }), "UserID", "DisplayName",mission.UserId);
+            ViewBag.CourseTypeList = new SelectList(db.CourseTypes.Where(x => x.ProgramId == pid && x.DepartmentId == mission.DepartmentId).ToList(), "CourseTypeId", "CourseType1", mission.CourseTypeId);
+            var missions = db.Courses.Where(x => x.ProgramId == pid && x.SessionId == sessionId
+            && x.YearId == yearId && x.SemisterId == semesterId && x.DepartmentId == user.DepartmentId).ToList();
+            var tuple = new Tuple<Course, List<Course>>(mission, missions);
+            ViewBag.data = true;
+            return View("DeptCourseList", tuple);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateDeptCourseList(int id, FormCollection form)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var peo = db.Courses.Find(id);
+                    if (peo == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    peo.UserId = Convert.ToInt32(form["Item1.UserId"]);
+                    peo.CourseTypeId = Convert.ToInt32(form["Item1.CourseTypeId"]);
+                    var mark = db.Marks.Find(peo.CourseTypeId);
+                    peo.CourseCode = form["Item1.CourseCode"];
+                    peo.CourseTitle = form["Item1.CourseTitle"];
+                    peo.Credit = form["Item1.Credit"].AsFloat();
+                    
+                    peo.TotalCredit = peo.Credit;
+                    peo.MarksId = mark.MarksId;
+                    peo.TotalMarks = mark.Total;
+                    db.Courses.AddOrUpdate(peo);
+                    db.SaveChanges();
+                    TempData["msg"] = "Course Updated Successfully!";
+                }
+            }
+            catch
+            {
+                TempData["msg"] = "Something Error Occurred! Try Again... ";
+            }
+
+            return RedirectToAction("DeptCourseList", "Course");
+        }
+
+        public ActionResult DeptCourseDetail(int id)
+        {
+            var course = db.Courses.Find(id);
+            ViewBag.Marks = db.Marks.Where(x => x.CourseTypeId == course.CourseTypeId).ToList();
+            return View(course);
+        }
+
+        #endregion
+       
     }
 }

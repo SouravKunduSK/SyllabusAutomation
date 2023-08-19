@@ -26,14 +26,16 @@
             </button>
         </div>
     }
-
+    @{
+        var course = Session["course"] as Course;
+    }
     <div class="panel-group" id="accordion">
         <div id="collapseThree" class="panel-collapse collapse">
             <div class="panel-body">
                 <div class="card mb-3">
                     <div class="card-header">
                         <i class="fas fa-table"></i>
-                        Add New Assessment Strategie
+                        Add New Assessment Strategie for @course.CourseCode of Session: @course.Session.SessionName
                     </div>
                     <div class="card-body">
                         @using (Html.BeginForm("AddAssesmentStrategies", "Course", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -61,7 +63,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="col-md-10">
-                                    <a href="@Url.Action("AssesmentStrategies", "Course")" class="btn btn-danger">Cancel</a>
+                                    <a href="@Url.Action("AssesmentStrategies", "Course", new {id = course.CourseId})" class="btn btn-danger">Cancel</a>
                                     <input type="submit" class="btn btn-success" value="Save" />
                                 </div>
                             </div>
@@ -79,7 +81,7 @@
                 <div class="card mb-3">
                     <div class="card-header">
                         <i class="fas fa-table"></i>
-                        Edit Assesment Strategies
+                        Edit Assesment Strategies for @course.CourseCode of Session: @course.Session.SessionName
                     </div>
                     <div class="card-body">
                         @using (Html.BeginForm("UpdateAssesmentStrategies", "Course", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -102,14 +104,15 @@
                                 <div class="form-group">
                                     <div class="col-md-6">
                                         <h5>Description</h5>
-                                        @Html.TextAreaFor(x => x.Item1.Description, new { @class = "form-control",rows="4",cols="50", required = "required" })
+                                        @Html.TextAreaFor(x => x.Item1.Description, new { @class = "form-control", rows = "4", cols = "50", required = "required" })
                                         @Html.ValidationMessageFor(x => x.Item1.Description, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="col-md-10">
-                                    <a href="@Url.Action("AssesmentStrategies", "Course")" class="btn btn-danger">Cancel</a>
+                                    
+                                    <a href="@Url.Action("AssesmentStrategies", "Course", new {id = course.CourseId})" class="btn btn-danger">Cancel</a>
                                     <input type="submit" class="btn btn-success" value="Update" />
                                 </div>
                             </div>
@@ -124,7 +127,7 @@
     <div class="card mb-3">
         <div class="card-header">
             <i class="fas fa-book-open"></i>
-            All Assesment Strategies
+            All Assesment Strategies for @course.CourseCode of Session: @course.Session.SessionName
             <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="btn btn-info pull-right fa fa-plus">Add New</a>
         </div>
         <div class="card-body">
@@ -153,8 +156,11 @@
                     </tbody>
                 </table>
             </div>
+            <div>
+                <a class="btn btn-info" href="@Url.Action("CourseList", "Teacher")">Go To CourseList</a>
+            </div>
         </div>
     </div>
-    <a class="btn btn-info" href="@Url.Action("CourseList", "Course")">Go To CourseList</a>
+    
 </div>
 

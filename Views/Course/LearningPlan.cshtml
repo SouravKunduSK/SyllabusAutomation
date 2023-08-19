@@ -12,10 +12,13 @@
         <li class="breadcrumb-item active">Learning Plan</li>
 
     </ol>
+    @{
+        var course = Session["course"] as SyllabusAutomation.Models.Course;
+    }
     <div class="card mb-3">
         <div class="card-header">
             <i class="fas fa-book-open"></i>
-            Detail Learning Plan
+            Detail Learning Plan for @course.CourseCode of Session: @course.Session.SessionName
             <a href="@( Url.Action("CreateLearningPlan", "Course") )" class="btn btn-info pull-right fa fa-plus">Add New Plan</a>
         </div>
         <div class="card-body">
@@ -31,9 +34,9 @@
 
                             <th>Learning Outcomes</th>
                             <th>Mapped CLOs</th>
-
-                            <th>Teaching Strategies</th>
                             <th>Assessment Strategies</th>
+                            <th>Teaching Strategies</th>
+
 
                             <th>Action</th>
 
@@ -43,7 +46,7 @@
                     </thead>
 
                     <tbody>
-                       
+
                         @{ foreach (var item in (List<SyllabusAutomation.Models.LearningPlan>)@ViewBag.ci)
                             {
 
@@ -51,7 +54,7 @@
 
                                 @*@(Model.Item2.IndexOf(item)+1)*@
                                 <tr>
-                                    
+
                                     <td class="text-hide">@item.WeekId</td>
                                     @*<td>@(item.Week.Timeline)</td>*@
                                     <td>@item.Week.Timeline</td>
@@ -72,7 +75,7 @@
                                             }
                                         }
                                         <hr />
-                                        <a href="@Url.Action("LPCLO", "Course", new { id = item.PlanId, cid = item.CourseId})" class="btn btn-success fas fa-plus">  Add</a>
+                                        <a href="@Url.Action("LPCLO", "Course", new { id = item.PlanId, cid = item.CourseId})" class="btn btn-success">Add/Edit</a>
                                     </td>
 
                                     <td>
@@ -82,7 +85,7 @@
                                         }
                                         <br />
                                         <hr />
-                                        <a href="@Url.Action("LPA", "Course", new { id = item.PlanId})" class="btn btn-success fas fa-plus">  Add</a>
+                                        <a href="@Url.Action("LPA", "Course", new { id = item.PlanId})" class="btn btn-success">Add/Edit</a>
                                     </td>
 
                                     <td>
@@ -92,19 +95,19 @@
                                         }
                                         <br />
                                         <hr />
-                                        <a href="@Url.Action("LPTS", "Course", new { id = item.PlanId})" class="btn btn-success fas fa-plus">  Add</a>
+                                        <a href="@Url.Action("LPTS", "Course", new { id = item.PlanId})" class="btn btn-success">Add/Edit</a>
                                     </td>
 
                                     <td>
-                        <a href="@Url.Action("Edit", "Course", new { id = item.PlanId})" class="btn btn-info">Edit</a>
-                        <a href="@Url.Action("Delete", "Course", new { id = item.PlanId})" class="btn btn-danger">Delete</a>
-                    </td>
+                                        <a href="@Url.Action("Edit", "Course", new { id = item.PlanId})" class="btn btn-info">Edit</a>
+                                        <a href="@Url.Action("Delete", "Course", new { id = item.PlanId})" class="btn btn-danger">Delete</a>
+                                    </td>
 
 
 
                                 </tr>
 
-                                
+
 
 
                             }
@@ -113,6 +116,9 @@
 
                     </tbody>
                 </table>
+            </div>
+            <div>
+                <a class="btn btn-info" href="@Url.Action("CourseList", "Teacher")">Go To CourseList</a>
             </div>
         </div>
     </div>

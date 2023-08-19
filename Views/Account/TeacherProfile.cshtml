@@ -49,13 +49,10 @@
                         Teacher's Details:
                     </h5>
                     <hr />
-                    <h6>First Name: @Model.FirstName</h6>
-                    <h6>Last Name: @Model.LastName</h6>
-                    <h6>Username: @Model.Username</h6>
-                    @if (Model.Email != null)
-                    {
-                        <h6>Email Address: @Model.Email.ToString()</h6>
-                    }
+                    <h6>Full Name: @Model.FirstName @Model.LastName</h6>
+                    
+                    <h6>Designation: @Model.TeacherDesignation.Designation</h6>
+                   
 
                     <h6>University Name: @Model.University.UniName</h6>
                     @if (Model.FacultyId != null)

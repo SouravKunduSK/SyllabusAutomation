@@ -19,7 +19,9 @@ namespace SyllabusAutomation.Models
         public string Letter { get; set; }
         public string Point { get; set; }
         public Nullable<int> UniversityId { get; set; }
+        public Nullable<int> ProgramId { get; set; }
     
         public virtual University University { get; set; }
+        public virtual Program Program { get; set; }
     }
 }

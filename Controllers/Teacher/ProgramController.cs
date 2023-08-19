@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.WebPages;
 
 namespace SyllabusAutomation.Controllers.Teacher
 {
@@ -554,6 +555,97 @@ namespace SyllabusAutomation.Controllers.Teacher
             }
 
             return RedirectToAction("TeachingStrategies", "Program");
+        }
+
+        #endregion
+
+
+
+        #region Grading
+        public ActionResult Grading(int? id)
+        {
+            int uid = (int)Session["uid"];
+            var user = db.Users.Find(uid);
+            Session["pid"] = id;
+            var grading = db.Grades.Where(x => x.ProgramId == id && x.UniversityId == user.UniversityId).ToList();
+            var tuple = new Tuple<Grade, List<Grade>>(new Grade(), grading);
+            return View(tuple);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddGrading(FormCollection form)
+        {
+            try
+            {
+                int uid = (int)Session["uid"];
+                var user = db.Users.Find(uid);
+                var programId = Convert.ToInt32(Session["pid"]);
+                if (ModelState.IsValid)
+                {
+                    var grade = new Grade();
+                   grade.ProgramId = programId;
+                    grade.UniversityId = user.UniversityId;
+                    grade.Numerical = form["Item1.Numerical"].AsFloat();
+                    grade.Point = form["Item1.Point"];
+                    grade.Letter = form["Item1.Letter"];
+                    db.Grades.AddOrUpdate(grade);
+                    db.SaveChanges();
+                    TempData["msg"] = "Grade Added Successfully!";
+                }
+            }
+            catch
+            {
+                TempData["msg"] = "Something Error Occurred! Try Again... ";
+            }
+            return RedirectToAction("Grading", "Program");
+
+        }
+
+        [HttpGet]
+        public ActionResult UpdateGrading(int ?id)
+        {
+            int uid = (int)Session["uid"];
+            var user = db.Users.Find(uid);
+            var programId = Convert.ToInt32(Session["pid"]);
+            var grade = db.Grades.Find(id);
+            if (grade == null)
+            {
+                return HttpNotFound();
+            }
+
+            var grading = db.Grades.Where(x => x.ProgramId == programId && x.UniversityId == user.UniversityId).ToList();
+            var tuple = new Tuple<Grade, List<Grade>>(grade, grading);
+            ViewBag.data = true;
+            return View("Grading", tuple);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateGrading(int ?id, FormCollection form)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var existingMission = db.Grades.Find(id);
+                    if (existingMission == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    existingMission.Numerical = form["Item1.Numerical"].AsFloat();
+                    existingMission.Point = form["Item1.Point"];
+                    existingMission.Letter = form["Item1.Letter"];
+                    db.SaveChanges();
+                    TempData["msg"] = "Grade Updated Successfully!";
+                }
+            }
+            catch
+            {
+                TempData["msg"] = "Something Error Occurred! Try Again... ";
+            }
+
+            return RedirectToAction("Grading", "Program");
         }
 
         #endregion

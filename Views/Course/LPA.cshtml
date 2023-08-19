@@ -4,8 +4,6 @@
     ViewBag.Title = "LPA";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
-
 <div class="container-fluid">
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
@@ -14,39 +12,53 @@
         <li class="breadcrumb-item active">Assesment Strategies</li>
 
     </ol>
-
-    <div class="card-body">
-        @using (Html.BeginForm("CreateLPA", "Course", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            @Html.AntiForgeryToken()
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <h3 style="color:red;">@TempData["msg"]</h3>
-            <div class="col-md-6">
-                <div class="form-group">
-                    @if (ViewBag.AssesmntList != null)
-                    {
-                        <div class="col-md-10">
-                            <h6>Select Assesments</h6>
-                            @Html.DropDownList("AsmntId", ViewBag.AssesmntList as SelectList, "-- Select Assesment ---", new { @class = "form-control", @name = "asmntId" })
-                        </div>
-                    }
+    <!-- Success message displayed after adding a mission -->
+    @if (TempData["msg"] != null)
+    {
+        <div class="alert alert-success text-danger">
+            @TempData["msg"]
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+        </div>
+    }
+    <div class="card mb-3">
+        <div class="card-body">
+            @using (Html.BeginForm("CreateLPA", "Course", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @if (ViewBag.AssesmntList != null)
+                        {
+                            <div class="col-md-10">
+                                <h6>Select Assesments</h6>
+                                @Html.DropDownList("AsmntId", ViewBag.AssesmntList as SelectList, "-- Select Assesment ---", new { @class = "form-control", @name = "asmntId", required = "required" })
+                            </div>
+                        }
+                    </div>
                 </div>
-            </div>
 
-            <div class="col-md-6">
-                <div class="col-md-10">
-                    <a href="@Url.Action("LPTS", "Course", new { id =(int) Session["planId"]})" class="pull-right btn btn-info">Next</a>
-                    <input type="submit" class="btn btn-success" value="Save" />
+                <div class="col-md-6">
+                    <div class="col-md-10">
+                        <a onclick="window.history.back();" class="btn btn-danger">Cancel</a>
+                        <input type="submit" class="btn btn-success" value="Save" />
 
+                    </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>
-
     <div class="card mb-3">
         <div class="card-header">
             <i class="fas fa-book-open"></i>
             All Assesment Strategie Detail
+            @if (ViewBag.Saved == true)
+            {
+                <a href="@(Url.Action("LPTS", "Course", new {id = (int)Session["planId"]}) )" class="btn btn-info pull-right fa fa-angle-double-right"> Next</a>
+            }
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -60,7 +72,7 @@
 
 
                             <th>Assesment</th>
-
+                            <th>Action</th>
 
 
 
@@ -80,7 +92,7 @@
 
 
                                 <td>@item.Strategies</td>
-
+                                <td>Delete</td>
 
                             </tr>
 
@@ -92,7 +104,9 @@
                     </tbody>
                 </table>
             </div>
-
+            <div>
+                <a class="btn btn-info" href="@Url.Action("LearningPlan", "Course", new {id=(int)Session["courseId"]})">Go To LearningPlanList</a>
+            </div>
         </div>
     </div>
 </div>

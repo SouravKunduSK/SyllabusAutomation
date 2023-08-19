@@ -1,0 +1,50 @@
+﻿@model List<SyllabusAutomation.Models.Course>
+@{
+    ViewBag.Title = "MyCourses";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container-fluid">
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-book-open"></i>
+            All Assigned Course List of @ViewBag.program
+
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-condensed table-hover table-bordered table-striped table" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Sr.No</th>
+                            <th>Course Code</th>
+                            <th>Course Title</th>
+                            <th>Session</th>
+                            <th>Year</th>
+                            <th>Semester</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@(Model.IndexOf(item) + 1)</td>
+
+                                <td>@item.CourseCode</td>
+                                <td>@item.CourseTitle</td>
+                                <td>@item.Session.SessionName</td>
+                                <td>@item.EduYear.YearName Year</td>
+                                <td>@item.Semester.SemesterName Semester</td>
+                                <td>
+                                    <a href="@Url.Action("GeneratedFullSyllabus", "GenerateSyllabus", new { id = item.CourseId, uid = (int)Session["uid"] })" class="btn btn-info">Show Syllabus</a>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <a href="@Url.Action("TeacherDashboard", "Home")" class="btn btn-info">Home</a>
+</div>

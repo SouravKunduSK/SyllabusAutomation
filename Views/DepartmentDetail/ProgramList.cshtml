@@ -292,6 +292,7 @@
                             <th>GS</th>
                             <th>PEO To Mission</th>
                             <th>PEO To PLO</th>
+                            <th>Grading</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -316,6 +317,9 @@
                                 </td>
                                 <td>
                                     <a href="@Url.Action("PEOToPLO", "Program", new { id = item.ProgramId })" class="btn btn-info">Show</a>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Grading", "Program", new { id = item.ProgramId })" class="btn btn-info">Show</a>
                                 </td>
 
                                 <td>

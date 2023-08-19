@@ -30,7 +30,9 @@
 
 
 @{
+    var course = Session["course"] as SyllabusAutomation.Models.Course;
     var courseId = Model.Select(m => m.CourseId).Distinct().FirstOrDefault();
+
 }
 <div class="container-fluid">
     <!-- Breadcrumb navigation -->
@@ -61,7 +63,7 @@
     <div class="card mb-3">
         <div class="card-header">
             <i class="fas fa-book-open"></i>
-            CLO to PLO Mapping
+            CLO to PLO Mapping for @course.CourseCode of Session: @course.Session.SessionName
             <a href="#" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addOrEdit">Add / Edit</a>
 
         </div>
@@ -109,11 +111,14 @@
                     </tbody>
                 </table>
             </div>
+            <div>
+                <a class="btn btn-info" href="@Url.Action("CourseList", "Teacher")">Go To CourseList</a>
+            </div>
         </div>
     </div>
 </div>
 
-@TempData["msg"]
+
 
 <!-- Modal PopUp -->
 <div class="modal fade" id="addOrEdit">

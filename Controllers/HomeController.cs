@@ -8,7 +8,7 @@ namespace SyllabusAutomation.Controllers
 {
     public class HomeController : Controller
     {
-        [Authorize]
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View();
@@ -43,6 +43,12 @@ namespace SyllabusAutomation.Controllers
             return View();
         }
 
-        
+        [Authorize]
+        public ActionResult TeacherDashboard()
+        {
+            return View();
+        }
+
+
     }
 }

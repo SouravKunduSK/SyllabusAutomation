@@ -131,7 +131,7 @@ namespace SyllabusAutomation.Controllers
                     case 4:
                         if (v.University.IsActive == true)
                         {
-                            return RedirectToAction("Index", "Home");
+                            return RedirectToAction("TeacherDashboard", "Home");
                         }
                         else
                         {
@@ -141,7 +141,7 @@ namespace SyllabusAutomation.Controllers
                         }
                         
                     default:
-                        return View();
+                        return RedirectToAction("Index", "Home");
                 }   
             }
             else

@@ -1,7 +1,7 @@
 ﻿@using SyllabusAutomation.Models;
-@model Tuple<PEO, List<PEO>>
+@model Tuple<Grade, List<Grade>>
 @{
-    ViewBag.Title = "PEOList";
+    ViewBag.Title = "Grading";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -11,7 +11,7 @@
         <li class="breadcrumb-item">
             <a href="@Url.Action("Index", "Dashboard")">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">Program Education Objectives (PEOs)</li>
+        <li class="breadcrumb-item active">Grading</li>
     </ol>
 
     <!-- Success message displayed after adding a mission -->
@@ -31,26 +31,43 @@
                 <div class="card mb-3">
                     <div class="card-header">
                         <i class="fas fa-table"></i>
-                        Add New PEO
+                        Add New Grading
                     </div>
                     <div class="card-body">
-                        @using (Html.BeginForm("AddPEO", "Program", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        @using (Html.BeginForm("AddGrading", "Program", FormMethod.Post, new { enctype = "multipart/form-data" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="col-md-6">
-                                        <h5>Program Education Objectives (PEOs)</h5>
-                                        @Html.TextAreaFor(x => x.Item1.PEO1, new { @class = "form-control", rows = "5", cols = "50", required = "required" })
-                                        @Html.ValidationMessageFor(x => x.Item1.PEO1, "", new { @class = "text-danger" })
+                                        <h5>Numerical Grade</h5>
+                                        @Html.TextBoxFor(x => x.Item1.Point, new { @class = "form-control", placeholder= "40% to less than 45%", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.Point, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Letter Grade</h5>
+                                        @Html.TextBoxFor(x => x.Item1.Letter, new { @class = "form-control", placeholder= "C-, C, C+ ....", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.Letter, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Point</h5>
+                                        @Html.TextBoxFor(x => x.Item1.Numerical, new { @class = "form-control", placeholder="Numbers like: 2.00, 2.25 ...", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.Numerical, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="col-md-10">
-                                    <a href="@Url.Action("PEOList","Program", new {id = Convert.ToInt32(Session["pid"])})" class="btn btn-outline-danger">Cancel</a>
+                                    <a href="@Url.Action("Grading","Program", new {id = Convert.ToInt32(Session["pid"])})" class="btn btn-outline-danger">Cancel</a>
                                     <input type="submit" class="btn btn-success" value="Save" />
                                 </div>
                             </div>
@@ -75,21 +92,39 @@
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            @Html.HiddenFor(x => x.Item1.PEOId)
+                            @Html.HiddenFor(x => x.Item1.Id)
 
 
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="col-md-6">
-                                        <h5>Program Education Objectives (PEOs)</h5>
-                                        @Html.TextAreaFor(x => x.Item1.PEO1, htmlAttributes: new { @class = "form-control", id = "mission", name = "mission", rows = "5", cols = "50", required = "required" })
-                                        @Html.ValidationMessageFor(x => x.Item1.PEO1, "", new { @class = "text-danger" })
+                                        <h5>Numerical Grade</h5>
+                                        @Html.TextBoxFor(x => x.Item1.Point, new { @class = "form-control", placeholder = "40% to less than 45%", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.Point, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Letter Grade</h5>
+                                        @Html.TextBoxFor(x => x.Item1.Letter, new { @class = "form-control", placeholder = "C-, C, C+ ....", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.Letter, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <h5>Point</h5>
+                                        @Html.TextBoxFor(x => x.Item1.Numerical, new { @class = "form-control", placeholder = "Numbers like: 2.00, 2.25 ...", required = "required" })
+                                        @Html.ValidationMessageFor(x => x.Item1.Numerical, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="col-md-10">
-                                    <a href="@Url.Action("PEOList","Program", new {id = Model.Item1.ProgramId})" class="btn btn-outline-danger">Cancel</a>
+                                    <a href="@Url.Action("Grading","Program", new {id = Model.Item1.ProgramId})" class="btn btn-outline-danger">Cancel</a>
                                     @*<a onclick="window.history.back();" class="btn btn-outline-warning">Cancel</a>*@
                                     <input type="submit" class="btn btn-success" value="Update" />
                                 </div>
@@ -105,7 +140,7 @@
     <div class="card mb-3">
         <div class="card-header">
             <i class="fas fa-book-open"></i>
-            All PEOs
+            All Gradings
             <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="btn btn-info pull-right fa fa-plus">Add New</a>
         </div>
         <div class="card-body">
@@ -113,8 +148,10 @@
                 <table class="table table-condensed table-hover table-bordered table-striped table" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>PEO Name.</th>
-                            <th>PEOs</th>
+                            <th>Sr No.</th>
+                            <th>Numerical Grade(%)</th>
+                            <th>Letter Grade</th>
+                            <th>Point</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -122,10 +159,12 @@
                         @foreach (var item in Model.Item2)
                         {
                             <tr>
-                                <td>PEO @(Model.Item2.IndexOf(item) + 1)</td>
-                                <td class="text-justify">@item.PEO1</td>
+                                <td>@(Model.Item2.IndexOf(item) + 1)</td>
+                                <td>@item.Point</td>
+                                <td>@item.Letter</td>
+                                <td>@item.Numerical</td>
                                 <td>
-                                    <a href="@Url.Action("UpdatePEO", "Program", new { id = item.PEOId })" class="btn btn-info">Edit</a>
+                                    <a href="@Url.Action("UpdateGrading", "Program", new { id = item.Id })" class="btn btn-info">Edit</a>
                                 </td>
                             </tr>
                         }
@@ -137,6 +176,6 @@
             </div>
         </div>
     </div>
-   
+
 </div>
 

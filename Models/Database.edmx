@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SyllabusAutomationNewModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SyllabusAutomationNewModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AssessmentStrategie">
           <Key>
             <PropertyRef Name="AssessmentStrategieId" />
@@ -192,6 +192,7 @@
           <Property Name="Letter" Type="nvarchar" MaxLength="255" />
           <Property Name="Point" Type="nvarchar" MaxLength="255" />
           <Property Name="UniversityId" Type="int" />
+          <Property Name="ProgramId" Type="int" />
         </EntityType>
         <EntityType Name="LearningPlan">
           <Key>
@@ -2093,6 +2094,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Grade_Program">
+          <End Role="Program" Type="Self.Program" Multiplicity="0..1" />
+          <End Role="Grade" Type="Self.Grade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Program">
+              <PropertyRef Name="ProgramId" />
+            </Principal>
+            <Dependent Role="Grade">
+              <PropertyRef Name="ProgramId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Grade_University">
           <End Role="University" Type="Self.University" Multiplicity="0..1" />
           <End Role="Grade" Type="Self.Grade" Multiplicity="*" />
@@ -2784,6 +2797,10 @@
             <End Role="User" EntitySet="User" />
             <End Role="Course" EntitySet="Course" />
           </AssociationSet>
+          <AssociationSet Name="FK_Grade_Program" Association="Self.FK_Grade_Program">
+            <End Role="Program" EntitySet="Program" />
+            <End Role="Grade" EntitySet="Grade" />
+          </AssociationSet>
           <AssociationSet Name="FK_Grade_University" Association="Self.FK_Grade_University">
             <End Role="University" EntitySet="University" />
             <End Role="Grade" EntitySet="Grade" />
@@ -2825,8 +2842,7 @@
             <End Role="User" EntitySet="User" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SyllabusAutomationNewModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -3147,6 +3163,8 @@
           <Property Name="Point" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="UniversityId" Type="Int32" />
           <NavigationProperty Name="University" Relationship="Self.FK_Grade_University" FromRole="Grade" ToRole="University" />
+          <Property Name="ProgramId" Type="Int32" />
+          <NavigationProperty Name="Program" Relationship="SyllabusAutomationNewModel.FK_Grade_Program" FromRole="Grade" ToRole="Program" />
         </EntityType>
         <EntityType Name="LearningPlan">
           <Key>
@@ -3388,6 +3406,7 @@
           <NavigationProperty Name="Users" Relationship="Self.FK__User__ProgramId__4F47C5E3" FromRole="Program" ToRole="User" />
           <NavigationProperty Name="Weeks" Relationship="Self.FK__Week__ProgramId__5224328E" FromRole="Program" ToRole="Week" />
           <NavigationProperty Name="Syllabus" Relationship="Self.FK_Syllabus_Program" FromRole="Program" ToRole="Syllabus" />
+          <NavigationProperty Name="Grades" Relationship="SyllabusAutomationNewModel.FK_Grade_Program" FromRole="Program" ToRole="Grade" />
         </EntityType>
         <EntityType Name="Resource">
           <Key>
@@ -5935,7 +5954,23 @@
             <End Role="User" EntitySet="Users" />
             <End Role="University" EntitySet="Universities" />
           </AssociationSet>
+          <AssociationSet Name="FK_Grade_Program" Association="SyllabusAutomationNewModel.FK_Grade_Program">
+            <End Role="Program" EntitySet="Programs" />
+            <End Role="Grade" EntitySet="Grades" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Grade_Program">
+          <End Type="SyllabusAutomationNewModel.Program" Role="Program" Multiplicity="0..1" />
+          <End Type="SyllabusAutomationNewModel.Grade" Role="Grade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Program">
+              <PropertyRef Name="ProgramId" />
+            </Principal>
+            <Dependent Role="Grade">
+              <PropertyRef Name="ProgramId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6136,6 +6171,7 @@
           <EntitySetMapping Name="Grades">
             <EntityTypeMapping TypeName="SyllabusAutomationNewModel.Grade">
               <MappingFragment StoreEntitySet="Grade">
+                <ScalarProperty Name="ProgramId" ColumnName="ProgramId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Numerical" ColumnName="Numerical" />
                 <ScalarProperty Name="Letter" ColumnName="Letter" />

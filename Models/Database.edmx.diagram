@@ -186,6 +186,7 @@
         <AssociationConnector Association="SyllabusAutomationNewModel.FK__User__University__498EEC8D" ManuallyRouted="false" />
         <AssociationConnector Association="SyllabusAutomationNewModel.FK__Week__University__503BEA1C" ManuallyRouted="false" />
         <AssociationConnector Association="SyllabusAutomationNewModel.FK_University_User" ManuallyRouted="false" />
+        <AssociationConnector Association="SyllabusAutomationNewModel.FK_Grade_Program" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

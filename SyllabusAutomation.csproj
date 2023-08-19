@@ -146,6 +146,7 @@
     <Compile Include="Controllers\Teacher\MappingController.cs" />
     <Compile Include="Controllers\Teacher\MappingPEOToMissionController.cs" />
     <Compile Include="Controllers\Teacher\ProgramController.cs" />
+    <Compile Include="Controllers\Teacher\TeacherController.cs" />
     <Compile Include="Controllers\UniversitiesController.cs" />
     <Compile Include="Controllers\FacultiesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -346,6 +347,16 @@
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="Style\css\sb-admin.css" />
     <Content Include="Style\css\sb-admin.min.css" />
+    <Content Include="Style\Home\assets\favicon.ico" />
+    <Content Include="Style\Home\assets\img\avataaars.svg" />
+    <Content Include="Style\Home\assets\img\portfolio\cabin.png" />
+    <Content Include="Style\Home\assets\img\portfolio\cake.png" />
+    <Content Include="Style\Home\assets\img\portfolio\circus.png" />
+    <Content Include="Style\Home\assets\img\portfolio\game.png" />
+    <Content Include="Style\Home\assets\img\portfolio\safe.png" />
+    <Content Include="Style\Home\assets\img\portfolio\submarine.png" />
+    <Content Include="Style\Home\css\styles.css" />
+    <Content Include="Style\Home\js\scripts.js" />
     <Content Include="Style\js\demo\chart-area-demo.js" />
     <Content Include="Style\js\demo\chart-bar-demo.js" />
     <Content Include="Style\js\demo\chart-pie-demo.js" />
@@ -1924,6 +1935,14 @@
     <Content Include="Views\Account\DeptAdminProfile.cshtml" />
     <Content Include="Views\Account\UpdateDeptAdminProfile.cshtml" />
     <Content Include="Views\DepartmentDetail\Designations.cshtml" />
+    <Content Include="Views\Course\Selection.cshtml" />
+    <Content Include="Views\Course\DeptCourseList.cshtml" />
+    <Content Include="Views\Home\TeacherDashboard.cshtml" />
+    <Content Include="Views\Teacher\CourseList.cshtml" />
+    <Content Include="Views\Teacher\Selection.cshtml" />
+    <Content Include="Views\Teacher\ProgramSelection.cshtml" />
+    <Content Include="Views\Teacher\MyCourses.cshtml" />
+    <Content Include="Views\Program\Grading.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -42,6 +42,7 @@ namespace SyllabusAutomation.Models
             this.Users = new HashSet<User>();
             this.Weeks = new HashSet<Week>();
             this.Syllabus = new HashSet<Syllabu>();
+            this.Grades = new HashSet<Grade>();
         }
     
         public int ProgramId { get; set; }
@@ -112,5 +113,7 @@ namespace SyllabusAutomation.Models
         public virtual ICollection<Week> Weeks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Syllabu> Syllabus { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Grade> Grades { get; set; }
     }
 }
